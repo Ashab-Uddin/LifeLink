@@ -1,0 +1,256 @@
+/* ====================================
+   GLOBAL STYLES + ANIMATED BACKGROUND
+==================================== */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: linear-gradient(135deg, #09111f, #14213d, #0d1b2a);
+  background-size: 400% 400%;
+  animation: bgMove 20s infinite alternate;
+  color: #e9eef3;
+  overflow-x: hidden;
+}
+
+/* Animated gradient background */
+@keyframes bgMove {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 50% 100%; }
+  100% { background-position: 100% 0%; }
+}
+
+/* Smooth fade-up animation */
+.fade-up {
+  animation: fadeUp 1.4s ease forwards;
+  opacity: 0;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Flip animation */
+.flip {
+  animation: flipIn 1.3s ease;
+}
+
+@keyframes flipIn {
+  from { transform: rotateY(-90deg); opacity: 0; }
+  to { transform: rotateY(0deg); opacity: 1; }
+}
+
+/* Floating animation */
+.float {
+  animation: floating 3.5s ease-in-out infinite;
+}
+
+@keyframes floating {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+  100% { transform: translateY(0); }
+}
+
+/* Ripple effect on buttons */
+button {
+  position: relative;
+  overflow: hidden;
+}
+
+button::after {
+  content: "";
+  position: absolute;
+  background: rgba(255,255,255,0.4);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  transform: scale(1);
+  opacity: 0;
+  pointer-events: none;
+  animation: none;
+}
+
+button:active::after {
+  animation: ripple 0.5s linear;
+}
+
+@keyframes ripple {
+  0% { opacity: 0.6; transform: scale(1); }
+  100% { opacity: 0; transform: scale(15); }
+}
+
+/* ====================================
+   NAVBAR
+==================================== */
+.navbar {
+  background: rgba(0, 0, 0, 0.35);
+  padding: 15px;
+  text-align: center;
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  animation: fadeUp 1.4s;
+}
+
+.navbar a {
+  margin: 0 15px;
+  color: #7fffd4;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.3s ease;
+}
+
+.navbar a:hover {
+  color: #41c7a8;
+  text-shadow: 0 0 8px #41c7a8;
+}
+
+/* ====================================
+   CONTAINER
+==================================== */
+.container {
+  max-width: 1000px;
+  margin: 40px auto;
+  background: rgba(16, 24, 47, 0.65);
+  padding: 25px;
+  border-radius: 14px;
+  backdrop-filter: blur(10px);
+  animation: fadeUp 1.2s ease;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+/* ====================================
+   INPUTS & BUTTONS
+==================================== */
+input, select, textarea {
+  width: 100%;
+  padding: 12px;
+  margin: 12px 0;
+  border-radius: 8px;
+  border: none;
+  background: rgba(26, 35, 54, 0.7);
+  color: #fff;
+  transition: 0.3s;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  box-shadow: 0 0 15px #7fffd4;
+  background: rgba(26, 35, 54, 0.9);
+}
+
+button {
+  background: #7fffd4;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 17px;
+  cursor: pointer;
+  color: #000;
+  transition: 0.4s;
+}
+
+button:hover {
+  background: #41c7a8;
+  transform: scale(1.08);
+  box-shadow: 0 6px 18px rgba(127, 255, 212, 0.4);
+}
+
+/* ====================================
+   CARDS (animated)
+==================================== */
+.card {
+  background: rgba(15, 23, 42, 0.9);
+  padding: 25px;
+  border-radius: 14px;
+  transition: 0.4s;
+  animation: fadeUp 1s ease;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.card:hover {
+  transform: translateY(-12px) scale(1.03);
+  box-shadow: 0 0 28px rgba(127,255,212,0.4);
+}
+
+/* Neon card glow */
+.neon {
+  border: 2px solid #7fffd4;
+  box-shadow: 0 0 15px #7fffd4;
+}
+
+/* ====================================
+   MAP BOX ANIMATION
+==================================== */
+.map-box {
+  width: 100%;
+  height: 260px;
+  background: rgba(26, 35, 54, 0.7);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #7f8ea3;
+  animation: slideUp 1.3s ease;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+@keyframes slideUp {
+  from { transform: translateY(50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* ====================================
+   FOOTER
+==================================== */
+footer {
+  background: rgba(7,13,26,0.7);
+  padding: 20px;
+  text-align: center;
+  color: #94a3b8;
+  margin-top: 40px;
+  backdrop-filter: blur(6px);
+  animation: fadeUp 1.4s;
+}
+footer a {
+  color: #7fffd4;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.3s ease;
+}
+footer a:hover {
+  color: #41c7a8;
+  text-shadow: 0 0 8px #41c7a8;
+}
+/* ====================================
+   RESPONSIVE DESIGN
+==================================== */
+@media (max-width: 768px) {
+  .container {
+    margin: 20px;
+    padding: 20px;
+  } 
+  .navbar a {
+    display: block;
+    margin: 10px 0;
+  }
+}
+@media (max-width: 480px) {
+  button {
+    width: 100%;
+  }
+}
+
+/* Ripple span */
+button .ripple {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.6);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: rippleEffect 0.6s linear;
+}
+
+@keyframes rippleEffect {
+  from { transform: scale(1); opacity: 1; }
+  to { transform: scale(18); opacity: 0; }
+}

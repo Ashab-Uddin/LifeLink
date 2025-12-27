@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Ambulance Service</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="navbar">
+  <a href="dashboard.html">Dashboard</a>
+  <a href="prediction.html">Disease Prediction</a>
+  <a href="doctor.html">Doctor Suggestion</a>
+  <a href="nearby.html">Nearby Doctor</a>
+  <a href="blood.html">Blood Donor</a>
+  <a href="ambulance.html">Ambulance</a>
+</div>
+
+<div class="container">
+
+  <!-- Header -->
+  <div style="display:flex; align-items:center; gap:20px;">
+      <img src="image/Ambulance Icon.jpeg" width="80">
+      <div>
+          <h2>Ambulance & Emergency Support</h2>
+          <p style="color:#9bb1c9;">Get immediate help during medical emergencies.</p>
+      </div>
+  </div>
+
+  <hr style="border:1px solid #1f2937; margin:20px 0;">
+
+  <!-- Emergency Call -->
+  <div style="
+      background:#0f172a; 
+      padding:25px;
+      border-radius:12px;
+      text-align:center;
+      margin-bottom:30px;
+  ">
+      <h3 style="margin:0; color:#ff6666;">🚑 Emergency Hotline</h3>
+      <p style="color:#d1d5db; margin:10px 0;">Call our 24/7 emergency service</p>
+
+      <button onclick="alert('Calling 999...')" 
+              style="padding:15px 30px; font-size:20px; background:#ff4d4d; color:#fff;">
+            ☎ 999 (Bangladesh)
+      </button>
+  </div>
+
+  <!-- Location Detect -->
+  <h3>Get Ambulance Near You</h3>
+  <p style="color:#9bb1c9;">We will show available ambulances based on your current location.</p>
+
+  <button onclick="alert('Detecting your location...')" 
+          style="padding:12px 18px; margin-bottom:25px;">
+      📍 Detect My Location
+  </button>
+
+  <!-- Ambulance Cards -->
+  <div style="display:flex; flex-direction:column; gap:20px;">
+
+      <!-- Card 1 -->
+      <div style="
+          background:#0f172a; 
+          padding:20px; 
+          border-radius:10px;
+          display:flex; 
+          gap:20px;
+      ">
+        <img src="image/Ambulance Icon.jpeg" width="120">
+        <div>
+            <h3 style="margin:0;">FastCare Ambulance Service</h3>
+            <p style="color:#7fffd4; margin:5px 0;">Type: ICU Ambulance</p>
+            <p style="color:#d1d5db;">📍 Mirpur 10, Dhaka</p>
+            <p style="color:#d1d5db;">⏱ Arrival Time: 10 minutes</p>
+            <button style="margin-top:10px;">📞 Call Now</button>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div style="
+          background:#0f172a; 
+          padding:20px; 
+          border-radius:10px;
+          display:flex; 
+          gap:20px;
+      ">
+        <img src="image/Ambulance Icon.jpeg" width="120">
+        <div>
+            <h3 style="margin:0;">GreenLine Ambulance</h3>
+            <p style="color:#7fffd4; margin:5px 0;">Type: AC Support Ambulance</p>
+            <p style="color:#d1d5db;">📍 Dhanmondi, Dhaka</p>
+            <p style="color:#d1d5db;">⏱ Arrival Time: 15 minutes</p>
+            <button style="margin-top:10px;">📞 Call Now</button>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div style="
+          background:#0f172a; 
+          padding:20px; 
+          border-radius:10px;
+          display:flex; 
+          gap:20px;
+      ">
+        <img src="image/Ambulance Icon.jpeg" width="120">
+        <div>
+            <h3 style="margin:0;">LifeSaver Ambulance</h3>
+            <p style="color:#7fffd4; margin:5px 0;">Type: Non-AC Ambulance</p>
+            <p style="color:#d1d5db;">📍 Banani, Dhaka</p>
+            <p style="color:#d1d5db;">⏱ Arrival Time: 12 minutes</p>
+            <button style="margin-top:10px;">📞 Call Now</button>
+        </div>
+      </div>
+
+  </div>
+
+  <!-- Map Section -->
+  <h3 style="margin-top:40px;">Ambulance Map</h3>
+  <div style="
+      width:100%;
+      height:250px;
+      background:#1a2336;
+      border-radius:10px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#94a3b8;
+  ">
+      Google Map Preview
+  </div>
+
+</div>
+
+<!-- Advanced Footer -->
+<footer style="background:#070d1a; padding:50px 20px; border-top:1px solid #1e293b; margin-top:40px;">
+
+  <div style="
+      max-width:1200px; 
+      margin:auto; 
+      display:flex; 
+      flex-wrap:wrap; 
+      gap:40px;
+  ">
+
+    <!-- About -->
+    <div style="flex:1; min-width:250px;">
+      <h3 style="color:#7fffd4; margin-bottom:10px;">About LifeLink</h3>
+      <p style="color:#d1d5db; line-height:1.6;">
+        LifeLink is an AI-powered healthcare platform providing disease prediction, 
+        doctor suggestions, emergency services, blood donor support, and real-time healthcare assistance.
+      </p>
+    </div>
+
+    <!-- Quick Links -->
+    <div style="flex:1; min-width:200px;">
+      <h3 style="color:#7fffd4; margin-bottom:10px;">Quick Links</h3>
+      <p><a href="index.html" style="color:#d1d5db; text-decoration:none;">🏠 Home</a></p>
+      <p><a href="login.html" style="color:#d1d5db; text-decoration:none;">🔐 Login</a></p>
+      <p><a href="signup.html" style="color:#d1d5db; text-decoration:none;">📝 Signup</a></p>
+      <p><a href="dashboard.html" style="color:#d1d5db; text-decoration:none;">📊 Dashboard</a></p>
+    </div>
+
+    <!-- Services -->
+    <div style="flex:1; min-width:200px;">
+      <h3 style="color:#7fffd4; margin-bottom:10px;">Services</h3>
+      <p style="color:#d1d5db;">🧬 Disease Prediction</p>
+      <p style="color:#d1d5db;">👨‍⚕️ Doctor Suggestion</p>
+      <p style="color:#d1d5db;">🩸 Blood Donor Search</p>
+      <p style="color:#d1d5db;">🚑 Ambulance Support</p>
+      <p style="color:#d1d5db;">📍 Nearby Doctors</p>
+    </div>
+
+    <!-- Contact -->
+    <div style="flex:1; min-width:250px;">
+      <h3 style="color:#7fffd4; margin-bottom:10px;">Contact Us</h3>
+      <p style="color:#d1d5db;">📧 support@lifelink.com</p>
+      <p style="color:#d1d5db;">📞 +880 1234-567890</p>
+      <p style="color:#d1d5db;">📍 Dhaka, Bangladesh</p>
+
+      <h4 style="color:#7fffd4; margin-top:15px;">Follow Us</h4>
+      <p style="margin-top:10px;">
+        <a href="#" style="color:#7fffd4; margin-right:10px; font-size:20px;">🌐</a>
+        <a href="#" style="color:#7fffd4; margin-right:10px; font-size:20px;">📘</a>
+        <a href="#" style="color:#7fffd4; margin-right:10px; font-size:20px;">📸</a>
+      </p>
+    </div>
+
+    <!-- Newsletter -->
+    <div style="flex:1 1 100%; margin-top:20px;">
+      <h3 style="color:#7fffd4;">Subscribe to our Newsletter</h3>
+      <p style="color:#d1d5db; margin-bottom:10px;">Get updates about health tips & new features.</p>
+      <input type="email" placeholder="Enter your email" 
+             style="padding:12px; width:250px; border-radius:6px; border:none;">
+      <button style="
+          background:#7fffd4;
+          padding:12px 20px;
+          border:none;
+          border-radius:6px;
+          margin-left:10px;
+          cursor:pointer;
+      ">Subscribe</button>
+    </div>
+
+  </div>
+
+  <div style="
+      text-align:center; 
+      margin-top:30px; 
+      padding-top:20px;
+      border-top:1px solid #1e293b; 
+      color:#94a3b8;
+  ">
+    © 2025 LifeLink • All Rights Reserved
+  </div>
+</footer>
+
+
+</body>
+</html>

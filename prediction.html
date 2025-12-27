@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Disease Prediction</title>
+<link rel="stylesheet" href="style.css">
+<script src="script.js"></script>
+</head>
+<body>
+
+<div class="navbar">
+  <a href="dashboard.html">Dashboard</a>
+  <a href="prediction.html">Disease Prediction</a>
+  <a href="doctor.html">Doctor Suggestion</a>
+  <a href="nearby.html">Nearby Doctor</a>
+  <a href="blood.html">Blood Donor</a>
+  <a href="ambulance.html">Ambulance</a>
+</div>
+
+<div class="container">
+
+  <!-- Header -->
+  <div style="display:flex; align-items:center; gap:20px;">
+      <img src="image/Disease Prediction Icon.jpg" width="80">
+      <div>
+          <h2>Disease Prediction</h2>
+          <p style="color:#9bb1c9;">Enter your symptoms to get an AI-powered prediction.</p>
+      </div>
+  </div>
+
+  <hr style="border:1px solid #1f2937; margin:20px 0;">
+
+  <!-- Symptom Input Section -->
+  <h3>Select Your Symptoms</h3>
+
+  <div style="display:flex; flex-wrap:wrap; gap:15px; margin-top:15px;">
+      <label><input type="checkbox"> Fever</label>
+      <label><input type="checkbox"> Headache</label>
+      <label><input type="checkbox"> Cough</label>
+      <label><input type="checkbox"> Sore throat</label>
+      <label><input type="checkbox"> Chest pain</label>
+      <label><input type="checkbox"> Fatigue</label>
+      <label><input type="checkbox"> Shortness of breath</label>
+      <label><input type="checkbox"> Joint pain</label>
+  </div>
+
+  <!-- Custom symptom input -->
+  <h3 style="margin-top:25px;">Or Type Symptoms</h3>
+  <textarea placeholder="Type your symptoms here..." 
+            style="width:100%; height:120px; padding:12px; border-radius:10px;"></textarea>
+
+  <!-- Medical report upload -->
+  <h3 style="margin-top:25px;">Upload Medical Report (Optional)</h3>
+  <input type="file" style="padding:10px; background:#0f172a; border-radius:10px;">
+
+  <!-- Predict Button -->
+  <button onclick="showResult()" 
+          style="margin-top:25px; padding:15px 30px; font-size:18px;">
+      🔍 Predict Disease
+  </button>
+
+  <!-- Result Box -->
+  <div id="result-box" style="
+      display:none;
+      margin-top:30px;
+      padding:20px;
+      background:#0f172a;
+      border-radius:12px;
+  ">
+      <h3>Prediction Result</h3>
+      <p id="result-text" style="color:#7fffd4; font-size:18px;"></p>
+
+      <button onclick="window.location='doctor.html'"
+              style="margin-top:10px;">
+          👨‍⚕️ Suggest Doctor
+      </button>
+  </div>
+
+</div>
+
+<!-- Advanced Footer -->
+<footer style="background:#070d1a; padding:50px 20px; border-top:1px solid #1e293b; margin-top:40px;">
+
+  <div style="
+      max-width:1200px; 
+      margin:auto; 
+      display:flex; 
+      flex-wrap:wrap; 
+      gap:40px;
+  ">
+
+    <!-- About -->
+    <div style="flex:1; min-width:250px;">
+      <h3 style="color:#7fffd4; margin-bottom:10px;">About LifeLink</h3>
+      <p style="color:#d1d5db; line-height:1.6;">
+        LifeLink is an AI-powered healthcare platform providing disease prediction, 
+        doctor suggestions, emergency services, blood donor support, and real-time healthcare assistance.
+      </p>
+    </div>
+
+    <!-- Quick Links -->
+    <div style="flex:1; min-width:200px;">
+      <h3 style="color:#7fffd4; margin-bottom:10px;">Quick Links</h3>
+      <p><a href="index.html" style="color:#d1d5db; text-decoration:none;">🏠 Home</a></p>
+      <p><a href="login.html" style="color:#d1d5db; text-decoration:none;">🔐 Login</a></p>
+      <p><a href="signup.html" style="color:#d1d5db; text-decoration:none;">📝 Signup</a></p>
+      <p><a href="dashboard.html" style="color:#d1d5db; text-decoration:none;">📊 Dashboard</a></p>
+    </div>
+
+    <!-- Services -->
+    <div style="flex:1; min-width:200px;">
+      <h3 style="color:#7fffd4; margin-bottom:10px;">Services</h3>
+      <p style="color:#d1d5db;">🧬 Disease Prediction</p>
+      <p style="color:#d1d5db;">👨‍⚕️ Doctor Suggestion</p>
+      <p style="color:#d1d5db;">🩸 Blood Donor Search</p>
+      <p style="color:#d1d5db;">🚑 Ambulance Support</p>
+      <p style="color:#d1d5db;">📍 Nearby Doctors</p>
+    </div>
+
+    <!-- Contact -->
+    <div style="flex:1; min-width:250px;">
+      <h3 style="color:#7fffd4; margin-bottom:10px;">Contact Us</h3>
+      <p style="color:#d1d5db;">📧 support@lifelink.com</p>
+      <p style="color:#d1d5db;">📞 +880 1234-567890</p>
+      <p style="color:#d1d5db;">📍 Dhaka, Bangladesh</p>
+
+      <h4 style="color:#7fffd4; margin-top:15px;">Follow Us</h4>
+      <p style="margin-top:10px;">
+        <a href="#" style="color:#7fffd4; margin-right:10px; font-size:20px;">🌐</a>
+        <a href="#" style="color:#7fffd4; margin-right:10px; font-size:20px;">📘</a>
+        <a href="#" style="color:#7fffd4; margin-right:10px; font-size:20px;">📸</a>
+      </p>
+    </div>
+
+    <!-- Newsletter -->
+    <div style="flex:1 1 100%; margin-top:20px;">
+      <h3 style="color:#7fffd4;">Subscribe to our Newsletter</h3>
+      <p style="color:#d1d5db; margin-bottom:10px;">Get updates about health tips & new features.</p>
+      <input type="email" placeholder="Enter your email" 
+             style="padding:12px; width:250px; border-radius:6px; border:none;">
+      <button style="
+          background:#7fffd4;
+          padding:12px 20px;
+          border:none;
+          border-radius:6px;
+          margin-left:10px;
+          cursor:pointer;
+      ">Subscribe</button>
+    </div>
+
+  </div>
+
+  <div style="
+      text-align:center; 
+      margin-top:30px; 
+      padding-top:20px;
+      border-top:1px solid #1e293b; 
+      color:#94a3b8;
+  ">
+    © 2025 LifeLink • All Rights Reserved
+  </div>
+</footer>
+
+
+
+<script>
+function showResult() {
+    document.getElementById("result-box").style.display = "block";
+    document.getElementById("result-text").innerHTML = 
+        "Based on your symptoms, you may have a **common viral infection**.<br>Consult a doctor if symptoms worsen.";
+}
+</script>
+
+</body>
+</html>

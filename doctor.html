@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Doctor Suggestion</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="navbar">
+  <a href="dashboard.html">Dashboard</a>
+  <a href="prediction.html">Disease Prediction</a>
+  <a href="doctor.html">Doctor Suggestion</a>
+  <a href="nearby.html">Nearby Doctor</a>
+  <a href="blood.html">Blood Donor</a>
+  <a href="ambulance.html">Ambulance</a>
+</div>
+
+<div class="container">
+
+  <!-- Header -->
+  <div style="display:flex; align-items:center; gap:20px;">
+      <img src="image/Doctor Icon.png" width="80">
+      <div>
+          <h2>Doctor Suggestion</h2>
+          <p style="color:#9bb1c9;">Find the best doctors based on your health condition.</p>
+      </div>
+  </div>
+
+  <hr style="border:1px solid #1f2937; margin:20px 0;">
+
+  <!-- Search Filters -->
+  <div style="display:flex; gap:20px; flex-wrap:wrap;">
+      <input type="text" placeholder="Search by symptom (e.g., headache)"
+             style="flex:2; padding:12px; border-radius:6px;">
+      <select style="flex:1; padding:12px; border-radius:6px;">
+        <option selected>Select Specialization</option>
+        <option>Cardiologist</option>
+        <option>Neurologist</option>
+        <option>General Physician</option>
+        <option>Dermatologist</option>
+        <option>Orthopedic</option>
+        <option>Diabetes Specialist</option>
+      </select>
+      <button style="padding:12px 20px;">🔍 Search</button>
+  </div>
+
+  <!-- Doctor List -->
+  <div style="margin-top:30px; display:flex; flex-direction:column; gap:25px;">
+
+      <!-- Doctor Card 1 -->
+      <div style="
+          background:#0f172a; 
+          padding:20px; 
+          border-radius:12px;
+          display:flex; 
+          gap:20px;
+      ">
+        <img src="images/doctor_profile1.png" width="100" style="border-radius:10px;">
+        <div>
+            <h3 style="margin:0;">Dr. Arif Hossain</h3>
+            <p style="color:#7fffd4; margin:5px 0;">Cardiologist (MBBS, FCPS)</p>
+            <p style="color:#d1d5db;">🏥 Square Hospital, Dhaka</p>
+            <p style="color:#d1d5db;">⭐ 4.8 | 10+ years experience</p>
+            <p style="color:#d1d5db;">📍 2.1 km away</p>
+
+            <button style="margin-top:10px;">📄 View Profile</button>
+            <button style="margin-top:10px;">📞 Call Now</button>
+        </div>
+      </div>
+
+      <!-- Doctor Card 2 -->
+      <div style="
+          background:#0f172a; 
+          padding:20px; 
+          border-radius:12px;
+          display:flex; 
+          gap:20px;
+      ">
+        <img src="images/doctor_profile2.png" width="100" style="border-radius:10px;">
+        <div>
+            <h3 style="margin:0;">Dr. Shaila Akter</h3>
+            <p style="color:#7fffd4; margin:5px 0;">Neurologist (MBBS, MD)</p>
+            <p style="color:#d1d5db;">🏥 Popular Diagnostic Center</p>
+            <p style="color:#d1d5db;">⭐ 4.9 | 12+ years experience</p>
+            <p style="color:#d1d5db;">📍 3.4 km away</p>
+
+            <button style="margin-top:10px;">📄 View Profile</button>
+            <button style="margin-top:10px;">📞 Call Now</button>
+        </div>
+      </div>
+
+      <!-- Doctor Card 3 -->
+      <div style="
+          background:#0f172a; 
+          padding:20px; 
+          border-radius:12px;
+          display:flex; 
+          gap:20px;
+      ">
+        <img src="images/doctor_profile3.png" width="100" style="border-radius:10px;">
+        <div>
+            <h3 style="margin:0;">Dr. Mahmud Rahman</h3>
+            <p style="color:#7fffd4; margin:5px 0;">General Physician (MBBS)</p>
+            <p style="color:#d1d5db;">🏥 Ibne Sina Hospital</p>
+            <p style="color:#d1d5db;">⭐ 4.6 | 7+ years experience</p>
+            <p style="color:#d1d5db;">📍 1.9 km away</p>
+
+            <button style="margin-top:10px;">📄 View Profile</button>
+            <button style="margin-top:10px;">📞 Call Now</button>
+        </div>
+      </div>
+
+  </div>
+
+
+
+  <!-- Map Section -->
+  <h3 style="margin-top:40px;">Doctors Map</h3>
+  <div style="
+      width:100%;
+      height:250px;
+      background:#1a2336;
+      border-radius:10px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#94a3b8;
+  ">
+      Google Map Preview
+  </div>
+
+</div>
+
+<!-- Advanced Footer -->
+<footer style="background:#070d1a; padding:50px 20px; border-top:1px solid #1e293b; margin-top:40px;">
+
+  <div style="
+      max-width:1200px; 
+      margin:auto; 
+      display:flex; 
+      flex-wrap:wrap; 
+      gap:40px;
+  ">
+
+    <!-- About -->
+    <div style="flex:1; min-width:250px;">
+      <h3 style="color:#7fffd4; margin-bottom:10px;">About LifeLink</h3>
+      <p style="color:#d1d5db; line-height:1.6;">
+        LifeLink is an AI-powered healthcare platform providing disease prediction, 
+        doctor suggestions, emergency services, blood donor support, and real-time healthcare assistance.
+      </p>
+    </div>
+
+    <!-- Quick Links -->
+    <div style="flex:1; min-width:200px;">
+      <h3 style="color:#7fffd4; margin-bottom:10px;">Quick Links</h3>
+      <p><a href="index.html" style="color:#d1d5db; text-decoration:none;">🏠 Home</a></p>
+      <p><a href="login.html" style="color:#d1d5db; text-decoration:none;">🔐 Login</a></p>
+      <p><a href="signup.html" style="color:#d1d5db; text-decoration:none;">📝 Signup</a></p>
+      <p><a href="dashboard.html" style="color:#d1d5db; text-decoration:none;">📊 Dashboard</a></p>
+    </div>
+
+    <!-- Services -->
+    <div style="flex:1; min-width:200px;">
+      <h3 style="color:#7fffd4; margin-bottom:10px;">Services</h3>
+      <p style="color:#d1d5db;">🧬 Disease Prediction</p>
+      <p style="color:#d1d5db;">👨‍⚕️ Doctor Suggestion</p>
+      <p style="color:#d1d5db;">🩸 Blood Donor Search</p>
+      <p style="color:#d1d5db;">🚑 Ambulance Support</p>
+      <p style="color:#d1d5db;">📍 Nearby Doctors</p>
+    </div>
+
+    <!-- Contact -->
+    <div style="flex:1; min-width:250px;">
+      <h3 style="color:#7fffd4; margin-bottom:10px;">Contact Us</h3>
+      <p style="color:#d1d5db;">📧 support@lifelink.com</p>
+      <p style="color:#d1d5db;">📞 +880 1234-567890</p>
+      <p style="color:#d1d5db;">📍 Dhaka, Bangladesh</p>
+
+      <h4 style="color:#7fffd4; margin-top:15px;">Follow Us</h4>
+      <p style="margin-top:10px;">
+        <a href="#" style="color:#7fffd4; margin-right:10px; font-size:20px;">🌐</a>
+        <a href="#" style="color:#7fffd4; margin-right:10px; font-size:20px;">📘</a>
+        <a href="#" style="color:#7fffd4; margin-right:10px; font-size:20px;">📸</a>
+      </p>
+    </div>
+
+    <!-- Newsletter -->
+    <div style="flex:1 1 100%; margin-top:20px;">
+      <h3 style="color:#7fffd4;">Subscribe to our Newsletter</h3>
+      <p style="color:#d1d5db; margin-bottom:10px;">Get updates about health tips & new features.</p>
+      <input type="email" placeholder="Enter your email" 
+             style="padding:12px; width:250px; border-radius:6px; border:none;">
+      <button style="
+          background:#7fffd4;
+          padding:12px 20px;
+          border:none;
+          border-radius:6px;
+          margin-left:10px;
+          cursor:pointer;
+      ">Subscribe</button>
+    </div>
+
+  </div>
+
+  <div style="
+      text-align:center; 
+      margin-top:30px; 
+      padding-top:20px;
+      border-top:1px solid #1e293b; 
+      color:#94a3b8;
+  ">
+    © 2025 LifeLink • All Rights Reserved
+  </div>
+</footer>
+
+
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Blood Donor</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="navbar">
+  <a href="dashboard.html">Dashboard</a>
+  <a href="prediction.html">Disease Prediction</a>
+  <a href="doctor.html">Doctor Suggestion</a>
+  <a href="nearby.html">Nearby Doctor</a>
+  <a href="blood.html">Blood Donor</a>
+  <a href="ambulance.html">Ambulance</a>
+</div>
+
+<div class="container">
+  <h2>Find Blood Donors</h2>
+  <p>Search for donors based on blood group and location.</p>
+
+  <!-- Search Filters -->
+  <div style="display:flex; gap:20px; flex-wrap:wrap; margin-top:20px;">
+      <select style="flex:1; padding:12px; border-radius:6px; border:none;">
+        <option selected>Select Blood Group</option>
+        <option>A+</option>
+        <option>A-</option>
+        <option>B+</option>
+        <option>B-</option>
+        <option>O+</option>
+        <option>O-</option>
+        <option>AB+</option>
+        <option>AB-</option>
+      </select>
+
+      <input type="text" placeholder="Enter location (e.g., Mirpur)"
+             style="flex:2; padding:12px; border-radius:6px; border:none;">
+
+      <button style="padding:12px 20px;">🔍 Search</button>
+  </div>
+
+  <!-- Donor List -->
+  <div style="margin-top:30px; display:flex; flex-direction:column; gap:20px;">
+
+      <!-- Donor Card 1 -->
+      <div style="
+          background:#0f172a;
+          padding:20px;
+          border-radius:12px;
+          display:flex;
+          gap:20px;
+          align-items:center;
+      ">
+        <img src="image/blood-donation-icon-drop-and-hand-donate-blood-symbol-vector.jpg" width="70">
+        <div>
+          <h3 style="margin:0;">Rahim Uddin</h3>
+          <p style="margin:5px 0; color:#7fffd4;">Blood Group: O+</p>
+          <p style="margin:0; color:#d1d5db;">📍 Location: Mirpur 10</p>
+          <button style="margin-top:10px;">📞 Contact Donor</button>
+        </div>
+      </div>
+
+      <!-- Donor Card 2 -->
+      <div style="
+          background:#0f172a;
+          padding:20px;
+          border-radius:12px;
+          display:flex;
+          gap:20px;
+          align-items:center;
+      ">
+        <img src="image/blood-donation-icon-drop-and-hand-donate-blood-symbol-vector.jpg" width="70">
+        <div>
+          <h3 style="margin:0;">Sadia Akter</h3>
+          <p style="margin:5px 0; color:#7fffd4;">Blood Group: A-</p>
+          <p style="margin:0; color:#d1d5db;">📍 Location: Dhanmondi</p>
+          <button style="margin-top:10px;">📞 Contact Donor</button>
+        </div>
+      </div>
+
+      <!-- Donor Card 3 -->
+      <div style="
+          background:#0f172a;
+          padding:20px;
+          border-radius:12px;
+          display:flex;
+          gap:20px;
+          align-items:center;
+      ">
+        <img src="image/blood-donation-icon-drop-and-hand-donate-blood-symbol-vector.jpg" width="70">
+        <div>
+          <h3 style="margin:0;">Mahfuz Hasan</h3>
+          <p style="margin:5px 0; color:#7fffd4;">Blood Group: AB+</p>
+          <p style="margin:0; color:#d1d5db;">📍 Location: Banani</p>
+          <button style="margin-top:10px;">📞 Contact Donor</button>
+        </div>
+      </div>
+
+  </div>
+
+  <!-- Map Placeholder -->
+  <h3 style="margin-top:40px;">Nearby Donor Map</h3>
+  <div style="
+      width:100%;
+      height:250px;
+      background:#1a2336;
+      border-radius:10px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#94a3b8;
+  ">
+      Google Map Preview
+  </div>
+
+</div>
+
+<!-- Footer -->
+<footer style="margin-top:40px; background:#070d1a; padding:20px; text-align:center; color:#94a3b8;">
+    © 2025 LifeLink • All Rights Reserved
+</footer>
+
+</body>
+</html>

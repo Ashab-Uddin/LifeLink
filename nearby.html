@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Nearby Doctor</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="navbar">
+  <a href="dashboard.html">Dashboard</a>
+  <a href="prediction.html">Disease Prediction</a>
+  <a href="doctor.html">Doctor Suggestion</a>
+  <a href="nearby.html">Nearby Doctor</a>
+  <a href="blood.html">Blood Donor</a>
+  <a href="ambulance.html">Ambulance</a>
+</div>
+
+<div class="container">
+  <h2>Find Nearby Doctors</h2>
+  <p>Search for doctors around you based on your current location.</p>
+
+  <!-- Search & Location Buttons -->
+  <div style="display:flex; gap:10px; margin:20px 0;">
+      <input type="text" placeholder="Search doctor, specialization…" 
+             style="flex:1; padding:12px; border-radius:6px; border:none;">
+      <button onclick="alert('Detecting your location…')">📍 Detect Location</button>
+  </div>
+
+  <!-- Doctor List -->
+  <div style="
+    margin-top:25px; 
+    display:flex; 
+    flex-direction:column; 
+    gap:20px;
+  ">
+
+      <!-- Doctor Card 1 -->
+      <div style="
+          background:#0f172a;
+          padding:20px; 
+          border-radius:10px;
+          display:flex;
+          gap:20px;
+          align-items:center;
+      ">
+          <img src="image/Doctor Icon.png" width="80">
+          <div>
+              <h3 style="margin:0;">Dr. Arif Hossain</h3>
+              <p style="margin:5px 0; color:#7fffd4;">Cardiologist</p>
+              <p style="margin:0; color:#d1d5db;">📍 1.2 km away</p>
+              <button style="margin-top:10px;">📞 Call Now</button>
+          </div>
+      </div>
+
+      <!-- Doctor Card 2 -->
+      <div style="
+          background:#0f172a;
+          padding:20px; 
+          border-radius:10px;
+          display:flex;
+          gap:20px;
+          align-items:center;
+      ">
+          <img src="image/Doctor Icon.png" width="80">
+          <div>
+              <h3 style="margin:0;">Dr. Shaila Akter</h3>
+              <p style="margin:5px 0; color:#7fffd4;">Neurologist</p>
+              <p style="margin:0; color:#d1d5db;">📍 2.5 km away</p>
+              <button style="margin-top:10px;">📞 Call Now</button>
+          </div>
+      </div>
+
+      <!-- Doctor Card 3 -->
+      <div style="
+          background:#0f172a;
+          padding:20px; 
+          border-radius:10px;
+          display:flex;
+          gap:20px;
+          align-items:center;
+      ">
+          <img src="image/Doctor Icon.png" width="80">
+          <div>
+              <h3 style="margin:0;">Dr. Mahmud Rahman</h3>
+              <p style="margin:5px 0; color:#7fffd4;">General Physician</p>
+              <p style="margin:0; color:#d1d5db;">📍 3.1 km away</p>
+              <button style="margin-top:10px;">📞 Call Now</button>
+          </div>
+      </div>
+
+  </div>
+
+  <!-- Map Placeholder -->
+  <h3 style="margin-top:40px;">Nearby Doctors Map</h3>
+  <div style="
+      width:100%;
+      height:250px;
+      background:#1a2336;
+      border-radius:10px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#94a3b8;
+  ">
+      Google Map Preview
+  </div>
+
+</div>
+
+<!-- Footer (optional) -->
+<footer style="margin-top:40px; background:#070d1a; padding:20px; text-align:center; color:#94a3b8;">
+    © 2025 LifeLink • All Rights Reserved
+</footer>
+
+</body>
+</html>

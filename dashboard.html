@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Dashboard</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="navbar">
+  <a href="dashboard.html">Dashboard</a>
+  <a href="prediction.html">Disease Prediction</a>
+  <a href="doctor.html">Doctor Suggestion</a>
+  <a href="nearby.html">Nearby Doctor</a>
+  <a href="blood.html">Blood Donor</a>
+  <a href="ambulance.html">Ambulance</a>
+</div>
+
+<div class="container">
+
+  <h1 style="margin-bottom:10px;">Welcome to Your Dashboard</h1>
+  <p style="color:#9bb1c9;">Access your health tools quickly from here.</p>
+
+  <!-- Dashboard Cards -->
+  <div style="
+    margin-top:30px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:25px;
+  ">
+
+    <!-- Card 1 -->
+    <div onclick="window.location='prediction.html'" style="
+        flex:1; min-width:250px;
+        background:#0f172a;
+        padding:25px;
+        border-radius:12px;
+        cursor:pointer;
+        transition:0.3s;
+    " onmouseover="this.style.transform='scale(1.03)'"
+       onmouseout="this.style.transform='scale(1)'">
+        <img src="image/Disease Prediction Icon.jpg" width="80">
+        <h3>Disease Prediction</h3>
+        <p style="color:#9bb1c9;">Enter symptoms and get AI prediction.</p>
+    </div>
+
+    <!-- Card 2 -->
+    <div onclick="window.location='doctor.html'" style="
+        flex:1; min-width:250px;
+        background:#0f172a;
+        padding:25px;
+        border-radius:12px;
+        cursor:pointer;
+        transition:0.3s;
+    " onmouseover="this.style.transform='scale(1.03)'"
+       onmouseout="this.style.transform='scale(1)'">
+        <img src="image/Doctor Icon.png" width="80">
+        <h3>Doctor Suggestion</h3>
+        <p style="color:#9bb1c9;">Find the best doctor for your condition.</p>
+    </div>
+
+    <!-- Card 3 -->
+    <div onclick="window.location='nearby.html'" style="
+        flex:1; min-width:250px;
+        background:#0f172a;
+        padding:25px;
+        border-radius:12px;
+        cursor:pointer;
+        transition:0.3s;
+    " onmouseover="this.style.transform='scale(1.03)'"
+       onmouseout="this.style.transform='scale(1)'">
+        <img src="image/Doctor Icon.png" width="80">
+        <h3>Nearby Doctors</h3>
+        <p style="color:#9bb1c9;">Find doctors near your current location.</p>
+    </div>
+
+    <!-- Card 4 -->
+    <div onclick="window.location='blood.html'" style="
+        flex:1; min-width:250px;
+        background:#0f172a;
+        padding:25px;
+        border-radius:12px;
+        cursor:pointer;
+        transition:0.3s;
+    " onmouseover="this.style.transform='scale(1.03)'"
+       onmouseout="this.style.transform='scale(1)'">
+        <img src="image/blood-donation-icon-drop-and-hand-donate-blood-symbol-vector.jpg" width="80">
+        <h3>Blood Donor</h3>
+        <p style="color:#9bb1c9;">Search for available blood donors.</p>
+    </div>
+
+    <!-- Card 5 -->
+    <div onclick="window.location='ambulance.html'" style="
+        flex:1; min-width:250px;
+        background:#0f172a;
+        padding:25px;
+        border-radius:12px;
+        cursor:pointer;
+        transition:0.3s;
+    " onmouseover="this.style.transform='scale(1.03)'"
+       onmouseout="this.style.transform='scale(1)'">
+        <img src="image/Ambulance Icon.jpeg" width="80">
+        <h3>Ambulance</h3>
+        <p style="color:#9bb1c9;">Request emergency ambulance service.</p>
+    </div>
+
+    <!-- Card 6 -->
+    <div onclick="window.location='history.html'" style="
+        flex:1; min-width:250px;
+        background:#0f172a;
+        padding:25px;
+        border-radius:12px;
+        cursor:pointer;
+        transition:0.3s;
+    " onmouseover="this.style.transform='scale(1.03)'"
+       onmouseout="this.style.transform='scale(1)'">
+        <img src="image/Disease Prediction Icon.jpg" width="80">
+        <h3>History</h3>
+        <p style="color:#9bb1c9;">View your previous predictions & actions.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- Advanced Footer -->
+<footer style="background:#070d1a; padding:50px 20px; border-top:1px solid #1e293b; margin-top:40px;">
+
+  <div style="
+      max-width:1200px; 
+      margin:auto; 
+      display:flex; 
+      flex-wrap:wrap; 
+      gap:40px;
+  ">
+
+    <!-- About -->
+    <div style="flex:1; min-width:250px;">
+      <h3 style="color:#7fffd4; margin-bottom:10px;">About LifeLink</h3>
+      <p style="color:#d1d5db; line-height:1.6;">
+        LifeLink is an AI-powered healthcare platform providing disease prediction, 
+        doctor suggestions, emergency services, blood donor support, and real-time healthcare assistance.
+      </p>
+    </div>
+
+    <!-- Quick Links -->
+    <div style="flex:1; min-width:200px;">
+      <h3 style="color:#7fffd4; margin-bottom:10px;">Quick Links</h3>
+      <p><a href="index.html" style="color:#d1d5db; text-decoration:none;">🏠 Home</a></p>
+      <p><a href="login.html" style="color:#d1d5db; text-decoration:none;">🔐 Login</a></p>
+      <p><a href="signup.html" style="color:#d1d5db; text-decoration:none;">📝 Signup</a></p>
+      <p><a href="dashboard.html" style="color:#d1d5db; text-decoration:none;">📊 Dashboard</a></p>
+    </div>
+
+    <!-- Services -->
+    <div style="flex:1; min-width:200px;">
+      <h3 style="color:#7fffd4; margin-bottom:10px;">Services</h3>
+      <p style="color:#d1d5db;">🧬 Disease Prediction</p>
+      <p style="color:#d1d5db;">👨‍⚕️ Doctor Suggestion</p>
+      <p style="color:#d1d5db;">🩸 Blood Donor Search</p>
+      <p style="color:#d1d5db;">🚑 Ambulance Support</p>
+      <p style="color:#d1d5db;">📍 Nearby Doctors</p>
+    </div>
+
+    <!-- Contact -->
+    <div style="flex:1; min-width:250px;">
+      <h3 style="color:#7fffd4; margin-bottom:10px;">Contact Us</h3>
+      <p style="color:#d1d5db;">📧 support@lifelink.com</p>
+      <p style="color:#d1d5db;">📞 +880 1234-567890</p>
+      <p style="color:#d1d5db;">📍 Dhaka, Bangladesh</p>
+
+      <h4 style="color:#7fffd4; margin-top:15px;">Follow Us</h4>
+      <p style="margin-top:10px;">
+        <a href="#" style="color:#7fffd4; margin-right:10px; font-size:20px;">🌐</a>
+        <a href="#" style="color:#7fffd4; margin-right:10px; font-size:20px;">📘</a>
+        <a href="#" style="color:#7fffd4; margin-right:10px; font-size:20px;">📸</a>
+      </p>
+    </div>
+
+    <!-- Newsletter -->
+    <div style="flex:1 1 100%; margin-top:20px;">
+      <h3 style="color:#7fffd4;">Subscribe to our Newsletter</h3>
+      <p style="color:#d1d5db; margin-bottom:10px;">Get updates about health tips & new features.</p>
+      <input type="email" placeholder="Enter your email" 
+             style="padding:12px; width:250px; border-radius:6px; border:none;">
+      <button style="
+          background:#7fffd4;
+          padding:12px 20px;
+          border:none;
+          border-radius:6px;
+          margin-left:10px;
+          cursor:pointer;
+      ">Subscribe</button>
+    </div>
+
+  </div>
+
+  <div style="
+      text-align:center; 
+      margin-top:30px; 
+      padding-top:20px;
+      border-top:1px solid #1e293b; 
+      color:#94a3b8;
+  ">
+    © 2025 LifeLink • All Rights Reserved
+  </div>
+</footer>
+
+
+</body>
+</html>
