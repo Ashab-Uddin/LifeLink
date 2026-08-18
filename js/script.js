@@ -1,5 +1,8 @@
 
-const API_BASE = "/api";
+const API_BASE =
+  (location.hostname === "localhost" || location.hostname === "127.0.0.1")
+    ? "http://127.0.0.1:8000/api"
+    : "https://lifelink-p8se.onrender.com/api";
 
 document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll("[data-menu-toggle]").forEach(btn => {
@@ -47,7 +50,7 @@ async function initPrediction(){
         <span>${pretty(s)}</span>
       </label>`).join("");
   }catch(e){
-    list.innerHTML="<div class='notice'>Unable to load symptoms. Make sure FastAPI is running at http://127.0.0.1:8000</div>";
+   list.innerHTML="<div class='notice'>Unable to load symptoms. Please try again later.</div>";
     return;
   }
 
