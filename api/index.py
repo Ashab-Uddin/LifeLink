@@ -63,16 +63,8 @@ model_files = {
         "file": "MultinomialNB.pkl",
         "type": "pickle"
     },
-    "XGBClassifier": {
-        "file": "XGBClassifier.pkl",
-        "type": "pickle"
-    },
     "DecisionTree": {
         "file": "DecisionTree.pkl",
-        "type": "pickle"
-    },
-    "LGBMClassifier": {
-        "file": "LGBMClassifier.pkl",
         "type": "pickle"
     },
     "LRegression": {
