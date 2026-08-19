@@ -10,17 +10,16 @@ The project combines a responsive frontend with a FastAPI-based machine-learning
 
 ### 🚀 Frontend
 **Live Website:**  
-`https://life-link-ui93.vercel.app/`
-
-> Replace the URL above with the actual Vercel deployment URL.
+[🌐 Open LifeLink](https://life-link-ui93.vercel.app/)
 
 ### ⚡ Backend API
 **Render API:**  
-`https://lifelink-p8se.onrender.com`
+[⚡ Open Backend API](https://lifelink-p8se.onrender.com)
 
 ### 📚 API Documentation
 **Swagger Documentation:**  
-`https://lifelink-p8se.onrender.com/docs`
+[📚 Open API Documentation](https://lifelink-p8se.onrender.com/docs)
+
 
 ---
 
@@ -264,9 +263,7 @@ The LifeLink backend is powered by FastAPI and provides REST endpoints for commu
 
 ## Base URL
 
-```text
-https://lifelink-p8se.onrender.com/api
-```
+[🌐 https://lifelink-p8se.onrender.com/api](https://lifelink-p8se.onrender.com/api)
 
 ## Available Endpoints
 
@@ -337,9 +334,8 @@ workout
 
 # 📖 API Documentation
 
-Interactive FastAPI Swagger documentation:
-
-**https://lifelink-p8se.onrender.com/docs**
+**Interactive FastAPI Swagger Documentation:**  
+[📚 Open Swagger UI](https://lifelink-p8se.onrender.com/docs)
 
 The documentation allows developers to inspect endpoints and test API requests directly from a browser.
 
@@ -391,11 +387,8 @@ Render Backend
 
 The FastAPI machine-learning backend is deployed on Render.
 
-Production API:
-
-```text
-https://lifelink-p8se.onrender.com
-```
+**Production API:**  
+[⚡ https://lifelink-p8se.onrender.com](https://lifelink-p8se.onrender.com)
 
 This architecture allows the frontend and machine-learning backend to be deployed and maintained independently.
 
@@ -472,27 +465,6 @@ The main goals of LifeLink are:
 4. Provide supporting health information alongside predictions.
 5. Build a responsive and accessible web interface.
 6. Demonstrate real-world frontend, backend, machine-learning, and cloud deployment integration.
-
----
-
-# 🚀 Live Demo
-
-### 🌐 LifeLink Web Application
-
-**Frontend:**  
-`https://life-link-ui93.vercel.app/`
-
-### ⚡ LifeLink API
-
-`https://lifelink-p8se.onrender.com/api`
-
-### 📚 Swagger API
-
-`https://lifelink-p8se.onrender.com/docs`
-
-> Replace `YOUR-VERCEL-URL` with the actual Vercel deployment URL.
-
----
 
 # 🔐 Security & Responsible Use
 
