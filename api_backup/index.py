@@ -67,6 +67,14 @@ model_files = {
         "file": "DecisionTree.pkl",
         "type": "pickle"
     },
+    "XGBClassifier": {
+        "file": "XGBClassifier.pkl",
+        "type": "pickle"
+    },
+    "LGBMClassifier": {
+        "file": "LGBMClassifier.pkl",
+        "type": "pickle"
+    },
     "LRegression": {
         "file": "LRegression.pkl",
         "type": "pickle"
