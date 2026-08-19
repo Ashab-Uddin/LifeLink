@@ -1,22 +1,108 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>AI Prediction — LifeLink</title><link rel="stylesheet" href="../styles/style.css"></head><body>
-<nav class="navbar">
-  <a class="brand" href="index.html"><span class="brand-mark">L</span>LifeLink</a>
-  <button class="mobile-toggle" data-menu-toggle>☰</button>
-  <a class="nav-link " href="dashboard.html">Dashboard</a>
-  <a class="nav-link active" href="prediction.html">AI Prediction</a>
-  <a class="nav-link " href="doctor.html">Doctors</a>
-  <a class="nav-link " href="nearby.html">Nearby</a>
-  <a class="nav-link " href="blood.html">Blood Donor</a>
-  <a class="nav-link emergency-link " href="ambulance.html">Emergency</a>
-</nav>
+<!doctype html>
+<html lang="en">
 
-<main class="page"><div class="container"><div class="section-head"><div><span class="badge">AI Health Engine</span><h2>Symptom analysis</h2><p>Choose symptoms from your ML dataset and run a real prediction through FastAPI.</p></div></div>
-<div class="form-card">
-<div class="form-grid"><div class="field"><label>Search symptoms</label><input id="symptom-search" placeholder="e.g. headache, cough, high fever"></div><div class="field"><label>Prediction model</label><select id="model-select"><option value="RandomForest">RandomForest</option><option value="SVC">SVC</option><option value="GradientBoosting">GradientBoosting</option><option value="KNeighbors">KNeighbors</option><option value="MultinomialNB">MultinomialNB</option><option value="XGBClassifier">XGBClassifier</option><option value="DecisionTree">DecisionTree</option><option value="LGBMClassifier">LGBMClassifier</option><option value="LRegression">LRegression</option></select></div></div>
-<div class="section-head" style="margin:28px 0 12px"><div><h2 style="font-size:20px">Select symptoms</h2><p>Search and tick all symptoms that apply.</p></div></div>
-<div id="symptom-list" class="symptom-list"><div class="loader active"><div class="spinner"></div>Loading symptoms…</div></div>
-<div class="actions"><button class="btn btn-primary" id="predict-btn">✦ Analyze Symptoms</button><a class="btn btn-outline" href="history.html">View History</a></div>
-<div id="prediction-loader" class="loader"><div class="spinner"></div><strong>Analyzing your symptoms…</strong><div class="muted">Connecting to the LifeLink ML engine.</div></div>
-<div id="prediction-result" class="result"><div class="result-title"><div><span class="badge">Prediction complete</span><h2 id="disease-name">—</h2></div><span class="badge" id="model-name">RandomForest</span></div><p class="muted"><strong>Selected symptoms:</strong> <span id="result-symptoms"></span></p><div class="result-grid"><div class="result-box"><h4>Model accuracy</h4><div class="stat" id="accuracy">—</div></div><div class="result-box"><h4>Description</h4><p id="description">—</p></div><div class="result-box"><h4>Precautions</h4><ul id="precautions"></ul></div><div class="result-box"><h4>Medications</h4><ul id="medications"></ul></div><div class="result-box"><h4>Diet</h4><ul id="diet"></ul></div><div class="result-box"><h4>Workout</h4><ul id="workout"></ul></div></div><div class="notice" style="margin-top:18px">This AI result is for educational/supportive use and should not replace professional medical diagnosis or treatment.</div><div class="actions"><a class="btn btn-primary" href="doctor.html">Find a Doctor →</a></div></div>
-</div></div></main>
-<div class="toast"></div><script src="../js/script.js"></script></body></html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>AI Prediction — LifeLink</title>
+  <link rel="stylesheet" href="/styles/style.css">
+</head>
+
+<body>
+  <nav class="navbar">
+    <a class="brand" href="/index/index.html"><span class="brand-mark">L</span>LifeLink</a>
+    <button class="mobile-toggle" data-menu-toggle>☰</button>
+    <a class="nav-link " href="/index/dashboard.html">Dashboard</a>
+    <a class="nav-link active" href="/index/prediction.html">AI Prediction</a>
+    <a class="nav-link " href="/index/doctor.html">Doctors</a>
+    <a class="nav-link " href="/index/nearby.html">Nearby</a>
+    <a class="nav-link " href="/index/blood.html">Blood Donor</a>
+    <a class="nav-link emergency-link " href="/index/ambulance.html">Emergency</a>
+  </nav>
+
+  <main class="page">
+    <div class="container">
+      <div class="section-head">
+        <div><span class="badge">AI Health Engine</span>
+          <h2>Symptom analysis</h2>
+          <p>Choose symptoms from your ML dataset and run a real prediction through FastAPI.</p>
+        </div>
+      </div>
+      <div class="form-card">
+        <div class="form-grid">
+          <div class="field"><label>Search symptoms</label><input id="symptom-search"
+              placeholder="e.g. headache, cough, high fever"></div>
+          <div class="field"><label>Prediction model</label><select id="model-select">
+              <option value="RandomForest">RandomForest</option>
+              <option value="SVC">SVC</option>
+              <option value="GradientBoosting">GradientBoosting</option>
+              <option value="KNeighbors">KNeighbors</option>
+              <option value="MultinomialNB">MultinomialNB</option>
+              <option value="XGBClassifier">XGBClassifier</option>
+              <option value="DecisionTree">DecisionTree</option>
+              <option value="LGBMClassifier">LGBMClassifier</option>
+              <option value="LRegression">LRegression</option>
+            </select></div>
+        </div>
+        <div class="section-head" style="margin:28px 0 12px">
+          <div>
+            <h2 style="font-size:20px">Select symptoms</h2>
+            <p>Search and tick all symptoms that apply.</p>
+          </div>
+        </div>
+        <div id="symptom-list" class="symptom-list">
+          <div class="loader active">
+            <div class="spinner"></div>Loading symptoms…
+          </div>
+        </div>
+        <div class="actions"><button class="btn btn-primary" id="predict-btn">✦ Analyze Symptoms</button><a
+            class="btn btn-outline" href="/index/history.html">View History</a></div>
+        <div id="prediction-loader" class="loader">
+          <div class="spinner"></div><strong>Analyzing your symptoms…</strong>
+          <div class="muted">Connecting to the LifeLink ML engine.</div>
+        </div>
+        <div id="prediction-result" class="result">
+          <div class="result-title">
+            <div><span class="badge">Prediction complete</span>
+              <h2 id="disease-name">—</h2>
+            </div><span class="badge" id="model-name">RandomForest</span>
+          </div>
+          <p class="muted"><strong>Selected symptoms:</strong> <span id="result-symptoms"></span></p>
+          <div class="result-grid">
+            <div class="result-box">
+              <h4>Model accuracy</h4>
+              <div class="stat" id="accuracy">—</div>
+            </div>
+            <div class="result-box">
+              <h4>Description</h4>
+              <p id="description">—</p>
+            </div>
+            <div class="result-box">
+              <h4>Precautions</h4>
+              <ul id="precautions"></ul>
+            </div>
+            <div class="result-box">
+              <h4>Medications</h4>
+              <ul id="medications"></ul>
+            </div>
+            <div class="result-box">
+              <h4>Diet</h4>
+              <ul id="diet"></ul>
+            </div>
+            <div class="result-box">
+              <h4>Workout</h4>
+              <ul id="workout"></ul>
+            </div>
+          </div>
+          <div class="notice" style="margin-top:18px">This AI result is for educational/supportive use and should not
+            replace professional medical diagnosis or treatment.</div>
+          <div class="actions"><a class="btn btn-primary" href="/index/doctor.html">Find a Doctor →</a></div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <div class="toast"></div>
+  <script src="/js/script.js"></script>
+</body>
+
+</html>
