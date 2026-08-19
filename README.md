@@ -10,7 +10,7 @@ The project combines a responsive frontend with a FastAPI-based machine-learning
 
 ### 🚀 Frontend
 **Live Website:**  
-`https://YOUR-VERCEL-URL.vercel.app`
+`https://life-link-ui93.vercel.app/`
 
 > Replace the URL above with the actual Vercel deployment URL.
 
@@ -480,7 +480,7 @@ The main goals of LifeLink are:
 ### 🌐 LifeLink Web Application
 
 **Frontend:**  
-`https://YOUR-VERCEL-URL.vercel.app`
+`https://life-link-ui93.vercel.app/`
 
 ### ⚡ LifeLink API
 
@@ -517,6 +517,15 @@ The main goals of LifeLink are:
 | `DOCUMENTATION_INDEX.md` | Documentation navigation |
 
 ---
+## 👥 Contributors
+
+LifeLink was collaboratively designed and developed by:
+
+| Contributor |
+|-------------|
+| **Ashab Uddin** |
+| **Rokunuzamman Topu** |
+| **Modabbir Mohammad Mansur** |
 
 # 📄 License
 
