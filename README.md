@@ -14,12 +14,11 @@ The project combines a responsive frontend with a FastAPI-based machine-learning
 
 ### ⚡ Backend API
 **Render API:**  
-[⚡ Open Backend API](https://lifelink-p8se.onrender.com)
+[⚡ Open Backend API](https://lifelink-p8se.onrender.com/api)
 
 ### 📚 API Documentation
 **Swagger Documentation:**  
 [📚 Open API Documentation](https://lifelink-p8se.onrender.com/docs)
-
 
 ---
 
@@ -263,7 +262,7 @@ The LifeLink backend is powered by FastAPI and provides REST endpoints for commu
 
 ## Base URL
 
-[🌐 https://lifelink-p8se.onrender.com/api](https://lifelink-p8se.onrender.com/api)
+[⚡ Open Backend API](https://lifelink-p8se.onrender.com/api)
 
 ## Available Endpoints
 
@@ -335,7 +334,7 @@ workout
 # 📖 API Documentation
 
 **Interactive FastAPI Swagger Documentation:**  
-[📚 Open Swagger UI](https://lifelink-p8se.onrender.com/docs)
+[📖 Open Swagger UI](https://lifelink-p8se.onrender.com/docs)
 
 The documentation allows developers to inspect endpoints and test API requests directly from a browser.
 
@@ -388,7 +387,7 @@ Render Backend
 The FastAPI machine-learning backend is deployed on Render.
 
 **Production API:**  
-[⚡ https://lifelink-p8se.onrender.com](https://lifelink-p8se.onrender.com)
+[🔗 Open LifeLink API](https://lifelink-p8se.onrender.com/api)
 
 This architecture allows the frontend and machine-learning backend to be deployed and maintained independently.
 
