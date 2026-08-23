@@ -24,8 +24,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   initPrediction();
-  initLogin();
-  initSignup();
   renderHistory();
 });
 
@@ -131,14 +129,6 @@ function renderHistory(){
   box.innerHTML=h.map(x=>`<div class="card"><div class="result-title"><div><span class="badge">AI Prediction</span><h3 style="margin-top:8px">${escapeHtml(x.disease)}</h3></div><span class="muted">${escapeHtml(x.date)}</span></div><p class="muted">${escapeHtml(x.symptoms.map(pretty).join(", "))}</p><div class="card-actions"><span class="badge">Model: ${escapeHtml(x.model||"RandomForest")}</span><span class="badge">Accuracy: ${x.accuracy!=null?(x.accuracy*100).toFixed(2)+"%":"N/A"}</span></div></div>`).join("");
 }
 
-function initLogin(){
-  const form=document.getElementById("login-form"); if(!form)return;
-  form.addEventListener("submit",e=>{e.preventDefault();localStorage.setItem("lifelink_user",document.getElementById("login-email").value);location.href="dashboard.html";});
-}
-function initSignup(){
-  const form=document.getElementById("signup-form"); if(!form)return;
-  form.addEventListener("submit",e=>{e.preventDefault();localStorage.setItem("lifelink_user",document.getElementById("signup-email").value);location.href="login.html";});
-}
 function pretty(s){return String(s).replaceAll("_"," ").replace(/\b\w/g,c=>c.toUpperCase())}
 function escapeAttr(s){return String(s).replaceAll("&","&amp;").replaceAll('"',"&quot;").replaceAll("<","&lt;").replaceAll(">","&gt;")}
 function escapeHtml(s){return escapeAttr(s)}

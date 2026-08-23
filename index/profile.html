@@ -1,0 +1,176 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <title>My Profile — LifeLink</title>
+
+    <link rel="stylesheet" href="/styles/style.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <a class="brand" href="/index/index.html"><span class="brand-mark">L</span>LifeLink</a>
+        <button class="mobile-toggle" data-menu-toggle aria-label="Open navigation">&#9776;</button>
+        <a class="nav-link" href="/index/dashboard.html">Dashboard</a>
+        <a class="nav-link" href="/index/prediction.html">AI Prediction</a>
+        <a class="nav-link" href="/index/doctor.html">Doctors</a>
+        <a class="nav-link" href="/index/nearby.html">Nearby</a>
+        <a class="nav-link" href="/index/blood.html">Blood Donor</a>
+        <a class="nav-link active" href="/index/profile.html">My Profile</a>
+        <a class="nav-link emergency-link" href="/index/ambulance.html">Emergency</a>
+    </nav>
+
+    <main class="page profile-page">
+        <div class="container">
+            <div class="profile-heading">
+                <div>
+                    <span class="badge">Personal health space</span>
+                    <h1>Your profile</h1>
+                    <p class="muted">Keep your details ready for more connected care.</p>
+                </div>
+                <a class="btn btn-outline" href="/index/dashboard.html">Back to dashboard</a>
+            </div>
+
+            <section class="profile-hero">
+                <div class="profile-avatar" id="profile-avatar" aria-hidden="true">
+                    <span id="profile-initials">L</span>
+                    <img id="profile-avatar-image" alt="Profile photo">
+                </div>
+                <div class="profile-identity">
+                    <p class="eyebrow">LifeLink member</p>
+                    <h2 id="profile-display-name">Your name</h2>
+                    <p id="profile-display-email" class="profile-email">Loading account...</p>
+                    <div class="profile-badges">
+                        <span class="badge">Active account</span>
+                        <span class="badge" id="profile-blood-badge">Blood group not set</span>
+                    </div>
+                </div>
+                <div class="profile-hero-note">
+                    <strong>One profile, better context</strong>
+                    <span>Your information stays connected to your LifeLink tools.</span>
+                </div>
+            </section>
+
+            <div class="profile-layout">
+                <form id="profile-form" class="form-card profile-form-card">
+                    <div class="form-card-heading">
+                        <div>
+                            <span class="section-kicker">Profile details</span>
+                            <h2>Tell us about you</h2>
+                            <p class="muted">Add the basics that help LifeLink personalize your experience.</p>
+                        </div>
+                        <button id="edit-profile-btn" class="profile-edit-mark" type="button">Edit</button>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="field full">
+                            <label for="profile-name">Full name</label>
+                            <input id="profile-name" type="text" placeholder="Your name" required>
+                        </div>
+                        <div class="field">
+                            <label for="profile-blood-group">Blood group</label>
+                            <select id="profile-blood-group">
+                                <option value="">Select blood group</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                            </select>
+                        </div>
+                        <div class="field">
+
+                            <label for="profile-image">
+                                Profile Photo
+                            </label>
+
+                            <input id="profile-image" type="file" accept="image/jpeg,image/png,image/webp">
+
+                            <div id="profile-image-preview" class="profile-image-preview"></div>
+
+                        </div>
+                        <div class="field full profile-readonly-field">
+                            <label for="profile-email">Email address</label>
+                            <input id="profile-email" type="email" readonly>
+                            <span class="field-hint">Your sign-in email cannot be changed here.</span>
+                        </div>
+                        <div class="field full profile-readonly-field">
+                            <label for="profile-id">Member ID</label>
+                            <input id="profile-id" type="text" readonly>
+                        </div>
+                    </div>
+
+                    <div class="profile-form-footer">
+                        <p id="profile-message" class="profile-message" role="status"></p>
+                        <button id="cancel-profile-btn" class="btn btn-outline" type="button">Cancel</button>
+                        <button class="btn btn-primary" type="submit">Save profile</button>
+                    </div>
+                </form>
+
+                <aside class="profile-side-column">
+                    <section class="card profile-completeness-card">
+                        <div class="side-card-heading"><span class="icon-box">+</span><span class="badge">Account
+                                setup</span></div>
+                        <h3>Profile completeness</h3>
+                        <div class="progress-track"><span id="profile-completeness-bar"></span></div>
+                        <div class="progress-label"><strong id="profile-completeness">0%</strong><span
+                                class="muted">Ready to improve</span></div>
+                        <p class="muted">A complete profile gives your healthcare tools better context.</p>
+                    </section>
+                    <section class="card profile-security-card">
+                        <span class="section-kicker">Account access</span>
+                        <h3>Manage your session</h3>
+                        <p class="muted">Sign out when you are finished using LifeLink on this device.</p>
+                        <button id="logout-btn" class="btn btn-outline profile-logout" type="button">Sign out</button>
+                    </section>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <div id="profile-crop-modal" class="crop-modal" hidden>
+        <div class="crop-dialog" role="dialog" aria-modal="true" aria-labelledby="crop-title">
+            <div class="crop-dialog-heading">
+                <div>
+                    <span class="section-kicker">Profile photo</span>
+                    <h2 id="crop-title">Adjust your photo</h2>
+                </div>
+                <button id="crop-close-btn" class="crop-close" type="button" aria-label="Close cropper">&times;</button>
+            </div>
+            <div class="crop-stage">
+                <canvas id="profile-crop-canvas" width="320" height="320"></canvas>
+            </div>
+            <label class="crop-zoom" for="profile-crop-zoom">
+                <span>Zoom</span>
+                <input id="profile-crop-zoom" type="range" min="1" max="3" step="0.01" value="1">
+            </label>
+            <p class="crop-hint">Drag the image to position it inside the circle.</p>
+            <div class="crop-actions">
+                <button id="crop-cancel-btn" class="btn btn-outline" type="button">Cancel</button>
+                <button id="crop-use-btn" class="btn btn-primary" type="button">Use photo</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- Your Supabase configuration -->
+    <script src="/js/supabase.js"></script>
+
+    <!-- Existing JavaScript -->
+    <script src="/js/script.js"></script>
+
+    <!-- Profile JavaScript -->
+    <script src="/js/profile.js"></script>
+
+</body>
+
+</html>

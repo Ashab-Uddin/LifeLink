@@ -11,25 +11,81 @@
 <body>
     <main class="auth-page">
         <section class="auth-card">
+
             <div class="auth-brand">
                 <div class="brand-mark">L</div>
                 <h1>Create your account</h1>
                 <p class="muted">Start your connected health journey.</p>
             </div>
+
             <form id="signup-form" class="auth-form">
-                <div class="field"><label>Full name</label><input required placeholder="Your name"></div>
-                <div class="field"><label>Email</label><input id="signup-email" type="email" required
-                        placeholder="you@example.com"></div>
-                <div class="field"><label>Password</label><input type="password" required
-                        placeholder="Create a password"></div><button class="btn btn-primary" type="submit">Create
-                    Account</button>
+
+                <div class="field">
+                    <label>Full name</label>
+                    <input
+                        id="signup-name"
+                        required
+                        placeholder="Your name">
+                </div>
+
+                <div class="field">
+                    <label>Email</label>
+                    <input
+                        id="signup-email"
+                        type="email"
+                        required
+                        placeholder="you@example.com">
+                </div>
+
+                <div class="field password-field">
+    <label>Password</label>
+
+    <div class="password-input-wrapper">
+        <input
+            id="signup-password"
+            type="password"
+            required
+            placeholder="Create a password">
+
+        <button
+            type="button"
+            class="password-toggle"
+            id="signup-password-toggle"
+            aria-label="Show password">
+            👁
+        </button>
+    </div>
+</div>
+
+                <button class="btn btn-primary" type="submit">
+                    Create Account
+                </button>
+
             </form>
-            <p class="muted" style="text-align:center;margin-top:18px">Already registered? <a
-                    style="color:var(--primary);font-weight:700" href="/index/login.html">Sign in</a></p>
-            <p style="text-align:center"><a class="muted" href="/index/index.html">← Back to home</a></p>
+
+            <p class="muted" style="text-align:center;margin-top:18px">
+                Already registered?
+                <a
+                    style="color:var(--primary);font-weight:700"
+                    href="/index/login.html">
+                    Sign in
+                </a>
+            </p>
+
+            <p style="text-align:center">
+                <a class="muted" href="/index/index.html">
+                    ← Back to home
+                </a>
+            </p>
+
         </section>
     </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/js/supabase.js"></script>
     <script src="/js/script.js"></script>
+    <script src="/js/signup.js"></script>
+
 </body>
 
 </html>

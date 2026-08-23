@@ -19,7 +19,25 @@
             <form id="login-form" class="auth-form">
                 <div class="field"><label>Email</label><input id="login-email" type="email" required
                         placeholder="you@example.com"></div>
-                <div class="field"><label>Password</label><input type="password" required placeholder="••••••••"></div>
+                <div class="field password-field">
+    <label>Password</label>
+
+    <div class="password-input-wrapper">
+        <input
+            id="login-password"
+            type="password"
+            required
+            placeholder="••••••••">
+
+        <button
+            type="button"
+            class="password-toggle"
+            id="login-password-toggle"
+            aria-label="Show password">
+            👁
+        </button>
+    </div>
+</div>
                 <button class="btn btn-primary" type="submit">Sign In</button>
             </form>
             <p class="muted" style="text-align:center;margin-top:18px">New to LifeLink? <a
@@ -27,7 +45,10 @@
             <p style="text-align:center"><a class="muted" href="/index/index.html">← Back to home</a></p>
         </section>
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/js/supabase.js"></script>
     <script src="/js/script.js"></script>
+    <script src="/js/login.js"></script>
 </body>
 
 </html>
