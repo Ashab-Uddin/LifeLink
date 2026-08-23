@@ -778,8 +778,29 @@ textarea:focus {
   margin-bottom: 26px
 }
 
-.auth-brand .brand-mark {
-  margin: auto
+.auth-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--primary);
+  font: 800 20px "Plus Jakarta Sans";
+  transition: opacity .25s ease, transform .25s ease
+}
+
+.auth-logo:hover {
+  opacity: .88;
+  transform: translateY(-1px)
+}
+
+.auth-logo .brand-mark {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--primary), #47c7bd);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font: 800 16px Inter
 }
 
 .auth-brand h1 {
@@ -790,6 +811,58 @@ textarea:focus {
 .auth-form {
   display: grid;
   gap: 16px
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 22px 0 16px;
+  color: var(--muted);
+  font-size: 12px
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: var(--border)
+}
+
+.google-login-btn {
+  width: 100%;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--text);
+  box-shadow: 0 8px 20px rgba(16, 42, 67, .06)
+}
+
+.google-login-btn:hover {
+  border-color: #b9dfdc;
+  background: #fbfffe;
+  box-shadow: 0 13px 28px rgba(16, 42, 67, .11)
+}
+
+.google-login-btn:disabled {
+  cursor: wait;
+  opacity: .7;
+  transform: none
+}
+
+.google-logo {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  color: #4285f4;
+  font: 800 17px Arial, sans-serif
+}
+
+.google-login-btn.is-loading::after {
+  content: "...";
+  margin-left: 2px;
+  letter-spacing: 2px
 }
 
 .profile-page {

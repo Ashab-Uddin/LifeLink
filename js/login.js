@@ -1,6 +1,42 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     const loginForm = document.getElementById("login-form");
+    const googleLoginButton = document.getElementById("google-login-btn");
+
+    function getRedirectUrl() {
+        return `${window.location.origin}/index/login.html`;
+    }
+
+    async function redirectIfAlreadySignedIn() {
+        const { data: { session } } = await supabaseClient.auth.getSession();
+
+        if (session) {
+            window.location.replace("/index/dashboard.html");
+        }
+    }
+
+    redirectIfAlreadySignedIn().catch(error => {
+        console.error("Session check error:", error);
+    });
+
+    googleLoginButton?.addEventListener("click", async () => {
+        googleLoginButton.disabled = true;
+        googleLoginButton.classList.add("is-loading");
+
+        const { error } = await supabaseClient.auth.signInWithOAuth({
+            provider: "google",
+            options: {
+                redirectTo: getRedirectUrl()
+            }
+        });
+
+        if (error) {
+            console.error("Google login error:", error);
+            alert(error.message || "Unable to continue with Google.");
+            googleLoginButton.disabled = false;
+            googleLoginButton.classList.remove("is-loading");
+        }
+    });
 
     if (!loginForm) {
         return;
