@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const loginForm = document.getElementById("login-form");
     const googleLoginButton = document.getElementById("google-login-btn");
     const oauthRedirectUrl =
-        "https://life-link-ui93.vercel.app/index/dashboard.html";
+        "https://life-link-ui93.vercel.app/index/login.html";
 
     function getRedirectUrl() {
         return oauthRedirectUrl;
