@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const { data: { session } } = await supabaseClient.auth.getSession();
 
         if (session) {
-            window.location.replace("/index/dashboard.html");
+            window.location.replace("/index/index.html");
         }
     }
 
