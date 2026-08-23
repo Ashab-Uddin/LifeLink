@@ -1,0 +1,11 @@
+# The API and ML dependencies are deployed separately on Render.
+api/
+requirements.txt
+.python-version
+.venv/
+.venv310/
+Comprehensive-Health-Diagnostics/
+*.pkl
+*.pt
+*.ipynb
+*.csv
