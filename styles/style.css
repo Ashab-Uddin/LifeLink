@@ -286,6 +286,12 @@ img {
   color: var(--muted)
 }
 
+.clear-symptoms-btn {
+  min-height: 40px;
+  padding: 9px 14px;
+  white-space: nowrap
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1321,6 +1327,11 @@ textarea:focus {
 
   .section-head {
     display: block
+  }
+
+  .clear-symptoms-btn {
+    width: 100%;
+    margin-top: 14px
   }
 
   .dashboard-top {

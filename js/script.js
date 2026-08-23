@@ -62,6 +62,20 @@ async function initPrediction(){
 
   const predictBtn=document.getElementById("predict-btn");
   predictBtn?.addEventListener("click", predictDisease);
+
+  const clearSymptomsBtn=document.getElementById("clear-symptoms-btn");
+  clearSymptomsBtn?.addEventListener("click",()=>{
+    list.querySelectorAll("input[type=checkbox]:checked").forEach(input=>{
+      input.checked=false;
+    });
+    if(search) search.value="";
+    list.querySelectorAll(".symptom-chip").forEach(chip=>{
+      chip.style.display="flex";
+    });
+    document.getElementById("prediction-result")?.classList.remove("visible");
+    document.getElementById("prediction-loader")?.classList.remove("active");
+    toast("Symptom selection cleared.");
+  });
 }
 
 async function predictDisease(){
