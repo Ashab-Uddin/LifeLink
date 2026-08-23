@@ -642,6 +642,7 @@ textarea:focus {
 
 .result {
   margin-top: 24px;
+  scroll-margin-top: 88px;
   border: 1px solid #bfe8e4;
   background: linear-gradient(145deg, #f7fffe, #fff);
   border-radius: 22px;

@@ -56,13 +56,13 @@
             <div class="spinner"></div>Loading symptoms…
           </div>
         </div>
-        <div class="actions"><button class="btn btn-primary" id="predict-btn">✦ Analyze Symptoms</button><a
+        <div class="actions"><button class="btn btn-primary" id="predict-btn" type="button">✦ Analyze Symptoms</button><a
             class="btn btn-outline" href="/index/history.html">View History</a></div>
         <div id="prediction-loader" class="loader">
           <div class="spinner"></div><strong>Analyzing your symptoms…</strong>
           <div class="muted">Connecting to the LifeLink ML engine.</div>
         </div>
-        <div id="prediction-result" class="result">
+        <div id="prediction-result" class="result" tabindex="-1" aria-live="polite">
           <div class="result-title">
             <div><span class="badge">Prediction complete</span>
               <h2 id="disease-name">—</h2>

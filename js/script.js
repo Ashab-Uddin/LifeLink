@@ -95,7 +95,10 @@ async function predictDisease(){
     document.getElementById("result-symptoms").textContent=selected.map(pretty).join(", ");
     result?.classList.add("visible");
     saveHistory(data,selected);
-    result?.scrollIntoView({behavior:"smooth",block:"start"});
+    requestAnimationFrame(()=>{
+      result?.scrollIntoView({behavior:"smooth",block:"start"});
+      result?.focus({preventScroll:true});
+    });
   }catch(e){
     toast(e.message);
   }finally{
