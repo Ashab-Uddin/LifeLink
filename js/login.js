@@ -2,19 +2,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const loginForm = document.getElementById("login-form");
     const googleLoginButton = document.getElementById("google-login-btn");
-    const deployedSiteUrl = "https://life-link-ui93.vercel.app";
+    const oauthRedirectUrl =
+        "https://life-link-ui93.vercel.app/index/dashboard.html";
 
     function getRedirectUrl() {
-        const isLocalDevelopment =
-            window.location.protocol === "file:" ||
-            window.location.hostname === "localhost" ||
-            window.location.hostname === "127.0.0.1";
-
-        const siteUrl = isLocalDevelopment
-            ? deployedSiteUrl
-            : window.location.origin;
-
-        return `${siteUrl}/index/login.html`;
+        return oauthRedirectUrl;
     }
 
     async function redirectIfAlreadySignedIn() {
