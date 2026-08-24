@@ -271,6 +271,16 @@ const LIFE_LINK_HEALTH_BN = {
   "Antibiotics": "অ্যান্টিবায়োটিক"
 };
 
+function normalizeLifeLinkSymptom(value) {
+  return String(value)
+    .trim()
+    .toLowerCase()
+    .replace(/\.\d+$/, "")
+    .replace(/[\s-]+/g, "_")
+    .replace(/[^a-z0-9_()]/g, "")
+    .replace(/_+/g, "_");
+}
+
 (function initLanguageToggle() {
   const language = localStorage.getItem("lifelink_language") || "en";
   const translate = value => LIFE_LINK_TRANSLATIONS[language]?.[value] || value;
@@ -364,9 +374,12 @@ const LIFE_LINK_HEALTH_BN = {
 
   window.lifeLinkTranslate = translatePage;
   window.lifeLinkText = translate;
-  window.lifeLinkSymptomLabel = symptom => language === "bn"
-    ? LIFE_LINK_SYMPTOMS_BN[symptom] || symptom.replaceAll("_", " ")
-    : symptom.replaceAll("_", " ").replace(/\b\w/g, c => c.toUpperCase());
+  window.lifeLinkSymptomLabel = symptom => {
+    const normalized = normalizeLifeLinkSymptom(symptom);
+    return language === "bn"
+      ? LIFE_LINK_SYMPTOMS_BN[normalized] || String(symptom).replaceAll("_", " ")
+      : String(symptom).replaceAll("_", " ").replace(/\b\w/g, c => c.toUpperCase());
+  };
   window.lifeLinkHealthText = value => language === "bn"
     ? LIFE_LINK_HEALTH_BN[String(value)] || String(value)
     : String(value);
