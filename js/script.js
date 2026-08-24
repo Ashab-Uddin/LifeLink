@@ -34,6 +34,10 @@ function toast(message){
   setTimeout(()=>t.classList.remove("show"),2600);
 }
 
+function uiText(message){
+  return typeof lifeLinkText === "function" ? lifeLinkText(message) : message;
+}
+
 async function initPrediction(){
   const list=document.getElementById("symptom-list");
   if(!list) return;
@@ -74,7 +78,7 @@ async function initPrediction(){
     });
     document.getElementById("prediction-result")?.classList.remove("visible");
     document.getElementById("prediction-loader")?.classList.remove("active");
-    toast("Symptom selection cleared.");
+    toast(uiText("Symptom selection cleared."));
   });
 }
 
@@ -84,7 +88,7 @@ async function predictDisease(){
   const loader=document.getElementById("prediction-loader");
   const result=document.getElementById("prediction-result");
 
-  if(!selected.length){toast("Please select at least one symptom.");return;}
+  if(!selected.length){toast(uiText("Please select at least one symptom."));return;}
 
   loader?.classList.add("active");
   result?.classList.remove("visible");
@@ -114,7 +118,7 @@ async function predictDisease(){
       result?.focus({preventScroll:true});
     });
   }catch(e){
-    toast(e.message);
+    toast(uiText(e.message));
   }finally{
     loader?.classList.remove("active");
   }
@@ -161,7 +165,7 @@ async function saveHistory(data,symptoms){
     });
     if(error){
       console.error("Database history save error:",error);
-      toast("Prediction completed, but history could not be saved.");
+      toast(uiText("Prediction completed, but history could not be saved."));
     }
     return;
   }
@@ -186,7 +190,7 @@ async function renderHistory(){
       .limit(20);
     if(error){
       console.error("Database history load error:",error);
-      box.innerHTML=`<div class="notice history-error"><strong>Unable to load your prediction history.</strong><span>${escapeHtml(error.message||"Database request failed.")}</span><small>Run SUPABASE_HISTORY_SETUP.sql in Supabase SQL Editor, then refresh this page.</small></div>`;
+      box.innerHTML=`<div class="notice history-error"><strong>${uiText("Unable to load your prediction history.")}</strong><span>${escapeHtml(error.message||uiText("Database request failed."))}</span><small>${uiText("Run SUPABASE_HISTORY_SETUP.sql in Supabase SQL Editor, then refresh this page.")}</small></div>`;
       return;
     }
     h=data||[];
@@ -194,7 +198,7 @@ async function renderHistory(){
     h=JSON.parse(localStorage.getItem("lifelink_history")||"[]");
   }
 
-  if(!h.length){box.innerHTML="<div class='card'><p class='muted'>No prediction history yet.</p></div>";return;}
+  if(!h.length){box.innerHTML=`<div class="card"><p class="muted">${uiText("No prediction history yet.")}</p></div>`;return;}
   box.innerHTML=h.map(x=>`<div class="card"><div class="result-title"><div><span class="badge">AI Prediction</span><h3 style="margin-top:8px">${escapeHtml(x.disease)}</h3></div><span class="muted">${escapeHtml(x.date||new Date(x.created_at).toLocaleString())}</span></div><p class="muted">${escapeHtml((Array.isArray(x.symptoms)?x.symptoms:[]).map(pretty).join(", "))}</p><div class="card-actions"><span class="badge">Model: ${escapeHtml(x.model||"RandomForest")}</span><span class="badge">Accuracy: ${x.accuracy!=null?(x.accuracy*100).toFixed(2)+"%":"N/A"}</span></div></div>`).join("");
 }
 
