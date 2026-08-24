@@ -132,18 +132,70 @@ function renderList(id,items){
   }).join("") || "<li>No information available.</li>";
 }
 
-function saveHistory(data,symptoms){
+async function getSignedInUser(){
+  if(typeof supabaseClient === "undefined") return null;
+  try{
+    const {data:{user}}=await supabaseClient.auth.getUser();
+    return user||null;
+  }catch(_){
+    return null;
+  }
+}
+
+async function saveHistory(data,symptoms){
+  const user=await getSignedInUser();
+  const historyItem={
+    disease:data.disease,
+    model:data.model,
+    accuracy:data.accuracy,
+    symptoms
+  };
+
+  if(user){
+    const {error}=await supabaseClient.from("prediction_history").insert({
+      user_id:user.id,
+      disease:historyItem.disease,
+      model:historyItem.model||"RandomForest",
+      accuracy:historyItem.accuracy,
+      symptoms:historyItem.symptoms
+    });
+    if(error){
+      console.error("Database history save error:",error);
+      toast("Prediction completed, but history could not be saved.");
+    }
+    return;
+  }
+
   const h=JSON.parse(localStorage.getItem("lifelink_history")||"[]");
-  h.unshift({disease:data.disease,model:data.model,accuracy:data.accuracy,symptoms,date:new Date().toLocaleString()});
+  h.unshift({...historyItem,date:new Date().toLocaleString()});
   localStorage.setItem("lifelink_history",JSON.stringify(h.slice(0,20)));
 }
 
-function renderHistory(){
+async function renderHistory(){
   const box=document.getElementById("history-list");
   if(!box)return;
-  const h=JSON.parse(localStorage.getItem("lifelink_history")||"[]");
+  const user=await getSignedInUser();
+  let h=[];
+
+  if(user){
+    const {data,error}=await supabaseClient
+      .from("prediction_history")
+      .select("id,disease,model,accuracy,symptoms,created_at")
+      .eq("user_id",user.id)
+      .order("created_at",{ascending:false})
+      .limit(20);
+    if(error){
+      console.error("Database history load error:",error);
+      box.innerHTML="<div class='notice'>Unable to load your prediction history.</div>";
+      return;
+    }
+    h=data||[];
+  }else{
+    h=JSON.parse(localStorage.getItem("lifelink_history")||"[]");
+  }
+
   if(!h.length){box.innerHTML="<div class='card'><p class='muted'>No prediction history yet.</p></div>";return;}
-  box.innerHTML=h.map(x=>`<div class="card"><div class="result-title"><div><span class="badge">AI Prediction</span><h3 style="margin-top:8px">${escapeHtml(x.disease)}</h3></div><span class="muted">${escapeHtml(x.date)}</span></div><p class="muted">${escapeHtml(x.symptoms.map(pretty).join(", "))}</p><div class="card-actions"><span class="badge">Model: ${escapeHtml(x.model||"RandomForest")}</span><span class="badge">Accuracy: ${x.accuracy!=null?(x.accuracy*100).toFixed(2)+"%":"N/A"}</span></div></div>`).join("");
+  box.innerHTML=h.map(x=>`<div class="card"><div class="result-title"><div><span class="badge">AI Prediction</span><h3 style="margin-top:8px">${escapeHtml(x.disease)}</h3></div><span class="muted">${escapeHtml(x.date||new Date(x.created_at).toLocaleString())}</span></div><p class="muted">${escapeHtml((Array.isArray(x.symptoms)?x.symptoms:[]).map(pretty).join(", "))}</p><div class="card-actions"><span class="badge">Model: ${escapeHtml(x.model||"RandomForest")}</span><span class="badge">Accuracy: ${x.accuracy!=null?(x.accuracy*100).toFixed(2)+"%":"N/A"}</span></div></div>`).join("");
 }
 
 function pretty(s){return String(s).replaceAll("_"," ").replace(/\b\w/g,c=>c.toUpperCase())}
@@ -152,5 +204,16 @@ function escapeHtml(s){return escapeAttr(s)}
 
 document.addEventListener("DOMContentLoaded",()=>{
   const stat=document.getElementById("stat-checks");
-  if(stat){stat.textContent=JSON.parse(localStorage.getItem("lifelink_history")||"[]").length;}
+  if(!stat)return;
+  getSignedInUser().then(async user=>{
+    if(!user){
+      stat.textContent=JSON.parse(localStorage.getItem("lifelink_history")||"[]").length;
+      return;
+    }
+    const {count,error}=await supabaseClient
+      .from("prediction_history")
+      .select("id",{count:"exact",head:true})
+      .eq("user_id",user.id);
+    if(!error)stat.textContent=count||0;
+  }).catch(()=>{});
 });
