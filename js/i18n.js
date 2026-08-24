@@ -193,6 +193,84 @@ const LIFE_LINK_TRANSLATIONS = {
   }
 };
 
+const LIFE_LINK_SYMPTOMS_BN = {
+  itching: "চুলকানি", skin_rash: "ত্বকে ফুসকুড়ি", nodal_skin_eruptions: "ত্বকে গুটি",
+  continuous_sneezing: "অনবরত হাঁচি", shivering: "কাঁপুনি", chills: "শীত শীত ভাব",
+  joint_pain: "জয়েন্টে ব্যথা", stomach_pain: "পেটে ব্যথা", acidity: "অম্লতা",
+  ulcers_on_tongue: "জিহ্বায় ঘা", muscle_wasting: "পেশি ক্ষয়", vomiting: "বমি",
+  burning_micturition: "প্রস্রাবে জ্বালাপোড়া", spotting_urination: "প্রস্রাবে রক্তের দাগ", fatigue: "ক্লান্তি",
+  weight_gain: "ওজন বৃদ্ধি", anxiety: "উদ্বেগ", cold_hands_and_feets: "হাত-পা ঠান্ডা",
+  mood_swings: "মেজাজের পরিবর্তন", weight_loss: "ওজন কমে যাওয়া", restlessness: "অস্থিরতা",
+  lethargy: "অবসাদ", patches_in_throat: "গলায় দাগ", irregular_sugar_level: "অনিয়মিত রক্তে শর্করা",
+  cough: "কাশি", high_fever: "উচ্চ জ্বর", sunken_eyes: "চোখ বসে যাওয়া",
+  breathlessness: "শ্বাসকষ্ট", sweating: "ঘাম", dehydration: "পানিশূন্যতা",
+  indigestion: "বদহজম", headache: "মাথাব্যথা", yellowish_skin: "ত্বক হলুদ হওয়া",
+  dark_urine: "গাঢ় প্রস্রাব", nausea: "বমি বমি ভাব", loss_of_appetite: "ক্ষুধামন্দা",
+  pain_behind_the_eyes: "চোখের পেছনে ব্যথা", back_pain: "পিঠে ব্যথা", constipation: "কোষ্ঠকাঠিন্য",
+  abdominal_pain: "পেটে ব্যথা", diarrhoea: "ডায়রিয়া", mild_fever: "হালকা জ্বর",
+  yellow_urine: "হলুদ প্রস্রাব", yellowing_of_eyes: "চোখ হলুদ হওয়া", acute_liver_failure: "তীব্র লিভার বিকলতা",
+  fluid_overload: "শরীরে অতিরিক্ত তরল", swelling_of_stomach: "পেট ফোলা", swelled_lymph_nodes: "লিম্ফ নোড ফুলে যাওয়া",
+  malaise: "অসুস্থ বোধ", blurred_and_distorted_vision: "ঝাপসা ও বিকৃত দৃষ্টি", phlegm: "কফ",
+  throat_irritation: "গলায় জ্বালা", redness_of_eyes: "চোখ লাল হওয়া", sinus_pressure: "সাইনাসে চাপ",
+  runny_nose: "নাক দিয়ে পানি পড়া", congestion: "নাক বন্ধ", chest_pain: "বুকে ব্যথা",
+  weakness_in_limbs: "হাত-পায়ে দুর্বলতা", fast_heart_rate: "দ্রুত হৃদস্পন্দন", pain_during_bowel_movements: "মলত্যাগের সময় ব্যথা",
+  pain_in_anal_region: "মলদ্বারে ব্যথা", bloody_stool: "পায়খানায় রক্ত", irritation_in_anus: "মলদ্বারে জ্বালা",
+  neck_pain: "ঘাড়ে ব্যথা", dizziness: "মাথা ঘোরা", cramps: "খিঁচুনি", bruising: "কালশিটে",
+  obesity: "স্থূলতা", swollen_legs: "পা ফুলে যাওয়া", swollen_blood_vessels: "রক্তনালি ফুলে যাওয়া",
+  puffy_face_and_eyes: "মুখ ও চোখ ফোলা", enlarged_thyroid: "থাইরয়েড বড় হওয়া", brittle_nails: "ভঙ্গুর নখ",
+  swollen_extremeties: "হাত-পা ফুলে যাওয়া", excessive_hunger: "অতিরিক্ত ক্ষুধা", extra_marital_contacts: "বিবাহবহির্ভূত সম্পর্ক",
+  drying_and_tingling_lips: "ঠোঁট শুষ্ক ও ঝিনঝিন", slurred_speech: "জড়ানো কথা", knee_pain: "হাঁটুতে ব্যথা",
+  hip_joint_pain: "নিতম্বের জয়েন্টে ব্যথা", muscle_weakness: "পেশির দুর্বলতা", stiff_neck: "ঘাড় শক্ত হয়ে যাওয়া",
+  swelling_joints: "জয়েন্ট ফুলে যাওয়া", movement_stiffness: "চলাফেরায় শক্তভাব", spinning_movements: "চারপাশ ঘোরা",
+  loss_of_balance: "ভারসাম্য হারানো", unsteadiness: "অস্থিরভাবে হাঁটা", weakness_of_one_body_side: "শরীরের এক পাশে দুর্বলতা",
+  loss_of_smell: "ঘ্রাণশক্তি কমে যাওয়া", bladder_discomfort: "মূত্রথলিতে অস্বস্তি", foul_smell_ofurine: "দুর্গন্ধযুক্ত প্রস্রাব",
+  continuous_feel_of_urine: "বারবার প্রস্রাবের অনুভূতি", passage_of_gases: "গ্যাস নির্গমন", internal_itching: "ভেতরে চুলকানি",
+  "toxic_look_(typhos)": "বিষাক্ত চেহারা", depression: "বিষণ্নতা", irritability: "খিটখিটে মেজাজ",
+  muscle_pain: "পেশিতে ব্যথা", altered_sensorium: "চেতনার পরিবর্তন", red_spots_over_body: "শরীরে লাল দাগ",
+  belly_pain: "পেটে ব্যথা", abnormal_menstruation: "অস্বাভাবিক মাসিক", dischromic_patches: "বর্ণ পরিবর্তিত দাগ",
+  watering_from_eyes: "চোখ দিয়ে পানি পড়া", increased_appetite: "ক্ষুধা বেড়ে যাওয়া", polyuria: "অতিরিক্ত প্রস্রাব",
+  family_history: "পারিবারিক ইতিহাস", mucoid_sputum: "শ্লেষ্মাযুক্ত কফ", rusty_sputum: "মরিচা রঙের কফ",
+  lack_of_concentration: "মনোযোগের অভাব", visual_disturbances: "দৃষ্টির সমস্যা", receiving_blood_transfusion: "রক্ত গ্রহণের ইতিহাস",
+  receiving_unsterile_injections: "অপরিষ্কার ইনজেকশন গ্রহণ", coma: "কোমা", stomach_bleeding: "পেটে রক্তক্ষরণ",
+  distention_of_abdomen: "পেট ফুলে থাকা", history_of_alcohol_consumption: "মদ্যপানের ইতিহাস", blood_in_sputum: "কফে রক্ত",
+  prominent_veins_on_calf: "পায়ের পেশিতে স্পষ্ট শিরা", palpitations: "হৃদস্পন্দন বেড়ে যাওয়া", painful_walking: "হাঁটলে ব্যথা",
+  pus_filled_pimples: "পুঁজভরা ব্রণ", blackheads: "ব্ল্যাকহেড", scurring: "ত্বকে আঁচড়ের দাগ",
+  skin_peeling: "ত্বক ওঠা", silver_like_dusting: "রুপালি আবরণ", small_dents_in_nails: "নখে ছোট গর্ত",
+  inflammatory_nails: "নখে প্রদাহ", blister: "ফোসকা", red_sore_around_nose: "নাকের পাশে লাল ঘা",
+  yellow_crust_ooze: "হলুদ খোসা ও তরল", prognosis: "রোগের পূর্বাভাস"
+};
+
+const LIFE_LINK_HEALTH_BN = {
+  "Urinary tract infection": "মূত্রনালির সংক্রমণ",
+  "Drug Reaction": "ওষুধের পার্শ্বপ্রতিক্রিয়া",
+  "Common Cold": "সাধারণ সর্দি",
+  "Gastroenteritis": "গ্যাস্ট্রোএন্টেরাইটিস",
+  "is an infection in any part of the urinary system.": "মূত্রনালির যেকোনো অংশে সংক্রমণ হলে এটি হয়।",
+  "Urinary tract infection is an infection in any part of the urinary system.": "মূত্রনালির যেকোনো অংশে সংক্রমণ হলে এই সংক্রমণ হয়।",
+  "Antibiotics": "অ্যান্টিবায়োটিক",
+  "Urinary analgesics": "মূত্রনালির ব্যথানাশক",
+  "Phenazopyridine": "ফেনাজোপাইরিডিন",
+  "Antispasmodics": "খিঁচুনি কমানোর ওষুধ",
+  "Probiotics": "প্রোবায়োটিক",
+  "UTI Diet": "মূত্রনালির সংক্রমণের খাদ্যাভ্যাস",
+  "Hydration": "পর্যাপ্ত পানি পান",
+  "Cranberry juice": "ক্র্যানবেরি জুস",
+  "Vitamin C-rich foods": "ভিটামিন সি সমৃদ্ধ খাবার",
+  "380": "৩৮০",
+  "Stay hydrated": "পর্যাপ্ত পানি পান করুন",
+  "drink plenty of water": "প্রচুর পানি পান করুন",
+  "increase vitamin C intake": "ভিটামিন সি গ্রহণ বাড়ান",
+  "drink cranberry juice": "ক্র্যানবেরি জুস পান করুন",
+  "take probiotics": "প্রোবায়োটিক গ্রহণ করুন",
+  "follow up": "নিয়মিত চিকিৎসকের পরামর্শ নিন",
+  "consult nearest hospital": "নিকটস্থ হাসপাতালে পরামর্শ নিন",
+  "stop taking drug": "ওষুধটি গ্রহণ বন্ধ করুন",
+  "Antihistamines": "অ্যান্টিহিস্টামিন",
+  "Epinephrine": "এপিনেফ্রিন",
+  "Corticosteroids": "কর্টিকোস্টেরয়েড",
+  "Antibiotics": "অ্যান্টিবায়োটিক"
+};
+
 (function initLanguageToggle() {
   const language = localStorage.getItem("lifelink_language") || "en";
   const translate = value => LIFE_LINK_TRANSLATIONS[language]?.[value] || value;
@@ -286,5 +364,11 @@ const LIFE_LINK_TRANSLATIONS = {
 
   window.lifeLinkTranslate = translatePage;
   window.lifeLinkText = translate;
+  window.lifeLinkSymptomLabel = symptom => language === "bn"
+    ? LIFE_LINK_SYMPTOMS_BN[symptom] || symptom.replaceAll("_", " ")
+    : symptom.replaceAll("_", " ").replace(/\b\w/g, c => c.toUpperCase());
+  window.lifeLinkHealthText = value => language === "bn"
+    ? LIFE_LINK_HEALTH_BN[String(value)] || String(value)
+    : String(value);
   window.lifeLinkLanguage = language;
 })();

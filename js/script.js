@@ -38,6 +38,18 @@ function uiText(message){
   return typeof lifeLinkText === "function" ? lifeLinkText(message) : message;
 }
 
+function symptomLabel(symptom){
+  return typeof lifeLinkSymptomLabel === "function"
+    ? lifeLinkSymptomLabel(symptom)
+    : pretty(symptom);
+}
+
+function healthText(value){
+  return typeof lifeLinkHealthText === "function"
+    ? lifeLinkHealthText(value)
+    : String(value);
+}
+
 async function initPrediction(){
   const list=document.getElementById("symptom-list");
   if(!list) return;
@@ -46,10 +58,10 @@ async function initPrediction(){
     const res=await fetch(`${API_BASE}/symptoms`);
     const data=await res.json();
     const items=data.symptoms||[];
-    list.innerHTML=items.map((s,i)=>`
+      list.innerHTML=items.map((s,i)=>`
       <label class="symptom-chip">
         <input type="checkbox" value="${escapeAttr(s)}">
-        <span>${pretty(s)}</span>
+        <span>${escapeHtml(symptomLabel(s))}</span>
       </label>`).join("");
   }catch(e){
    list.innerHTML="<div class='notice'>Unable to load symptoms. Please try again later.</div>";
@@ -60,7 +72,7 @@ async function initPrediction(){
   search?.addEventListener("input",()=>{
     const q=search.value.toLowerCase();
     list.querySelectorAll(".symptom-chip").forEach(x=>{
-      x.style.display=x.textContent.toLowerCase().includes(q)?"flex":"none";
+    x.style.display=x.textContent.toLowerCase().includes(q)?"flex":"none";
     });
   });
 
@@ -102,15 +114,15 @@ async function predictDisease(){
     const data=await res.json();
     if(!data.success) throw new Error(data.message||data.error||"Prediction failed");
 
-    document.getElementById("disease-name").textContent=data.disease;
+    document.getElementById("disease-name").textContent=healthText(data.disease);
     document.getElementById("model-name").textContent=data.model || model;
     document.getElementById("accuracy").textContent=data.accuracy!=null ? `${(data.accuracy*100).toFixed(2)}%` : "N/A";
-    document.getElementById("description").textContent=data.description||"No description available.";
+    document.getElementById("description").textContent=healthText(data.description||"No description available.");
     renderList("precautions",data.precautions);
     renderList("medications",data.medications);
     renderList("diet",data.diet);
     renderList("workout",data.workout);
-    document.getElementById("result-symptoms").textContent=selected.map(pretty).join(", ");
+    document.getElementById("result-symptoms").textContent=selected.map(symptomLabel).join(", ");
     result?.classList.add("visible");
     saveHistory(data,selected);
     requestAnimationFrame(()=>{
@@ -128,11 +140,14 @@ function renderList(id,items){
   const el=document.getElementById(id);
   if(!el)return;
   el.innerHTML=(items||[]).flatMap(item=>{
-    let v=String(item).trim();
-    if(v.startsWith("[")&&v.endsWith("]")){
-      try{const parsed=JSON.parse(v.replaceAll("'",'"')); if(Array.isArray(parsed))return parsed.map(x=>`<li>${escapeHtml(x)}</li>`)}catch(_){}
+    const value=String(item).trim();
+    if(value.startsWith("[")&&value.endsWith("]")){
+      try{
+        const parsed=JSON.parse(value.replaceAll("'",'"'));
+        if(Array.isArray(parsed))return parsed.map(itemValue=>`<li>${escapeHtml(healthText(itemValue))}</li>`);
+      }catch(_){ }
     }
-    return `<li>${escapeHtml(v)}</li>`;
+    return `<li>${escapeHtml(healthText(value))}</li>`;
   }).join("") || "<li>No information available.</li>";
 }
 
@@ -199,7 +214,7 @@ async function renderHistory(){
   }
 
   if(!h.length){box.innerHTML=`<div class="card"><p class="muted">${uiText("No prediction history yet.")}</p></div>`;return;}
-  box.innerHTML=h.map(x=>`<div class="card"><div class="result-title"><div><span class="badge">AI Prediction</span><h3 style="margin-top:8px">${escapeHtml(x.disease)}</h3></div><span class="muted">${escapeHtml(x.date||new Date(x.created_at).toLocaleString())}</span></div><p class="muted">${escapeHtml((Array.isArray(x.symptoms)?x.symptoms:[]).map(pretty).join(", "))}</p><div class="card-actions"><span class="badge">Model: ${escapeHtml(x.model||"RandomForest")}</span><span class="badge">Accuracy: ${x.accuracy!=null?(x.accuracy*100).toFixed(2)+"%":"N/A"}</span></div></div>`).join("");
+    box.innerHTML=h.map(x=>`<div class="card"><div class="result-title"><div><span class="badge">AI Prediction</span><h3 style="margin-top:8px">${escapeHtml(healthText(x.disease))}</h3></div><span class="muted">${escapeHtml(x.date||new Date(x.created_at).toLocaleString())}</span></div><p class="muted">${escapeHtml((Array.isArray(x.symptoms)?x.symptoms:[]).map(symptomLabel).join(", "))}</p><div class="card-actions"><span class="badge">Model: ${escapeHtml(x.model||"RandomForest")}</span><span class="badge">Accuracy: ${x.accuracy!=null?(x.accuracy*100).toFixed(2)+"%":"N/A"}</span></div></div>`).join("");
 }
 
 function pretty(s){return String(s).replaceAll("_"," ").replace(/\b\w/g,c=>c.toUpperCase())}
