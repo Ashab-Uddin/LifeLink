@@ -241,6 +241,26 @@ const LIFE_LINK_SYMPTOMS_BN = {
 };
 
 const LIFE_LINK_HEALTH_BN = {
+  "Allergy": "অ্যালার্জি",
+  "Allergy is an immune system reaction to a substance in the environment.": "পরিবেশের কোনো উপাদানের প্রতি রোগ প্রতিরোধ ক্ষমতার প্রতিক্রিয়াকে অ্যালার্জি বলা হয়।",
+  "apply calamine": "ক্যালামাইন লাগান",
+  "cover area with bandage": "স্থানটি ব্যান্ডেজ দিয়ে ঢেকে রাখুন",
+  "use ice to compress itching": "চুলকানি কমাতে বরফ দিয়ে সেঁক দিন",
+  "Decongestants": "নাক বন্ধভাব কমানোর ওষুধ",
+  "Immunotherapy": "ইমিউনোথেরাপি",
+  "Elimination Diet": "বর্জনমূলক খাদ্যাভ্যাস",
+  "Omega-3-rich foods": "ওমেগা-৩ সমৃদ্ধ খাবার",
+  "Quercetin-rich foods": "কোয়ারসেটিন সমৃদ্ধ খাবার",
+  "Avoid allergenic foods": "অ্যালার্জি সৃষ্টি করে এমন খাবার এড়িয়ে চলুন",
+  "Consume anti-inflammatory foods": "প্রদাহ কমায় এমন খাবার খান",
+  "Include omega-3 fatty acids": "ওমেগা-৩ ফ্যাটি অ্যাসিড যুক্ত খাবার রাখুন",
+  "Eat foods rich in vitamin C": "ভিটামিন সি সমৃদ্ধ খাবার খান",
+  "Include quercetin-rich foods": "কোয়ারসেটিন সমৃদ্ধ খাবার রাখুন",
+  "Consume local honey": "স্থানীয় মধু খান",
+  "Limit processed foods": "প্রক্রিয়াজাত খাবার কম খান",
+  "Include ginger in diet": "খাদ্যাভ্যাসে আদা রাখুন",
+  "Avoid artificial additives": "কৃত্রিম সংযোজক এড়িয়ে চলুন",
+  "Vitamin C-rich foods": "ভিটামিন সি সমৃদ্ধ খাবার",
   "Urinary tract infection": "মূত্রনালির সংক্রমণ",
   "Drug Reaction": "ওষুধের পার্শ্বপ্রতিক্রিয়া",
   "Common Cold": "সাধারণ সর্দি",
@@ -279,6 +299,24 @@ function normalizeLifeLinkSymptom(value) {
     .replace(/[\s-]+/g, "_")
     .replace(/[^a-z0-9_()]/g, "")
     .replace(/_+/g, "_");
+}
+
+function normalizeLifeLinkHealth(value) {
+  return String(value)
+    .trim()
+    .toLowerCase()
+    .replace(/[\u2013\u2014-]/g, " ")
+    .replace(/[^a-z0-9]+/g, " ")
+    .replace(/\s+/g, " ");
+}
+
+function translateLifeLinkHealth(value) {
+  const text = String(value);
+  if (LIFE_LINK_HEALTH_BN[text]) return LIFE_LINK_HEALTH_BN[text];
+  const normalized = normalizeLifeLinkHealth(text);
+  const match = Object.entries(LIFE_LINK_HEALTH_BN)
+    .find(([key]) => normalizeLifeLinkHealth(key) === normalized);
+  return match ? match[1] : text;
 }
 
 (function initLanguageToggle() {
@@ -381,7 +419,7 @@ function normalizeLifeLinkSymptom(value) {
       : String(symptom).replaceAll("_", " ").replace(/\b\w/g, c => c.toUpperCase());
   };
   window.lifeLinkHealthText = value => language === "bn"
-    ? LIFE_LINK_HEALTH_BN[String(value)] || String(value)
+    ? translateLifeLinkHealth(value)
     : String(value);
   window.lifeLinkLanguage = language;
 })();
