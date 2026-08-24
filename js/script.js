@@ -186,7 +186,7 @@ async function renderHistory(){
       .limit(20);
     if(error){
       console.error("Database history load error:",error);
-      box.innerHTML="<div class='notice'>Unable to load your prediction history.</div>";
+      box.innerHTML=`<div class="notice history-error"><strong>Unable to load your prediction history.</strong><span>${escapeHtml(error.message||"Database request failed.")}</span><small>Run SUPABASE_HISTORY_SETUP.sql in Supabase SQL Editor, then refresh this page.</small></div>`;
       return;
     }
     h=data||[];

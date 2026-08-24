@@ -960,6 +960,24 @@ textarea:focus {
 .progress-label strong { color: var(--primary); font: 800 22px "Plus Jakarta Sans" }
 .profile-side-column p { font-size: 13px }
 .profile-logout { width: 100%; margin-top: 8px }
+.profile-history-link { width: 100%; margin-top: 8px }
+
+.history-error {
+  display: grid;
+  gap: 7px
+}
+
+.history-error strong {
+  color: #735b14
+}
+
+.history-error span {
+  overflow-wrap: anywhere
+}
+
+.history-error small {
+  color: #8a7229
+}
 
 .crop-modal {
   position: fixed;
