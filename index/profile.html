@@ -128,12 +128,44 @@
                         <h3>Manage your session</h3>
                         <p class="muted">Sign out when you are finished using LifeLink on this device.</p>
                         <a class="btn btn-secondary profile-history-link" href="/index/history.html">View history</a>
+                        <button id="open-donor-form-btn" class="btn btn-primary profile-donor-link" type="button">Become a blood donor</button>
                         <button id="logout-btn" class="btn btn-outline profile-logout" type="button">Sign out</button>
                     </section>
                 </aside>
             </div>
         </div>
     </main>
+
+    <div id="donor-application-modal" class="crop-modal" hidden>
+        <div class="crop-dialog donor-dialog" role="dialog" aria-modal="true" aria-labelledby="donor-title">
+            <div class="crop-dialog-heading">
+                <div><span class="section-kicker">Give blood, save lives</span><h2 id="donor-title">Become a LifeLink donor</h2></div>
+                <button id="donor-close-btn" class="crop-close" type="button" aria-label="Close donor form">&times;</button>
+            </div>
+            <p class="muted donor-dialog-intro">Complete your details to appear on the LifeLink blood donor page.</p>
+            <form id="donor-form" class="form-grid">
+                <div class="field full"><label for="donor-name">Full name</label><input id="donor-name" type="text" autocomplete="name" required placeholder="Your name"></div>
+                <div class="field"><label for="donor-blood-group">Blood group</label><select id="donor-blood-group" required><option value="">Select blood group</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option></select></div>
+                <div class="field"><label for="donor-phone">Phone number</label><input id="donor-phone" type="tel" autocomplete="tel" required placeholder="01XXXXXXXXX"></div>
+                <div class="field"><label for="donor-location">City or area</label><input id="donor-location" type="text" autocomplete="address-level2" required placeholder="e.g. Mirpur, Dhaka"></div>
+                <div class="field"><label for="donor-last-donation">Last blood donation</label><input id="donor-last-donation" type="date" required><span class="field-hint">At least 3 months ago.</span></div>
+                <div class="field full"><label for="donor-notes">Availability or notes <span class="muted">(optional)</span></label><textarea id="donor-notes" rows="3" placeholder="Best time to contact you"></textarea></div>
+                <div class="donor-form-footer full"><p id="donor-message" class="profile-message" role="status"></p><button class="btn btn-primary" type="submit">Submit donor application</button></div>
+            </form>
+            <div id="donor-success" class="donor-success" hidden role="status">
+                <div class="donor-success-mark" aria-hidden="true">&#10003;</div>
+                <h3>Congratulations, you are now a donor!</h3>
+                <p>Your application has been added to the LifeLink blood donor page.</p>
+                <a class="btn btn-primary" href="/index/blood.html">View blood donors</a>
+            </div>
+            <div id="donor-existing" class="donor-existing" hidden role="status">
+                <div class="donor-existing-mark" aria-hidden="true">&#10003;</div>
+                <h3>Donor application already submitted</h3>
+                <p>This account is already listed on the LifeLink blood donor page.</p>
+                <a class="btn btn-secondary" href="/index/blood.html">View blood donors</a>
+            </div>
+        </div>
+    </div>
 
     <div id="profile-crop-modal" class="crop-modal" hidden>
         <div class="crop-dialog" role="dialog" aria-modal="true" aria-labelledby="crop-title">
@@ -172,6 +204,7 @@
 
     <!-- Profile JavaScript -->
     <script src="/js/profile.js"></script>
+    <script src="/js/blood.js"></script>
 
 </body>
 

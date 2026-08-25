@@ -68,6 +68,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     const cropCloseButton =
         document.getElementById("crop-close-btn");
 
+    const donorModal =
+        document.getElementById("donor-application-modal");
+
+    const openDonorFormButton =
+        document.getElementById("open-donor-form-btn");
+
+    const donorCloseButton =
+        document.getElementById("donor-close-btn");
+
 
     if (!profileForm) {
         return;
@@ -639,6 +648,27 @@ document.addEventListener("DOMContentLoaded", async () => {
         showMessage("Changes discarded.");
         setEditMode(false);
     });
+
+    openDonorFormButton.addEventListener("click", () => {
+        if (!currentUser) {
+            window.location.href = "/index/login.html";
+            return;
+        }
+        donorModal.hidden = false;
+        document.getElementById("donor-name")?.focus();
+    });
+
+    donorCloseButton.addEventListener("click", () => {
+        donorModal.hidden = true;
+    });
+
+    donorModal.addEventListener("click", event => {
+        if (event.target === donorModal) donorModal.hidden = true;
+    });
+
+    if (window.location.hash === "#donor-application-modal") {
+        donorModal.hidden = false;
+    }
 
     [profileName, profileBloodGroup].forEach(field => {
         field.addEventListener("input", updateProfileSummary);

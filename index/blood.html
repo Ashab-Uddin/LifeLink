@@ -66,10 +66,19 @@
           </p>
         </div>
 
+        <a class="btn btn-primary" href="/index/profile.html#donor-application-modal">Apply to donate</a>
+
       </div>
 
+      <div class="donor-list-heading">
+        <div>
+          <span class="section-kicker">Community donors</span>
+          <h2>Available blood donors</h2>
+        </div>
+        <p class="muted">Applications are shown after they are submitted.</p>
+      </div>
 
-      <div class="grid">
+      <div id="donor-list" class="grid">
 
         <!-- Donor 1 -->
         <article class="card">
@@ -183,6 +192,9 @@
 
   <script src="/js/i18n.js"></script>
   <script src="/js/script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/js/supabase.js"></script>
+  <script src="/js/blood.js"></script>
 
 </body>
 </html>
