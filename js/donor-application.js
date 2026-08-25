@@ -24,6 +24,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   if (application || localStorage.getItem(`lifelink_donor_application_${user.id}`) === "submitted") {
+    form.hidden = true;
+    success.hidden = true;
     existing.hidden = false;
     return;
   }

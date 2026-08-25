@@ -285,6 +285,28 @@ document.addEventListener("DOMContentLoaded", async () => {
     await checkExistingApplication(user);
   }
 
+  async function notifyDonorOfMatches(user) {
+    if (!user) return;
+    const notificationKey = `lifelink_last_notification_${user.id}`;
+    const { data: notifications } = await supabaseClient.from("blood_request_notifications")
+      .select("id,message,created_at,read_at").eq("recipient_user_id", user.id)
+      .is("read_at", null).order("created_at", { ascending: false }).limit(5);
+    if (!notifications?.length) return;
+    const latestNotification = notifications[0];
+    if (localStorage.getItem(notificationKey) === latestNotification.id) return;
+    localStorage.setItem(notificationKey, latestNotification.id);
+    if ("Notification" in window && Notification.permission === "granted") {
+      new Notification("LifeLink blood request match", { body: latestNotification.message });
+    }
+    if (message) showMessage(latestNotification.message);
+    else if (typeof toast === "function") toast(latestNotification.message);
+  }
+
+  if (user && donorList) {
+    await notifyDonorOfMatches(user);
+    window.setInterval(() => notifyDonorOfMatches(user), 30000);
+  }
+
   form?.addEventListener("submit", async event => {
     event.preventDefault();
     const { data: authData } = await supabaseClient.auth.getUser();

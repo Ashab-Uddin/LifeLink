@@ -679,6 +679,37 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     openDonorFormButton?.addEventListener("click", openDonorForm);
 
+    async function loadBloodActivity() {
+        const requestList = document.getElementById("profile-blood-requests");
+        const notificationList = document.getElementById("profile-blood-notifications");
+        if (!currentUser || !requestList || !notificationList) return;
+        const escape = value => String(value || "").replace(/[&<>'"]/g, character => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", "\"": "&quot;" }[character]));
+        const formatDate = value => value ? new Date(`${value}T00:00:00`).toLocaleDateString() : "Not provided";
+        const { data: requests, error: requestError } = await supabaseClient.from("blood_requests")
+            .select("patient_name,blood_group,district,donation_center,donation_date,blood_amount_bags,status")
+            .eq("user_id", currentUser.id).order("created_at", { ascending: false }).limit(10);
+        if (requestError || !requests?.length) requestList.innerHTML = `<p class="muted">No blood requests yet.</p>`;
+        else requestList.innerHTML = requests.map(request => `<article class="profile-activity-item"><strong>${escape(request.patient_name)}</strong><span>${escape(request.blood_group)} · ${escape(request.donation_center)}</span><small>${escape(request.district)} · ${formatDate(request.donation_date)} · ${escape(request.blood_amount_bags)} bag${Number(request.blood_amount_bags) === 1 ? "" : "s"}</small><b>${escape(request.status || "open")}</b></article>`).join("");
+
+        const { data: notifications, error: notificationError } = await supabaseClient.from("blood_request_notifications")
+            .select("id,message,created_at,read_at").eq("recipient_user_id", currentUser.id)
+            .order("created_at", { ascending: false }).limit(10);
+        if (notificationError || !notifications?.length) notificationList.innerHTML = `<p class="muted">No donor responses yet.</p>`;
+        else {
+            notificationList.innerHTML = notifications.map(notification => `<article class="profile-activity-item${notification.read_at ? "" : " is-new"}"><strong>${notification.read_at ? "Donor response" : "New donor response"}</strong><span>${escape(notification.message)}</span><small>${new Date(notification.created_at).toLocaleString()}</small></article>`).join("");
+            const unreadIds = notifications.filter(notification => !notification.read_at).map(notification => notification.id);
+            const latestUnread = notifications.find(notification => !notification.read_at);
+            const notificationKey = `lifelink_profile_notification_${currentUser.id}`;
+            if (latestUnread && localStorage.getItem(notificationKey) !== latestUnread.id) {
+                localStorage.setItem(notificationKey, latestUnread.id);
+                if (typeof toast === "function") toast(latestUnread.message, "success");
+                if ("Notification" in window && Notification.permission === "default") Notification.requestPermission();
+                if ("Notification" in window && Notification.permission === "granted") new Notification("LifeLink donor response", { body: latestUnread.message });
+            }
+            if (unreadIds.length) await supabaseClient.from("blood_request_notifications").update({ read_at: new Date().toISOString() }).in("id", unreadIds);
+        }
+    }
+
     document.getElementById("delete-donor-application-btn")?.addEventListener("click", async event => {
         if (!currentUser || !window.confirm("Delete your donor application?")) return;
         const button = event.currentTarget;
@@ -767,6 +798,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Start
 
     await loadProfile();
+    await loadBloodActivity();
+    window.setInterval(loadBloodActivity, 30000);
     if (window.location.hash === "#donor-application-modal") await openDonorForm();
 
 });

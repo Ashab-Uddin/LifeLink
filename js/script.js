@@ -31,10 +31,13 @@ document.addEventListener("DOMContentLoaded", () => {
   renderHistory();
 });
 
-function toast(message){
+function toast(message, type = ""){
   let t=document.querySelector(".toast");
   if(!t){t=document.createElement("div");t.className="toast";document.body.appendChild(t);}
-  t.textContent=message;t.classList.add("show");
+  t.textContent=message;
+  t.classList.toggle("toast-success", type === "success");
+  t.classList.toggle("toast-error", type === "error");
+  t.classList.add("show");
   setTimeout(()=>t.classList.remove("show"),2600);
 }
 
