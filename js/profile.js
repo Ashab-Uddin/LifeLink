@@ -683,14 +683,20 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (!currentUser || !window.confirm("Delete your donor application?")) return;
         const button = event.currentTarget;
         button.disabled = true;
-        const { error } = await supabaseClient
+        const { data: deletedRows, error } = await supabaseClient
             .from("blood_donor_applications")
             .delete()
-            .eq("user_id", currentUser.id);
+            .eq("user_id", currentUser.id)
+            .select("id");
         if (error) {
             console.error("Donor application delete error:", error);
             button.disabled = false;
             alert(error.message || "Unable to delete your donor application.");
+            return;
+        }
+        if (!deletedRows?.length) {
+            button.disabled = false;
+            alert("Your donor application could not be deleted. Run the donor setup SQL in Supabase first.");
             return;
         }
         localStorage.removeItem(`lifelink_donor_application_${currentUser.id}`);
