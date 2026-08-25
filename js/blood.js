@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const form = document.getElementById("donor-form");
   const donorList = document.getElementById("donor-list");
   const bloodTypeFilter = document.getElementById("blood-type-filter");
+  const detailsModal = document.getElementById("donor-details-modal");
   if (typeof supabaseClient === "undefined" || (!form && !donorList)) return;
 
   const fields = {
@@ -31,15 +32,35 @@ document.addEventListener("DOMContentLoaded", async () => {
           <p class="muted">${escapeHtml(donor.location)} · Available donor</p>
         </div></div>
         <div class="donor-card-footer"><span class="muted">${escapeHtml(initials)} · Last donated ${escapeHtml(new Date(donor.last_donation_date).toLocaleDateString())}</span>
-          <button class="btn btn-primary donor-contact-button" type="button" data-phone="${escapeAttr(donor.phone)}">Contact donor</button>
+          <button class="btn btn-primary donor-contact-button" type="button" data-name="${escapeAttr(donor.full_name)}" data-blood-group="${escapeAttr(donor.blood_group)}" data-phone="${escapeAttr(donor.phone)}" data-email="${escapeAttr(donor.email || "")}" data-location="${escapeAttr(donor.location)}" data-last-donation="${escapeAttr(donor.last_donation_date)}" data-notes="${escapeAttr(donor.notes || "")}">Contact donor</button>
         </div>
       </article>`;
     });
     if (cards.length) donorList.insertAdjacentHTML("afterbegin", cards.join(""));
-    donorList.querySelectorAll(".donor-contact-button").forEach(button => {
-      button.addEventListener("click", () => toast(`Contact: ${button.dataset.phone}`));
-    });
+    donorList.querySelectorAll(".donor-contact-button").forEach(button => button.addEventListener("click", () => showDonorDetails(button.dataset)));
   }
+
+  function showDonorDetails(donor) {
+    if (!detailsModal) return;
+    document.getElementById("donor-details-title").textContent = `Contact ${donor.name}`;
+    document.getElementById("donor-details-name").textContent = donor.name;
+    document.getElementById("donor-details-blood").textContent = donor.bloodGroup;
+    document.getElementById("donor-details-group").textContent = donor.bloodGroup;
+    const phone = document.getElementById("donor-details-phone");
+    phone.textContent = donor.phone || "Not provided";
+    phone.href = donor.phone ? `tel:${donor.phone}` : "#";
+    const email = document.getElementById("donor-details-email");
+    email.textContent = donor.email || "Not provided";
+    email.href = donor.email ? `mailto:${donor.email}` : "#";
+    document.getElementById("donor-details-location").textContent = donor.location || "Not provided";
+    document.getElementById("donor-details-last-donation").textContent = donor.lastDonation ? new Date(donor.lastDonation).toLocaleDateString() : "Not provided";
+    document.getElementById("donor-details-notes-text").textContent = donor.notes || "No additional notes.";
+    detailsModal.hidden = false;
+  }
+
+  document.querySelectorAll(".donor-contact-button").forEach(button => button.addEventListener("click", () => showDonorDetails(button.dataset)));
+  document.getElementById("donor-details-close")?.addEventListener("click", () => { detailsModal.hidden = true; });
+  detailsModal?.addEventListener("click", event => { if (event.target === detailsModal) detailsModal.hidden = true; });
 
   function filterDonors() {
     const selectedType = bloodTypeFilter?.querySelector(".blood-type-button.active")?.dataset.bloodType || "all";
@@ -50,7 +71,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   async function loadDonors() {
     const { data, error } = await supabaseClient.from("blood_donor_applications")
-      .select("full_name,blood_group,phone,location,last_donation_date")
+      .select("full_name,blood_group,phone,email,location,last_donation_date,notes")
       .eq("status", "available").order("created_at", { ascending: false });
     if (error) {
       console.error("Donor loading error:", error);
@@ -103,6 +124,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (await checkExistingApplication(authData.user)) return;
     const { error } = await supabaseClient.from("blood_donor_applications").insert({
       user_id: authData.user.id,
+      email: authData.user.email || "",
       ...Object.fromEntries(Object.entries(fields).map(([key, field]) => [key, field.value.trim()]))
     }, { onConflict: "user_id" });
     if (error) {

@@ -4,12 +4,15 @@ create table if not exists public.blood_donor_applications (
   full_name text not null,
   blood_group text not null,
   phone text not null,
+  email text,
   location text not null,
   last_donation_date date not null,
   notes text,
   status text not null default 'available',
   created_at timestamptz not null default now()
 );
+
+alter table public.blood_donor_applications add column if not exists email text;
 
 alter table public.blood_donor_applications enable row level security;
 

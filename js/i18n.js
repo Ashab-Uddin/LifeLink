@@ -382,6 +382,16 @@ function translateLifeLinkHealth(value) {
     actions.appendChild(languageSwitch);
 
     if (navbar) {
+      const mainLinks = document.createElement("div");
+      mainLinks.className = "navbar-main-links";
+      const homeLink = document.createElement("a");
+      homeLink.className = "nav-link";
+      homeLink.href = "/index/index.html";
+      homeLink.textContent = "Home";
+      mainLinks.appendChild(homeLink);
+      navbar.querySelectorAll(":scope > a:not(.brand)").forEach(link => mainLinks.appendChild(link));
+      navbar.appendChild(mainLinks);
+
       const authLinks = document.createElement("div");
       authLinks.className = "auth-links";
       authLinks.innerHTML = `

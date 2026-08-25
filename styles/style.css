@@ -66,8 +66,8 @@ img {
   border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 14px max(20px, calc((100% - 1180px)/2))
+  gap: 4px;
+  padding: 12px 28px
 }
 
 .navbar .brand {
@@ -75,10 +75,18 @@ img {
   font-size: 22px;
   font-weight: 800;
   color: var(--primary);
-  margin-right: auto;
+  margin-right: 0;
   display: flex;
   align-items: center;
   gap: 10px
+}
+
+.navbar-main-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  flex: 1 1 auto
 }
 
 .navbar .brand-mark {
@@ -93,7 +101,7 @@ img {
 }
 
 .navbar a {
-  padding: 10px 12px;
+  padding: 9px 9px;
   border-radius: 10px;
   color: var(--muted);
   font-weight: 600;
@@ -122,8 +130,9 @@ img {
 .navbar-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
-  flex: 0 0 auto
+  gap: 8px;
+  flex: 0 0 auto;
+  margin-left: auto
 }
 
 .language-switch {
@@ -194,7 +203,14 @@ img {
 }
 
 .auth-page > .navbar-actions .language-switch {
+  padding: 2px;
   box-shadow: 0 8px 20px rgba(16, 42, 67, .08)
+}
+
+.auth-page > .navbar-actions .language-switch button {
+  min-width: 26px;
+  padding: 3px 5px;
+  font-size: 10px
 }
 
 .language-toggle {
@@ -1127,6 +1143,17 @@ textarea:focus {
 .donor-card { display: flex; flex-direction: column; justify-content: space-between; gap: 20px }
 .donor-card-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 12px }
 .donor-card-footer .btn { min-height: 40px; padding: 9px 13px }
+.donor-details-dialog { width: min(560px, 100%); max-height: min(680px, calc(100vh - 40px)); overflow: auto }
+.donor-details-identity { display: flex; align-items: center; gap: 16px; padding: 4px 0 22px; border-bottom: 1px solid var(--border) }
+.donor-details-identity .avatar { width: 58px; height: 58px; font-size: 18px }
+.donor-details-identity h3 { margin: 0 0 5px; font: 700 20px "Plus Jakarta Sans" }
+.donor-details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 22px 0 }
+.donor-details-grid > div, .donor-details-notes { display: grid; gap: 4px; min-width: 0 }
+.donor-details-grid span, .donor-details-notes > span { color: var(--muted); font-size: 12px; font-weight: 700 }
+.donor-details-grid strong, .donor-details-grid a { overflow-wrap: anywhere; color: var(--text); font-size: 14px; font-weight: 700 }
+.donor-details-grid a { color: var(--primary) }
+.donor-details-notes { padding-top: 18px; border-top: 1px solid var(--border) }
+.donor-details-notes p { margin: 0; color: var(--text); font-size: 14px; overflow-wrap: anywhere }
 
 .history-error {
   display: grid;
@@ -1475,6 +1502,14 @@ textarea:focus {
     display: none
   }
 
+  .navbar-main-links {
+    display: none
+  }
+
+  .navbar.open .navbar-main-links {
+    display: flex
+  }
+
   .navbar .mobile-toggle {
     display: flex
   }
@@ -1517,7 +1552,7 @@ textarea:focus {
   .navbar {
     position: sticky;
     min-height: 65px;
-    padding-right: 20px;
+    padding: 12px 16px;
     flex-wrap: wrap
   }
 
@@ -1525,9 +1560,17 @@ textarea:focus {
     display: none
   }
 
-  .navbar.open a:not(.brand) {
+  .navbar.open .navbar-main-links a {
     display: block;
     width: 100%
+  }
+
+  .navbar-main-links {
+    order: 3;
+    flex-basis: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px
   }
 
   .navbar .mobile-toggle {
@@ -1631,6 +1674,7 @@ textarea:focus {
   .donor-list-heading p { margin-top: 6px }
   .donor-filter { display: block; margin-top: 16px }
   .blood-type-buttons { justify-content: flex-start; margin-top: 10px }
+  .donor-details-grid { grid-template-columns: 1fr }
 
   .profile-form-footer {
     align-items: stretch;

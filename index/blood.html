@@ -117,9 +117,16 @@
           </div>
 
           <button
-            class="btn btn-primary"
+            class="btn btn-primary donor-contact-button"
+            type="button"
+            data-name="Rahim Uddin"
+            data-blood-group="O+"
+            data-phone="01700000001"
+            data-email="rahim@example.com"
+            data-location="Mirpur 10"
+            data-last-donation="2026-01-15"
+            data-notes="Available for urgent blood donation."
             style="margin-top: 16px"
-            onclick="toast('Donor contact selected')"
           >
             Contact Donor
           </button>
@@ -151,9 +158,16 @@
           </div>
 
           <button
-            class="btn btn-primary"
+            class="btn btn-primary donor-contact-button"
+            type="button"
+            data-name="Sadia Akter"
+            data-blood-group="A-"
+            data-phone="01700000002"
+            data-email="sadia@example.com"
+            data-location="Dhanmondi"
+            data-last-donation="2025-12-20"
+            data-notes="Please contact before arranging a donation."
             style="margin-top: 16px"
-            onclick="toast('Donor contact selected')"
           >
             Contact Donor
           </button>
@@ -185,9 +199,16 @@
           </div>
 
           <button
-            class="btn btn-primary"
+            class="btn btn-primary donor-contact-button"
+            type="button"
+            data-name="Hasan Rahman"
+            data-blood-group="B+"
+            data-phone="01700000003"
+            data-email="hasan@example.com"
+            data-location="Mohammadpur"
+            data-last-donation="2026-02-01"
+            data-notes="Available on weekends."
             style="margin-top: 16px"
-            onclick="toast('Donor contact selected')"
           >
             Contact Donor
           </button>
@@ -202,6 +223,23 @@
 
 
   <div class="toast"></div>
+
+  <div id="donor-details-modal" class="crop-modal" hidden>
+    <div class="crop-dialog donor-details-dialog" role="dialog" aria-modal="true" aria-labelledby="donor-details-title">
+      <div class="crop-dialog-heading">
+        <div><span class="section-kicker">Donor details</span><h2 id="donor-details-title">Contact donor</h2></div>
+        <button id="donor-details-close" class="crop-close" type="button" aria-label="Close donor details">&times;</button>
+      </div>
+      <div class="donor-details-identity"><div id="donor-details-blood" class="avatar">O+</div><div><h3 id="donor-details-name">Donor name</h3><span id="donor-details-group" class="badge">Blood group</span></div></div>
+      <div class="donor-details-grid">
+        <div><span>Phone</span><a id="donor-details-phone" href="#">Not provided</a></div>
+        <div><span>Email</span><a id="donor-details-email" href="#">Not provided</a></div>
+        <div><span>Location</span><strong id="donor-details-location">Not provided</strong></div>
+        <div><span>Last donation</span><strong id="donor-details-last-donation">Not provided</strong></div>
+      </div>
+      <div class="donor-details-notes"><span>Notes</span><p id="donor-details-notes-text">No additional notes.</p></div>
+    </div>
+  </div>
 
   <script src="/js/i18n.js"></script>
   <script src="/js/script.js"></script>
