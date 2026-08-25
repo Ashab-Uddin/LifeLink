@@ -1,5 +1,6 @@
 const LIFE_LINK_TRANSLATIONS = {
   en: {
+    "Home": "Home",
     "Dashboard": "Dashboard",
     "AI Prediction": "AI Prediction",
     "Doctors": "Doctors",
@@ -96,6 +97,7 @@ const LIFE_LINK_TRANSLATIONS = {
     "Run SUPABASE_HISTORY_SETUP.sql in Supabase SQL Editor, then refresh this page.": "Run SUPABASE_HISTORY_SETUP.sql in Supabase SQL Editor, then refresh this page.",
   },
   bn: {
+    "Home": "হোম",
     "Dashboard": "ড্যাশবোর্ড",
     "AI Prediction": "এআই পূর্বাভাস",
     "Doctors": "ডাক্তার",
@@ -359,7 +361,7 @@ function translateLifeLinkHealth(value) {
   function addControls() {
     const navbar = document.querySelector(".navbar");
     const target = navbar || document.querySelector(".auth-page");
-    if (!target || document.getElementById("language-switch")) return;
+    if (!target || document.getElementById("signup-form") || document.getElementById("language-switch")) return;
 
     const actions = document.createElement("div");
     actions.className = "navbar-actions";

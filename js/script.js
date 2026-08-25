@@ -16,7 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const path = location.pathname.split("/").pop() || "index.html";
   document.querySelectorAll(".nav-link, .side-link").forEach(a => {
-    if (a.getAttribute("href") === path) a.classList.add("active");
+    const linkPath = new URL(a.href, location.origin).pathname.split("/").pop() || "index.html";
+    if (linkPath === path) a.classList.add("active");
   });
 
   document.querySelectorAll(".reveal").forEach(el => {
