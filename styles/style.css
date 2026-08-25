@@ -182,32 +182,6 @@ img {
   color: #fff
 }
 
-.navbar-more {
-  display: none;
-  width: 40px;
-  height: 40px;
-  padding: 0;
-  border: 1px solid var(--border);
-  border-radius: 11px;
-  background: #fff;
-  align-items: center;
-  justify-content: center;
-  gap: 3px;
-  flex-direction: column
-}
-
-.navbar-more span {
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: var(--primary)
-}
-
-.navbar-more:hover {
-  border-color: #9bd9d4;
-  background: var(--accent)
-}
-
 .auth-page > .navbar-actions {
   position: fixed;
   top: 22px;
@@ -1440,8 +1414,7 @@ textarea:focus {
     display: none
   }
 
-  .navbar .mobile-toggle,
-  .navbar .navbar-more {
+  .navbar .mobile-toggle {
     display: flex
   }
 
@@ -1483,7 +1456,7 @@ textarea:focus {
   .navbar {
     position: sticky;
     min-height: 65px;
-    padding-right: 116px;
+    padding-right: 20px;
     flex-wrap: wrap
   }
 

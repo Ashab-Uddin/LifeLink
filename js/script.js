@@ -7,7 +7,10 @@ const API_BASE =
 document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll("[data-menu-toggle]").forEach(btn => {
     btn.addEventListener("click", () => {
-      document.querySelector(".navbar")?.classList.toggle("open");
+      const navbar = document.querySelector(".navbar");
+      const isOpen = navbar?.classList.toggle("open") ?? false;
+      navbar?.classList.toggle("utilities-open", isOpen);
+      btn.setAttribute("aria-expanded", String(isOpen));
     });
   });
 

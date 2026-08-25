@@ -387,19 +387,7 @@ function translateLifeLinkHealth(value) {
       authLinks.innerHTML = `
         <a class="auth-signup" href="/index/signup.html">Sign up</a>`;
       actions.appendChild(authLinks);
-
-      const moreButton = document.createElement("button");
-      moreButton.className = "navbar-more";
-      moreButton.type = "button";
-      moreButton.setAttribute("aria-label", "Open more options");
-      moreButton.setAttribute("aria-expanded", "false");
-      moreButton.innerHTML = "<span></span><span></span><span></span>";
-      moreButton.addEventListener("click", () => {
-        const isOpen = navbar.classList.toggle("utilities-open");
-        moreButton.setAttribute("aria-expanded", String(isOpen));
-      });
       navbar.appendChild(actions);
-      navbar.appendChild(moreButton);
     } else {
       target.appendChild(actions);
     }
