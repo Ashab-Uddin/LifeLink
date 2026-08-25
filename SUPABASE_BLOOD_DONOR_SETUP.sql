@@ -13,6 +13,19 @@ create table if not exists public.blood_donor_applications (
 );
 
 alter table public.blood_donor_applications add column if not exists email text;
+alter table public.blood_donor_applications add column if not exists gender text;
+alter table public.blood_donor_applications add column if not exists date_of_birth date;
+alter table public.blood_donor_applications add column if not exists division text;
+alter table public.blood_donor_applications add column if not exists district text;
+alter table public.blood_donor_applications add column if not exists upazila text;
+alter table public.blood_donor_applications add column if not exists address text;
+alter table public.blood_donor_applications add column if not exists whatsapp text;
+alter table public.blood_donor_applications add column if not exists facebook text;
+alter table public.blood_donor_applications add column if not exists weight_kg numeric;
+alter table public.blood_donor_applications add column if not exists height text;
+alter table public.blood_donor_applications add column if not exists emergency_phone text;
+alter table public.blood_donor_applications add column if not exists medical_conditions text;
+alter table public.blood_donor_applications add column if not exists current_medications text;
 
 alter table public.blood_donor_applications enable row level security;
 
@@ -34,3 +47,9 @@ on public.blood_donor_applications for update
 to authenticated
 using (auth.uid() = user_id)
 with check (auth.uid() = user_id);
+
+drop policy if exists "Users can delete their own donor application" on public.blood_donor_applications;
+create policy "Users can delete their own donor application"
+on public.blood_donor_applications for delete
+to authenticated
+using (auth.uid() = user_id);

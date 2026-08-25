@@ -649,13 +649,57 @@ document.addEventListener("DOMContentLoaded", async () => {
         setEditMode(false);
     });
 
-    openDonorFormButton.addEventListener("click", () => {
+    async function openDonorForm() {
         if (!currentUser) {
             window.location.href = "/index/login.html";
             return;
         }
+        const donorForm = document.getElementById("donor-form");
+        const donorExisting = document.getElementById("donor-existing");
+        donorForm.hidden = true;
+        donorForm.style.display = "none";
+        donorExisting.hidden = true;
+        donorExisting.style.display = "none";
+        const { data, error } = await supabaseClient.from("blood_donor_applications")
+            .select("id").eq("user_id", currentUser.id).maybeSingle();
+        if (error) {
+            console.error("Donor application check error:", error);
+            return;
+        }
         donorModal.hidden = false;
+        if (data) {
+            donorExisting.hidden = false;
+            donorExisting.style.display = "";
+            return;
+        }
+        donorForm.hidden = false;
+        donorForm.style.display = "";
         document.getElementById("donor-name")?.focus();
+    }
+
+    openDonorFormButton.addEventListener("click", openDonorForm);
+
+    document.getElementById("delete-donor-application-btn")?.addEventListener("click", async event => {
+        if (!currentUser || !window.confirm("Delete your donor application?")) return;
+        const button = event.currentTarget;
+        button.disabled = true;
+        const { error } = await supabaseClient
+            .from("blood_donor_applications")
+            .delete()
+            .eq("user_id", currentUser.id);
+        if (error) {
+            console.error("Donor application delete error:", error);
+            button.disabled = false;
+            alert(error.message || "Unable to delete your donor application.");
+            return;
+        }
+        localStorage.removeItem(`lifelink_donor_application_${currentUser.id}`);
+        donorModal.hidden = true;
+        document.getElementById("donor-form").reset();
+        document.getElementById("donor-form").hidden = false;
+        document.getElementById("donor-form").style.display = "";
+        document.getElementById("donor-existing").hidden = true;
+        document.getElementById("donor-existing").style.display = "none";
     });
 
     donorCloseButton.addEventListener("click", () => {
@@ -665,10 +709,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     donorModal.addEventListener("click", event => {
         if (event.target === donorModal) donorModal.hidden = true;
     });
-
-    if (window.location.hash === "#donor-application-modal") {
-        donorModal.hidden = false;
-    }
 
     [profileName, profileBloodGroup].forEach(field => {
         field.addEventListener("input", updateProfileSummary);
@@ -721,5 +761,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Start
 
     await loadProfile();
+    if (window.location.hash === "#donor-application-modal") await openDonorForm();
 
 });

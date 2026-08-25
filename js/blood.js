@@ -10,11 +10,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     full_name: document.getElementById("blood-donor-name"),
     blood_group: document.getElementById("blood-donor-group"),
     phone: document.getElementById("blood-donor-phone"),
-    location: document.getElementById("blood-donor-location"),
+    location: document.getElementById("blood-donor-address"),
     last_donation_date: document.getElementById("blood-donor-last-donation"),
     notes: document.getElementById("blood-donor-notes")
   };
   const applicationMessage = document.getElementById("blood-donor-message");
+  const donorApplicationKey = userId => `lifelink_donor_application_${userId}`;
   if (typeof supabaseClient === "undefined" || (!form && !donorList)) return;
 
   const fields = {
@@ -36,6 +37,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       window.location.href = "/index/login.html";
       return;
     }
+    const locallySubmitted = localStorage.getItem(donorApplicationKey(user.id)) === "submitted";
     const { data, error } = await supabaseClient.from("blood_donor_applications")
       .select("id").eq("user_id", user.id).maybeSingle();
     if (error) {
@@ -43,9 +45,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
     applicationModal.hidden = false;
-    applicationForm.hidden = Boolean(data);
-    applicationExisting.hidden = !data;
-    if (!data) {
+    const alreadySubmitted = Boolean(data) || locallySubmitted;
+    applicationForm.hidden = alreadySubmitted;
+    applicationExisting.hidden = !alreadySubmitted;
+    applicationForm.style.display = alreadySubmitted ? "none" : "";
+    applicationExisting.style.display = alreadySubmitted ? "" : "none";
+    if (!alreadySubmitted) {
       applicationFields.full_name.value = user.user_metadata?.full_name || "";
       applicationFields.full_name.focus();
     }
@@ -53,6 +58,25 @@ document.addEventListener("DOMContentLoaded", async () => {
   document.getElementById("blood-donor-close")?.addEventListener("click", () => { applicationModal.hidden = true; });
   document.getElementById("blood-donor-existing-close")?.addEventListener("click", () => { applicationModal.hidden = true; });
   applicationModal?.addEventListener("click", event => { if (event.target === applicationModal) applicationModal.hidden = true; });
+
+  function applicationExtraFields() {
+    const value = id => document.getElementById(id)?.value.trim() || null;
+    return {
+      gender: value("blood-donor-gender"),
+      date_of_birth: value("blood-donor-date-of-birth"),
+      division: value("blood-donor-division"),
+      district: value("blood-donor-district"),
+      upazila: value("blood-donor-upazila"),
+      address: value("blood-donor-address"),
+      whatsapp: value("blood-donor-whatsapp"),
+      facebook: value("blood-donor-facebook"),
+      weight_kg: value("blood-donor-weight"),
+      height: value("blood-donor-height"),
+      emergency_phone: value("blood-donor-emergency-phone"),
+      medical_conditions: value("blood-donor-medical-conditions"),
+      current_medications: value("blood-donor-medications")
+    };
+  }
 
   applicationForm?.addEventListener("submit", async event => {
     event.preventDefault();
@@ -66,6 +90,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (existingApplication) {
       applicationForm.hidden = true;
       applicationExisting.hidden = false;
+      applicationForm.style.display = "none";
+      applicationExisting.style.display = "";
       return;
     }
     const donationDate = new Date(applicationFields.last_donation_date.value);
@@ -77,7 +103,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     const { error } = await supabaseClient.from("blood_donor_applications").insert({
       user_id: user.id,
       email: user.email || "",
-      ...Object.fromEntries(Object.entries(applicationFields).map(([key, field]) => [key, field.value.trim()]))
+      ...Object.fromEntries(Object.entries(applicationFields).map(([key, field]) => [key, field.value.trim()])),
+      ...applicationExtraFields()
     });
     if (error) {
       applicationMessage.textContent = error.message || "Unable to submit your application.";
@@ -85,6 +112,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     applicationForm.hidden = true;
     applicationExisting.hidden = false;
+    applicationForm.style.display = "none";
+    applicationExisting.style.display = "";
+    localStorage.setItem(donorApplicationKey(user.id), "submitted");
   });
 
   function showMessage(text, isError = false) {
@@ -132,9 +162,26 @@ document.addEventListener("DOMContentLoaded", async () => {
   detailsModal?.addEventListener("click", event => { if (event.target === detailsModal) detailsModal.hidden = true; });
 
   function filterDonors() {
-    const selectedType = bloodTypeFilter?.querySelector(".blood-type-button.active")?.dataset.bloodType || "all";
+    const query = document.getElementById("donor-search")?.value.trim().toLowerCase() || "";
+    const selectedType = document.getElementById("donor-filter-blood")?.value || "all";
+    const selectedDate = document.getElementById("donor-filter-date")?.value || "";
+    let visibleCount = 0;
     donorList?.querySelectorAll(".donor-card").forEach(card => {
-      card.hidden = selectedType !== "all" && card.dataset.bloodGroup !== selectedType;
+      const contactButton = card.querySelector(".donor-contact-button");
+      const searchableText = card.textContent.toLowerCase();
+      const matchesSearch = !query || searchableText.includes(query);
+      const matchesType = selectedType === "all" || card.dataset.bloodGroup === selectedType;
+      const matchesDate = !selectedDate || (contactButton?.dataset.lastDonation || "") <= selectedDate;
+      const visible = matchesSearch && matchesType && matchesDate;
+      card.hidden = !visible;
+      if (visible) visibleCount += 1;
+    });
+    const count = document.getElementById("donor-result-count");
+    if (count) count.textContent = `${visibleCount} donor${visibleCount === 1 ? "" : "s"}`;
+    document.querySelectorAll("#blood-type-filter .blood-type-button").forEach(button => {
+      const active = button.dataset.bloodType === selectedType;
+      button.classList.toggle("active", active);
+      button.setAttribute("aria-pressed", String(active));
     });
   }
 
@@ -207,15 +254,28 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   if (donorList) await loadDonors();
-  bloodTypeFilter?.querySelectorAll(".blood-type-button").forEach(button => {
+  document.getElementById("donor-search-button")?.addEventListener("click", filterDonors);
+  document.getElementById("donor-search")?.addEventListener("input", filterDonors);
+  document.querySelectorAll("#blood-type-filter .blood-type-button").forEach(button => {
     button.addEventListener("click", () => {
-      bloodTypeFilter.querySelectorAll(".blood-type-button").forEach(item => {
-        const isActive = item === button;
-        item.classList.toggle("active", isActive);
-        item.setAttribute("aria-pressed", String(isActive));
-      });
+      const bloodFilter = document.getElementById("donor-filter-blood");
+      if (bloodFilter) bloodFilter.value = button.dataset.bloodType;
       filterDonors();
     });
+  });
+  document.getElementById("apply-donor-filters")?.addEventListener("click", filterDonors);
+  document.getElementById("reset-donor-filters")?.addEventListener("click", () => {
+    ["donor-search", "donor-filter-district", "donor-filter-upazila", "donor-filter-date"].forEach(id => {
+      const input = document.getElementById(id);
+      if (input) input.value = "";
+    });
+    ["donor-filter-blood", "donor-filter-gender", "donor-filter-division"].forEach(id => {
+      const select = document.getElementById(id);
+      if (select) select.value = "all";
+    });
+    const eligible = document.getElementById("donor-filter-eligible");
+    if (eligible) eligible.checked = false;
+    filterDonors();
   });
   filterDonors();
 });

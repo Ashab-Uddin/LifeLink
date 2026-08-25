@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -73,28 +74,51 @@
 
       </div>
 
-      <div class="donor-list-heading">
-        <div>
-          <span class="section-kicker">Community donors</span>
-          <h2>Available blood donors</h2>
-        </div>
-        <div class="donor-filter" aria-label="Filter donors by blood type">
-          <span>Blood type</span>
-          <div id="blood-type-filter" class="blood-type-buttons" role="group" aria-label="Blood type filters">
-            <button class="blood-type-button active" type="button" data-blood-type="all" aria-pressed="true">All types</button>
-            <button class="blood-type-button" type="button" data-blood-type="A+" aria-pressed="false">A+</button>
-            <button class="blood-type-button" type="button" data-blood-type="A-" aria-pressed="false">A-</button>
-            <button class="blood-type-button" type="button" data-blood-type="B+" aria-pressed="false">B+</button>
-            <button class="blood-type-button" type="button" data-blood-type="B-" aria-pressed="false">B-</button>
-            <button class="blood-type-button" type="button" data-blood-type="AB+" aria-pressed="false">AB+</button>
-            <button class="blood-type-button" type="button" data-blood-type="AB-" aria-pressed="false">AB-</button>
-            <button class="blood-type-button" type="button" data-blood-type="O+" aria-pressed="false">O+</button>
-            <button class="blood-type-button" type="button" data-blood-type="O-" aria-pressed="false">O-</button>
-          </div>
-        </div>
+      <div class="donor-search-row">
+        <label class="sr-only" for="donor-search">Search donors</label>
+        <input id="donor-search" type="search" placeholder="Search by name, location, or blood group...">
+        <button id="donor-search-button" class="btn btn-primary" type="button">Search</button>
       </div>
 
-      <div id="donor-list" class="grid">
+      <div id="blood-type-filter" class="quick-blood-filter" role="group" aria-label="Quick blood type filter">
+        <span>Blood type</span>
+        <button class="blood-type-button active" type="button" data-blood-type="all" aria-pressed="true">All types</button>
+        <button class="blood-type-button" type="button" data-blood-type="A+" aria-pressed="false">A+</button>
+        <button class="blood-type-button" type="button" data-blood-type="A-" aria-pressed="false">A-</button>
+        <button class="blood-type-button" type="button" data-blood-type="B+" aria-pressed="false">B+</button>
+        <button class="blood-type-button" type="button" data-blood-type="B-" aria-pressed="false">B-</button>
+        <button class="blood-type-button" type="button" data-blood-type="AB+" aria-pressed="false">AB+</button>
+        <button class="blood-type-button" type="button" data-blood-type="AB-" aria-pressed="false">AB-</button>
+        <button class="blood-type-button" type="button" data-blood-type="O+" aria-pressed="false">O+</button>
+        <button class="blood-type-button" type="button" data-blood-type="O-" aria-pressed="false">O-</button>
+      </div>
+
+      <div class="donor-browser">
+        <aside class="donor-filters" aria-label="Filter donors">
+          <h3>Find a donor</h3>
+          <label for="donor-filter-blood">Blood group</label>
+          <select id="donor-filter-blood"><option value="all">All</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option></select>
+          <label for="donor-filter-gender">Gender</label>
+          <select id="donor-filter-gender"><option value="all">All</option><option>Male</option><option>Female</option><option>Other</option></select>
+          <label for="donor-filter-division">Division</label>
+          <select id="donor-filter-division"><option value="all">Select division</option><option>Barisal</option><option>Chattogram</option><option>Dhaka</option><option>Khulna</option><option>Mymensingh</option><option>Rajshahi</option><option>Rangpur</option><option>Sylhet</option></select>
+          <label for="donor-filter-district">District</label>
+          <input id="donor-filter-district" type="text" placeholder="Select district">
+          <label for="donor-filter-upazila">Upazila</label>
+          <input id="donor-filter-upazila" type="text" placeholder="Select upazila">
+          <label for="donor-filter-date">Last donation before</label>
+          <input id="donor-filter-date" type="date">
+          <label class="filter-check"><input id="donor-filter-eligible" type="checkbox"> Eligible donors only</label>
+          <button id="apply-donor-filters" class="btn btn-primary" type="button">Apply filters</button>
+          <button id="reset-donor-filters" class="btn btn-outline" type="button">Reset filters</button>
+        </aside>
+
+        <section class="donor-results">
+          <div class="donor-list-heading">
+            <div><span class="section-kicker">Community donors</span><h2>Available blood donors</h2></div>
+            <span id="donor-result-count" class="muted"></span>
+          </div>
+          <div id="donor-list" class="grid">
 
         <!-- Donor 1 -->
         <article class="card donor-card" data-blood-group="O+">
@@ -119,18 +143,9 @@
 
           </div>
 
-          <button
-            class="btn btn-primary donor-contact-button"
-            type="button"
-            data-name="Rahim Uddin"
-            data-blood-group="O+"
-            data-phone="01700000001"
-            data-email="rahim@example.com"
-            data-location="Mirpur 10"
-            data-last-donation="2026-01-15"
-            data-notes="Available for urgent blood donation."
-            style="margin-top: 16px"
-          >
+          <button class="btn btn-primary donor-contact-button" type="button" data-name="Rahim Uddin"
+            data-blood-group="O+" data-phone="01700000001" data-email="rahim@example.com" data-location="Mirpur 10"
+            data-last-donation="2026-01-15" data-notes="Available for urgent blood donation." style="margin-top: 16px">
             Contact Donor
           </button>
 
@@ -160,18 +175,10 @@
 
           </div>
 
-          <button
-            class="btn btn-primary donor-contact-button"
-            type="button"
-            data-name="Sadia Akter"
-            data-blood-group="A-"
-            data-phone="01700000002"
-            data-email="sadia@example.com"
-            data-location="Dhanmondi"
-            data-last-donation="2025-12-20"
-            data-notes="Please contact before arranging a donation."
-            style="margin-top: 16px"
-          >
+          <button class="btn btn-primary donor-contact-button" type="button" data-name="Sadia Akter"
+            data-blood-group="A-" data-phone="01700000002" data-email="sadia@example.com" data-location="Dhanmondi"
+            data-last-donation="2025-12-20" data-notes="Please contact before arranging a donation."
+            style="margin-top: 16px">
             Contact Donor
           </button>
 
@@ -201,23 +208,16 @@
 
           </div>
 
-          <button
-            class="btn btn-primary donor-contact-button"
-            type="button"
-            data-name="Hasan Rahman"
-            data-blood-group="B+"
-            data-phone="01700000003"
-            data-email="hasan@example.com"
-            data-location="Mohammadpur"
-            data-last-donation="2026-02-01"
-            data-notes="Available on weekends."
-            style="margin-top: 16px"
-          >
+          <button class="btn btn-primary donor-contact-button" type="button" data-name="Hasan Rahman"
+            data-blood-group="B+" data-phone="01700000003" data-email="hasan@example.com" data-location="Mohammadpur"
+            data-last-donation="2026-02-01" data-notes="Available on weekends." style="margin-top: 16px">
             Contact Donor
           </button>
 
         </article>
 
+          </div>
+        </section>
       </div>
 
     </div>
@@ -230,34 +230,113 @@
   <div id="donor-details-modal" class="crop-modal" hidden>
     <div class="crop-dialog donor-details-dialog" role="dialog" aria-modal="true" aria-labelledby="donor-details-title">
       <div class="crop-dialog-heading">
-        <div><span class="section-kicker">Donor details</span><h2 id="donor-details-title">Contact donor</h2></div>
-        <button id="donor-details-close" class="crop-close" type="button" aria-label="Close donor details">&times;</button>
+        <div><span class="section-kicker">Donor details</span>
+          <h2 id="donor-details-title">Contact donor</h2>
+        </div>
+        <button id="donor-details-close" class="crop-close" type="button"
+          aria-label="Close donor details">&times;</button>
       </div>
-      <div class="donor-details-identity"><div id="donor-details-blood" class="avatar">O+</div><div><h3 id="donor-details-name">Donor name</h3><span id="donor-details-group" class="badge">Blood group</span></div></div>
+      <div class="donor-details-identity">
+        <div id="donor-details-blood" class="avatar">O+</div>
+        <div>
+          <h3 id="donor-details-name">Donor name</h3><span id="donor-details-group" class="badge">Blood group</span>
+        </div>
+      </div>
       <div class="donor-details-grid">
         <div><span>Phone</span><a id="donor-details-phone" href="#">Not provided</a></div>
         <div><span>Email</span><a id="donor-details-email" href="#">Not provided</a></div>
         <div><span>Location</span><strong id="donor-details-location">Not provided</strong></div>
         <div><span>Last donation</span><strong id="donor-details-last-donation">Not provided</strong></div>
       </div>
-      <div class="donor-details-notes"><span>Notes</span><p id="donor-details-notes-text">No additional notes.</p></div>
+      <div class="donor-details-notes"><span>Notes</span>
+        <p id="donor-details-notes-text">No additional notes.</p>
+      </div>
     </div>
   </div>
 
   <div id="blood-donor-application-modal" class="crop-modal" hidden>
     <div class="crop-dialog donor-dialog" role="dialog" aria-modal="true" aria-labelledby="blood-donor-title">
-      <div class="crop-dialog-heading"><div><span class="section-kicker">Give blood, save lives</span><h2 id="blood-donor-title">Become a LifeLink donor</h2></div><button id="blood-donor-close" class="crop-close" type="button" aria-label="Close donor form">&times;</button></div>
+      <div class="crop-dialog-heading">
+        <div><span class="section-kicker">Give blood, save lives</span>
+          <h2 id="blood-donor-title">Become a LifeLink donor</h2>
+        </div><button id="blood-donor-close" class="crop-close" type="button"
+          aria-label="Close donor form">&times;</button>
+      </div>
       <p class="muted donor-dialog-intro">Complete your details to appear on the LifeLink blood donor page.</p>
       <form id="blood-donor-form" class="form-grid" hidden>
-        <div class="field full"><label for="blood-donor-name">Full name</label><input id="blood-donor-name" type="text" required placeholder="Your name"></div>
-        <div class="field"><label for="blood-donor-group">Blood group</label><select id="blood-donor-group" required><option value="">Select blood group</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option></select></div>
-        <div class="field"><label for="blood-donor-phone">Phone number</label><input id="blood-donor-phone" type="tel" required placeholder="01XXXXXXXXX"></div>
-        <div class="field"><label for="blood-donor-location">City or area</label><input id="blood-donor-location" type="text" required placeholder="e.g. Mirpur, Dhaka"></div>
-        <div class="field"><label for="blood-donor-last-donation">Last blood donation</label><input id="blood-donor-last-donation" type="date" required><span class="field-hint">At least 3 months ago.</span></div>
-        <div class="field full"><label for="blood-donor-notes">Availability or notes <span class="muted">(optional)</span></label><textarea id="blood-donor-notes" rows="3" placeholder="Best time to contact you"></textarea></div>
-        <div class="donor-form-footer full"><p id="blood-donor-message" class="profile-message" role="status"></p><button class="btn btn-primary" type="submit">Submit donor application</button></div>
+        <div class="field full"><label for="blood-donor-name">Name</label><input id="blood-donor-name" type="text"
+            required placeholder="Your name"></div>
+        <div class="field"><label for="blood-donor-group">Blood group</label><select id="blood-donor-group" required>
+            <option value="">Select blood group</option>
+            <option>A+</option>
+            <option>A-</option>
+            <option>B+</option>
+            <option>B-</option>
+            <option>AB+</option>
+            <option>AB-</option>
+            <option>O+</option>
+            <option>O-</option>
+          </select></div>
+        <div class="field"><label for="blood-donor-gender">Gender</label><select id="blood-donor-gender">
+            <option value="">Select gender</option>
+            <option>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+          </select></div>
+        <div class="field"><label for="blood-donor-date-of-birth">Date of birth</label><input
+            id="blood-donor-date-of-birth" type="date"></div>
+        <div class="field"><label for="blood-donor-last-donation">Last donation date</label><input
+            id="blood-donor-last-donation" type="date" required><span class="field-hint">At least 3 months ago.</span>
+        </div>
+        <div class="field"><label for="blood-donor-division">Division</label><select id="blood-donor-division">
+            <option value="">Select division</option>
+            <option>Barisal</option>
+            <option>Chattogram</option>
+            <option>Dhaka</option>
+            <option>Khulna</option>
+            <option>Mymensingh</option>
+            <option>Rajshahi</option>
+            <option>Rangpur</option>
+            <option>Sylhet</option>
+          </select></div>
+        <div class="field"><label for="blood-donor-district">District</label><input id="blood-donor-district"
+            type="text" placeholder="Your district"></div>
+        <div class="field"><label for="blood-donor-upazila">Upazila</label><input id="blood-donor-upazila" type="text"
+            placeholder="Your upazila"></div>
+        <div class="field full"><label for="blood-donor-address">Address</label><input id="blood-donor-address"
+            type="text" required placeholder="Your address"></div>
+        <div class="field"><label for="blood-donor-phone">Phone number</label><input id="blood-donor-phone" type="tel"
+            required placeholder="01XXXXXXXXX"></div>
+        <div class="field"><label for="blood-donor-whatsapp">WhatsApp number</label><input id="blood-donor-whatsapp"
+            type="tel" placeholder="01XXXXXXXXX"></div>
+        <div class="field"><label for="blood-donor-facebook">Facebook profile link</label><input
+            id="blood-donor-facebook" type="url" placeholder="https://www.facebook.com"></div>
+        <div class="field"><label for="blood-donor-weight">Weight (kg)</label><input id="blood-donor-weight"
+            type="number" min="1" placeholder="50"></div>
+        <div class="field"><label for="blood-donor-height">Height (ft/in)</label><input id="blood-donor-height"
+            type="text" placeholder="5.4"></div>
+        <div class="field full"><label for="blood-donor-emergency-phone">Emergency contact phone</label><input
+            id="blood-donor-emergency-phone" type="tel" placeholder="Emergency contact phone"></div>
+        <div class="field full"><label for="blood-donor-medical-conditions">Medical conditions <span class="muted">(if
+              any)</span></label><textarea id="blood-donor-medical-conditions" rows="2"
+            placeholder="List any medical conditions you have"></textarea></div>
+        <div class="field full"><label for="blood-donor-medications">Current medications <span class="muted">(if
+              any)</span></label><textarea id="blood-donor-medications" rows="2"
+            placeholder="List any medications you are currently taking"></textarea></div>
+        <label class="donor-awareness full"><input id="blood-donor-awareness" type="checkbox"
+            required><span><strong>Awareness</strong> If you read them, agree.<small>By checking this box, you agree to
+              our Terms of Service and Privacy Policy.</small></span></label>
+        <div class="donor-form-footer full">
+          <p id="blood-donor-message" class="profile-message" role="status"></p><button class="btn btn-primary"
+            type="submit">Submit donor application</button>
+        </div>
       </form>
-      <div id="blood-donor-existing" class="donor-existing" hidden role="status"><div class="donor-existing-mark" aria-hidden="true">&#10003;</div><h3>Donor application already submitted</h3><p>This account is already listed on the LifeLink blood donor page.</p><button id="blood-donor-existing-close" class="btn btn-secondary" type="button">Close</button></div>
+      <div id="blood-donor-existing" class="donor-existing" hidden role="status">
+        <div class="donor-existing-mark" aria-hidden="true">&#10003;</div>
+        <h3>Donor application already submitted</h3>
+        <p>This account is already listed on the LifeLink blood donor page.</p><button id="blood-donor-existing-close"
+          class="btn btn-secondary" type="button">Close</button>
+      </div>
     </div>
   </div>
 
@@ -268,4 +347,5 @@
   <script src="/js/blood.js?v=20260826-final"></script>
 
 </body>
+
 </html>
