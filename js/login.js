@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!email || !password) {
 
-            alert("Please enter your email and password.");
+            alert(window.lifeLinkText ? window.lifeLinkText("Please enter your email and password.") : "Please enter your email and password.");
 
             return;
         }
@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             console.log("Login successful:", data);
 
-            alert("Login successful!");
+            alert(window.lifeLinkText ? window.lifeLinkText("Login successful!") : "Login successful!");
 
             window.location.href =
                 "/index/index.html";
@@ -108,11 +108,11 @@ if (loginPassword && loginPasswordToggle) {
         if (loginPassword.type === "password") {
             loginPassword.type = "text";
             loginPasswordToggle.textContent = "🙈";
-            loginPasswordToggle.setAttribute("aria-label", "Hide password");
+            loginPasswordToggle.setAttribute("aria-label", window.lifeLinkText ? window.lifeLinkText("Hide password") : "Hide password");
         } else {
             loginPassword.type = "password";
             loginPasswordToggle.textContent = "👁";
-            loginPasswordToggle.setAttribute("aria-label", "Show password");
+            loginPasswordToggle.setAttribute("aria-label", window.lifeLinkText ? window.lifeLinkText("Show password") : "Show password");
         }
 
     });

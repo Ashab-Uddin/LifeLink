@@ -8,6 +8,7 @@ const LIFE_LINK_TRANSLATIONS = {
     "Blood Donor": "Blood Donor",
     "My Profile": "My Profile",
     "Emergency": "Emergency",
+    "LifeLink": "LifeLink",
     "Welcome back": "Welcome back",
     "Sign in to continue to LifeLink.": "Sign in to continue to LifeLink.",
     "Email": "Email",
@@ -112,6 +113,67 @@ const LIFE_LINK_TRANSLATIONS = {
     "Unable to load your prediction history.": "Unable to load your prediction history.",
     "Database request failed.": "Database request failed.",
     "Run SUPABASE_HISTORY_SETUP.sql in Supabase SQL Editor, then refresh this page.": "Run SUPABASE_HISTORY_SETUP.sql in Supabase SQL Editor, then refresh this page.",
+    "LifeLink Dashboard": "LifeLink Dashboard",
+    "Personal health space": "Personal health space",
+    "One profile, better context": "One profile, better context",
+    "Your information stays connected to your LifeLink tools.": "Your information stays connected to your LifeLink tools.",
+    "LifeLink member": "LifeLink member",
+    "Active account": "Active account",
+    "Blood group not set": "Blood group not set",
+    "Loading account...": "Loading account...",
+    "Visible text": "Visible text",
+    "Filters": "Filters",
+    "Blood type": "Blood type",
+    "All types": "All types",
+    "Eligible": "Eligible",
+    "Search donors": "Search donors",
+    "Search by name, location, or blood group...": "Search by name, location, or blood group...",
+    "Request donor": "Blood Request",
+    "All requests": "All requests",
+    "Apply to donate": "Apply to donate",
+    "Community donors": "Community donors",
+    "Available blood donors": "Available blood donors",
+    "Find a donor": "Find a donor",
+    "Add the basics that help LifeLink personalize your experience.": "Add the basics that help LifeLink personalize your experience.",
+    "Your sign-in email cannot be changed here.": "Your sign-in email cannot be changed here.",
+    "Ready to improve": "Ready to improve",
+    "Account setup": "Account setup",
+    "Manage your session": "Manage your session",
+    "Sign out when you are finished using LifeLink on this device.": "Sign out when you are finished using LifeLink on this device.",
+    "Blood support": "Blood support",
+    "My blood activity": "My blood activity",
+    "Track your requests and donor responses in one place.": "Track your requests and donor responses in one place.",
+    "My blood requests": "My blood requests",
+    "Donor responses": "Donor responses",
+    "Loading requests...": "Loading requests...",
+    "Loading notifications...": "Loading notifications...",
+    "No blood requests yet.": "No blood requests yet.",
+    "No donor responses yet.": "No donor responses yet.",
+    "Request blood": "Request blood",
+    "Become a blood donor": "Become a blood donor",
+    "Give blood, save lives": "Give blood, save lives",
+    "Become a LifeLink donor": "Become a LifeLink donor",
+    "Complete your details to appear on the LifeLink blood donor page.": "Complete your details to appear on the LifeLink blood donor page.",
+    "At least 3 months ago.": "At least 3 months ago.",
+    "Profile photo": "Profile photo",
+    "Adjust your photo": "Adjust your photo",
+    "Drag the image to position it inside the circle.": "Drag the image to position it inside the circle.",
+    "Use photo": "Use photo",
+    "New to LifeLink?": "New to LifeLink?",
+    "Create an account": "Create an account",
+    "Show password": "Show password",
+    "Hide password": "Hide password",
+    "Please enter your email and password.": "Please enter your email and password.",
+    "Login successful!": "Login successful!",
+    "Please fill in all fields.": "Please fill in all fields.",
+    "Password must be at least 6 characters.": "Password must be at least 6 characters.",
+    "Account created successfully!": "Account created successfully!",
+    "Please check your email and verify your account.": "Please check your email and verify your account.",
+    "Something went wrong. Please try again.": "Something went wrong. Please try again.",
+    "Account created successfully! Please check your email and verify your account.": "Account created successfully! Please check your email and verify your account.",
+    "Your last donation must be at least 3 months ago.": "Your last donation must be at least 3 months ago.",
+    "This AI result is for educational/supportive use and should not replace professional medical diagnosis or treatment.": "This AI result is for educational/supportive use and should not replace professional medical diagnosis or treatment.",
+    "No information available.": "No information available."
   },
   bn: {
     "Home": "হোম",
@@ -122,6 +184,7 @@ const LIFE_LINK_TRANSLATIONS = {
     "Blood Donor": "রক্তদাতা",
     "My Profile": "আমার প্রোফাইল",
     "Emergency": "জরুরি সহায়তা",
+    "LifeLink": "LifeLink",
     "Welcome back": "আবার স্বাগতম",
     "Sign in to continue to LifeLink.": "LifeLink চালিয়ে যেতে সাইন ইন করুন।",
     "Email": "ইমেইল",
@@ -225,7 +288,64 @@ const LIFE_LINK_TRANSLATIONS = {
     "Prediction completed, but history could not be saved.": "পূর্বাভাস সম্পন্ন হয়েছে, কিন্তু ইতিহাস সংরক্ষণ করা যায়নি।",
     "Unable to load your prediction history.": "আপনার পূর্বাভাসের ইতিহাস লোড করা যায়নি।",
     "Database request failed.": "ডেটাবেস অনুরোধ ব্যর্থ হয়েছে।",
-    "Run SUPABASE_HISTORY_SETUP.sql in Supabase SQL Editor, then refresh this page.": "Supabase SQL Editor-এ SUPABASE_HISTORY_SETUP.sql চালিয়ে পেজটি রিফ্রেশ করুন।"
+    "Run SUPABASE_HISTORY_SETUP.sql in Supabase SQL Editor, then refresh this page.": "Supabase SQL Editor-এ SUPABASE_HISTORY_SETUP.sql চালিয়ে পেজটি রিফ্রেশ করুন।",
+    "LifeLink Dashboard": "LifeLink ড্যাশবোর্ড",
+    "Personal health space": "ব্যক্তিগত স্বাস্থ্য স্থান",
+    "One profile, better context": "একটি প্রোফাইল, আরও ভালো কনটেক্সট",
+    "Your information stays connected to your LifeLink tools.": "আপনার তথ্য LifeLink টুলের সঙ্গে সংযুক্ত থাকে।",
+    "LifeLink member": "LifeLink সদস্য",
+    "Active account": "সক্রিয় অ্যাকাউন্ট",
+    "Blood group not set": "রক্তের গ্রুপ নির্ধারিত নেই",
+    "Loading account...": "অ্যাকাউন্ট লোড হচ্ছে...",
+    "Filters": "ফিল্টার",
+    "Blood type": "রক্তের ধরন",
+    "All types": "সব ধরন",
+    "Eligible": "স্বাস্থ্যসম্মত",
+    "Search donors": "রক্তদাতা খুঁজুন",
+    "Search by name, location, or blood group...": "নাম, অবস্থান বা রক্তের গ্রুপ দিয়ে খুঁজুন...",
+    "Request donor": "রক্তদাতা অনুরোধ করুন",
+    "All requests": "সব অনুরোধ",
+    "Apply to donate": "দানের জন্য আবেদন করুন",
+    "Community donors": "কমিউনিটি রক্তদাতা",
+    "Available blood donors": "উপলভ্য রক্তদাতা",
+    "Find a donor": "রক্তদাতা খুঁজুন",
+    "Add the basics that help LifeLink personalize your experience.": "LifeLink আপনার অভিজ্ঞতা ব্যক্তিগতকরণে সহায়তা করার জন্য মৌলিক তথ্য যোগ করুন।",
+    "Your sign-in email cannot be changed here.": "আপনার সাইন-ইন ইমেইল এখানে পরিবর্তন করা যাবে না।",
+    "Ready to improve": "উন্নতির জন্য প্রস্তুত",
+    "Account setup": "অ্যাকাউন্ট সেটআপ",
+    "Sign out when you are finished using LifeLink on this device.": "এই ডিভাইসে LifeLink ব্যবহার শেষ হলে সাইন আউট করুন।",
+    "Blood support": "রক্তসাহায্য",
+    "My blood activity": "আমার রক্ত কার্যক্রম",
+    "Track your requests and donor responses in one place.": "আপনার অনুরোধ ও রক্তদাতার প্রতিক্রিয়া এক জায়গায় দেখুন।",
+    "My blood requests": "আমার রক্তের অনুরোধ",
+    "Donor responses": "রক্তদাতার প্রতিক্রিয়া",
+    "Loading requests...": "অনুরোধ লোড হচ্ছে...",
+    "Loading notifications...": "নোটিফিকেশন লোড হচ্ছে...",
+    "No blood requests yet.": "এখনও কোনো রক্তের অনুরোধ নেই।",
+    "No donor responses yet.": "এখনও কোনো রক্তদাতার প্রতিক্রিয়া নেই।",
+    "Request blood": "রক্তের অনুরোধ করুন",
+    "Become a blood donor": "রক্তদাতা হন",
+    "Give blood, save lives": "রক্ত দিন, জীবন বাঁচান",
+    "Become a LifeLink donor": "LifeLink রক্তদাতা হন",
+    "Complete your details to appear on the LifeLink blood donor page.": "LifeLink রক্তদাতা পাতায় প্রদর্শিত হতে আপনার তথ্য পূরণ করুন।",
+    "At least 3 months ago.": "কমপক্ষে ৩ মাস আগে।",
+    "Profile photo": "প্রোফাইল ছবি",
+    "Drag the image to position it inside the circle.": "বৃত্তের ভেতরে ছবিটি বসানোর জন্য টেনে আনুন।",
+    "New to LifeLink?": "LifeLink-এ নতুন?",
+    "Create an account": "অ্যাকাউন্ট তৈরি করুন",
+    "Show password": "পাসওয়ার্ড দেখুন",
+    "Hide password": "পাসওয়ার্ড লুকান",
+    "Please enter your email and password.": "অনুগ্রহ করে ইমেইল ও পাসওয়ার্ড লিখুন।",
+    "Login successful!": "লগইন সফল!",
+    "Please fill in all fields.": "সব ক্ষেত্র পূরণ করুন।",
+    "Password must be at least 6 characters.": "পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে।",
+    "Account created successfully!": "অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে!",
+    "Please check your email and verify your account.": "ইমেইল দেখে আপনার অ্যাকাউন্ট যাচাই করুন।",
+    "Something went wrong. Please try again.": "কোনো সমস্যা হয়েছে। আবার চেষ্টা করুন।",
+    "Account created successfully! Please check your email and verify your account.": "অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে! আপনার ইমেইল দেখে অ্যাকাউন্ট যাচাই করুন।",
+    "Your last donation must be at least 3 months ago.": "আপনার শেষ রক্তদান কমপক্ষে ৩ মাস আগে হতে হবে।",
+    "This AI result is for educational/supportive use and should not replace professional medical diagnosis or treatment.": "এই এআই ফলাফল শুধুমাত্র শিক্ষামূলক/সহায়ক উদ্দেশ্যে, পেশাদার চিকিৎসা নির্ণয় বা চিকিৎসার বিকল্প নয়।",
+    "No information available.": "কোনো তথ্য নেই।"
   }
 };
 
@@ -346,6 +466,14 @@ function normalizeLifeLinkHealth(value) {
     .replace(/\s+/g, " ");
 }
 
+function normalizeTranslationKey(value) {
+  return String(value || "")
+    .trim()
+    .toLowerCase()
+    .replace(/[\u2013\u2014]/g, " ")
+    .replace(/\s+/g, " ");
+}
+
 function translateLifeLinkHealth(value) {
   const text = String(value);
   if (LIFE_LINK_HEALTH_BN[text]) return LIFE_LINK_HEALTH_BN[text];
@@ -356,19 +484,33 @@ function translateLifeLinkHealth(value) {
 }
 
 (function initLanguageToggle() {
-  const language = localStorage.getItem("lifelink_language") || "en";
-  const translate = value => LIFE_LINK_TRANSLATIONS[language]?.[value] || value;
+  const getCurrentLanguage = () => (localStorage.getItem("lifelink_language") === "bn" ? "bn" : "en");
+  const translate = value => {
+    const language = getCurrentLanguage();
+    const text = String(value ?? "");
+    if (!text) return text;
+    const exact = LIFE_LINK_TRANSLATIONS[language]?.[text];
+    if (exact) return exact;
+    const normalizedText = normalizeTranslationKey(text);
+    const match = Object.entries(LIFE_LINK_TRANSLATIONS[language] || {}).find(([key]) => normalizeTranslationKey(key) === normalizedText);
+    return match ? match[1] : text;
+  };
 
   function translatePage() {
+    const language = getCurrentLanguage();
     document.documentElement.lang = language === "bn" ? "bn" : "en";
     const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
     const textNodes = [];
     while (walker.nextNode()) textNodes.push(walker.currentNode);
     textNodes.forEach(node => {
-      if (node.parentElement.closest("script,style,template")) return;
-      const trimmed = node.textContent.trim();
-      if (!trimmed || !LIFE_LINK_TRANSLATIONS[language]?.[trimmed]) return;
-      node.textContent = node.textContent.replace(trimmed, translate(trimmed));
+      if (!node || !node.parentElement || node.parentElement.closest("script,style,template")) return;
+      const original = node.textContent || "";
+      const trimmed = original.trim();
+      if (!trimmed) return;
+      const translated = translate(trimmed);
+      if (translated !== trimmed) {
+        node.textContent = original.replace(trimmed, translated);
+      }
     });
     document.querySelectorAll("[data-i18n]").forEach(element => {
       const key = element.dataset.i18n;
@@ -379,15 +521,23 @@ function translateLifeLinkHealth(value) {
     });
     document.querySelectorAll("input[placeholder]").forEach(element => {
       const translated = translate(element.placeholder);
-      element.placeholder = translated;
+      if (translated !== element.placeholder) element.placeholder = translated;
     });
     document.querySelectorAll("[data-i18n-aria-label]").forEach(element => {
       element.setAttribute("aria-label", translate(element.dataset.i18nAriaLabel));
     });
+    document.querySelectorAll("[aria-label]").forEach(element => {
+      const ariaLabel = element.getAttribute("aria-label");
+      if (!ariaLabel) return;
+      const translated = translate(ariaLabel);
+      if (translated !== ariaLabel) element.setAttribute("aria-label", translated);
+    });
     const languageSwitch = document.getElementById("language-switch");
     if (languageSwitch) {
-      languageSwitch.querySelector("[data-language=bn]").classList.toggle("active", language === "bn");
-      languageSwitch.querySelector("[data-language=en]").classList.toggle("active", language === "en");
+      const bnButton = languageSwitch.querySelector("[data-language=bn]");
+      const enButton = languageSwitch.querySelector("[data-language=en]");
+      if (bnButton) bnButton.classList.toggle("active", language === "bn");
+      if (enButton) enButton.classList.toggle("active", language === "en");
       languageSwitch.setAttribute("aria-label", language === "bn" ? "Switch to English" : "বাংলায় পরিবর্তন করুন");
     }
   }
@@ -447,13 +597,15 @@ function translateLifeLinkHealth(value) {
   window.lifeLinkTranslate = translatePage;
   window.lifeLinkText = translate;
   window.lifeLinkSymptomLabel = symptom => {
+    const language = getCurrentLanguage();
     const normalized = normalizeLifeLinkSymptom(symptom);
     return language === "bn"
       ? LIFE_LINK_SYMPTOMS_BN[normalized] || String(symptom).replaceAll("_", " ")
       : String(symptom).replaceAll("_", " ").replace(/\b\w/g, c => c.toUpperCase());
   };
-  window.lifeLinkHealthText = value => language === "bn"
-    ? translateLifeLinkHealth(value)
-    : String(value);
-  window.lifeLinkLanguage = language;
+  window.lifeLinkHealthText = value => {
+    const language = getCurrentLanguage();
+    return language === "bn" ? translateLifeLinkHealth(value) : String(value);
+  };
+  window.lifeLinkLanguage = getCurrentLanguage();
 })();

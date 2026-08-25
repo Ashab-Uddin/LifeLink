@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const donationDate = new Date(applicationFields.last_donation_date.value);
     const monthsSinceDonation = (Date.now() - donationDate.getTime()) / (1000 * 60 * 60 * 24 * 30.44);
     if (!Number.isFinite(monthsSinceDonation) || monthsSinceDonation < 3) {
-      applicationMessage.textContent = "Your last donation must be at least 3 months ago.";
+      applicationMessage.textContent = window.lifeLinkText ? window.lifeLinkText("Your last donation must be at least 3 months ago.") : "Your last donation must be at least 3 months ago.";
       return;
     }
     const { error } = await supabaseClient.from("blood_donor_applications").insert({

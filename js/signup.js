@@ -20,12 +20,12 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("signup-password").value;
 
         if (!name || !email || !password) {
-            alert("Please fill in all fields.");
+            alert(window.lifeLinkText ? window.lifeLinkText("Please fill in all fields.") : "Please fill in all fields.");
             return;
         }
 
         if (password.length < 6) {
-            alert("Password must be at least 6 characters.");
+            alert(window.lifeLinkText ? window.lifeLinkText("Password must be at least 6 characters.") : "Password must be at least 6 characters.");
             return;
         }
 
@@ -53,8 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!data.session) {
 
                 alert(
-                    "Account created successfully! " +
-                    "Please check your email and verify your account."
+                    window.lifeLinkText ? window.lifeLinkText("Account created successfully! Please check your email and verify your account.") : "Account created successfully! Please check your email and verify your account."
                 );
 
                 window.location.href =
@@ -63,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            alert("Account created successfully!");
+            alert(window.lifeLinkText ? window.lifeLinkText("Account created successfully!") : "Account created successfully!");
 
             window.location.href =
                 "/index/index.html";
@@ -72,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             console.error("Unexpected signup error:", error);
 
-            alert("Something went wrong. Please try again.");
+            alert(window.lifeLinkText ? window.lifeLinkText("Something went wrong. Please try again.") : "Something went wrong. Please try again.");
 
         }
 
@@ -89,11 +88,11 @@ if (signupPassword && signupPasswordToggle) {
         if (signupPassword.type === "password") {
             signupPassword.type = "text";
             signupPasswordToggle.textContent = "🙈";
-            signupPasswordToggle.setAttribute("aria-label", "Hide password");
+            signupPasswordToggle.setAttribute("aria-label", window.lifeLinkText ? window.lifeLinkText("Hide password") : "Hide password");
         } else {
             signupPassword.type = "password";
             signupPasswordToggle.textContent = "👁";
-            signupPasswordToggle.setAttribute("aria-label", "Show password");
+            signupPasswordToggle.setAttribute("aria-label", window.lifeLinkText ? window.lifeLinkText("Show password") : "Show password");
         }
 
     });
