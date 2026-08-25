@@ -677,7 +677,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.getElementById("donor-name")?.focus();
     }
 
-    openDonorFormButton.addEventListener("click", openDonorForm);
+    openDonorFormButton?.addEventListener("click", openDonorForm);
 
     document.getElementById("delete-donor-application-btn")?.addEventListener("click", async event => {
         if (!currentUser || !window.confirm("Delete your donor application?")) return;

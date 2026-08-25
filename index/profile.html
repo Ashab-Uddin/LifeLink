@@ -128,7 +128,7 @@
                         <h3>Manage your session</h3>
                         <p class="muted">Sign out when you are finished using LifeLink on this device.</p>
                         <a class="btn btn-secondary profile-history-link" href="/index/history.html">View history</a>
-                        <button id="open-donor-form-btn" class="btn btn-primary profile-donor-link" type="button">Become a blood donor</button>
+                        <a class="btn btn-primary profile-donor-link" href="/index/donor-application.html">Become a blood donor</a>
                         <button id="logout-btn" class="btn btn-outline profile-logout" type="button">Sign out</button>
                     </section>
                 </aside>
@@ -146,6 +146,7 @@
             <form id="donor-form" class="form-grid" hidden>
                 <div class="field full"><label for="donor-name">Full name</label><input id="donor-name" type="text" autocomplete="name" required placeholder="Your name"></div>
                 <div class="field"><label for="donor-blood-group">Blood group</label><select id="donor-blood-group" required><option value="">Select blood group</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option></select></div>
+                <div class="field"><label for="donor-gender">Gender</label><select id="donor-gender" required><option value="">Select gender</option><option>Male</option><option>Female</option></select></div>
                 <div class="field"><label for="donor-phone">Phone number</label><input id="donor-phone" type="tel" autocomplete="tel" required placeholder="01XXXXXXXXX"></div>
                 <div class="field"><label for="donor-location">City or area</label><input id="donor-location" type="text" autocomplete="address-level2" required placeholder="e.g. Mirpur, Dhaka"></div>
                 <div class="field"><label for="donor-last-donation">Last blood donation</label><input id="donor-last-donation" type="date" required><span class="field-hint">At least 3 months ago.</span></div>
@@ -207,6 +208,17 @@
     <script src="/js/profile.js"></script>
     <script src="/js/blood.js"></script>
 
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand"><a class="footer-logo" href="/index/index.html"><span class="brand-mark">L</span>LifeLink</a><p>Connected healthcare tools for clearer decisions, faster support, and better everyday care.</p><span class="footer-status"><span></span>Care tools available 24/7</span></div>
+                <div class="footer-column"><h3>Platform</h3><a href="/index/dashboard.html">Dashboard</a><a href="/index/prediction.html">AI Prediction</a><a href="/index/history.html">Prediction History</a></div>
+                <div class="footer-column"><h3>Find care</h3><a href="/index/doctor.html">Doctor Suggestions</a><a href="/index/nearby.html">Nearby Doctors</a><a href="/index/blood.html">Blood Donors</a></div>
+                <div class="footer-column footer-support"><h3>Need help now?</h3><a class="footer-emergency" href="/index/ambulance.html">Open Emergency Support <span>&rarr;</span></a><a href="/index/profile.html">My Profile</a><a href="/index/login.html">Sign in to LifeLink</a></div>
+            </div>
+            <div class="footer-bottom"><span>&copy; 2026 LifeLink. Built for more connected care.</span><span>AI guidance is informational and not a substitute for professional medical advice.</span></div>
+        </div>
+    </footer>
 </body>
 
 </html>

@@ -40,16 +40,16 @@
           <div class="field"><label for="application-division">Division</label><select id="application-division"><option value="">Select division</option><option>Barisal</option><option>Chattogram</option><option>Dhaka</option><option>Khulna</option><option>Mymensingh</option><option>Rajshahi</option><option>Rangpur</option><option>Sylhet</option></select></div>
           <div class="field"><label for="application-district">District</label><input id="application-district" type="text" placeholder="Your district"></div>
           <div class="field"><label for="application-upazila">Upazila</label><input id="application-upazila" type="text" placeholder="Your upazila"></div>
-          <div class="field full"><label for="application-address">Address</label><input id="application-address" type="text" autocomplete="street-address" required placeholder="Your address"></div>
+          <div class="field"><label for="application-address">Address</label><input id="application-address" type="text" autocomplete="street-address" required placeholder="Your address"></div>
           <div class="field"><label for="application-phone">Phone number</label><input id="application-phone" type="tel" autocomplete="tel" required placeholder="01XXXXXXXXX"></div>
           <div class="field"><label for="application-whatsapp">WhatsApp number</label><input id="application-whatsapp" type="tel" placeholder="01XXXXXXXXX"></div>
           <div class="field"><label for="application-facebook">Facebook profile link</label><input id="application-facebook" type="url" placeholder="https://www.facebook.com"></div>
           <div class="field"><label for="application-weight">Weight (kg)</label><input id="application-weight" type="number" min="1" placeholder="50"></div>
           <div class="field"><label for="application-height">Height (ft/in)</label><input id="application-height" type="text" placeholder="5.4"></div>
-          <div class="field full"><label for="application-emergency-phone">Emergency contact phone</label><input id="application-emergency-phone" type="tel" placeholder="Emergency contact phone"></div>
+          <div class="field"><label for="application-emergency-phone">Emergency contact phone</label><input id="application-emergency-phone" type="tel" placeholder="Emergency contact phone"></div>
           <div class="field full"><label for="application-medical-conditions">Medical conditions <span class="muted">(if any)</span></label><textarea id="application-medical-conditions" rows="2" placeholder="List any medical conditions you have"></textarea></div>
           <div class="field full"><label for="application-medications">Current medications <span class="muted">(if any)</span></label><textarea id="application-medications" rows="2" placeholder="List any medications you are currently taking"></textarea></div>
-          <label class="donor-awareness full"><input id="application-awareness" type="checkbox" required><span><strong>Awareness</strong> If you read them, agree.<small>By checking this box, you agree to our Terms of Service and Privacy Policy.</small></span></label>
+          <label class="donor-awareness full"><input id="application-awareness" type="checkbox" required><span class="donor-awareness-copy"><span><strong>Awareness</strong> If you read them, agree.</span><small>By checking this box, you agree to our Terms of Service and Privacy Policy.</small></span></label>
           <div class="donor-form-footer full"><p id="application-message" class="profile-message" role="status"></p><button class="btn btn-primary" type="submit">Register as donor</button></div>
         </form>
         <div id="application-existing" class="donor-existing" hidden role="status"><div class="donor-existing-mark" aria-hidden="true">&#10003;</div><h2>Donor application already submitted</h2><p>This account is already listed on the LifeLink blood donor page.</p><a class="btn btn-secondary" href="/index/blood.html">View blood donors</a></div>
@@ -62,5 +62,16 @@
   <script src="/js/i18n.js"></script>
   <script src="/js/script.js"></script>
   <script src="/js/donor-application.js"></script>
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand"><a class="footer-logo" href="/index/index.html"><span class="brand-mark">L</span>LifeLink</a><p>Connected healthcare tools for clearer decisions, faster support, and better everyday care.</p><span class="footer-status"><span></span>Care tools available 24/7</span></div>
+        <div class="footer-column"><h3>Platform</h3><a href="/index/dashboard.html">Dashboard</a><a href="/index/prediction.html">AI Prediction</a><a href="/index/history.html">Prediction History</a></div>
+        <div class="footer-column"><h3>Find care</h3><a href="/index/doctor.html">Doctor Suggestions</a><a href="/index/nearby.html">Nearby Doctors</a><a href="/index/blood.html">Blood Donors</a></div>
+        <div class="footer-column footer-support"><h3>Need help now?</h3><a class="footer-emergency" href="/index/ambulance.html">Open Emergency Support <span>&rarr;</span></a><a href="/index/profile.html">My Profile</a><a href="/index/login.html">Sign in to LifeLink</a></div>
+      </div>
+      <div class="footer-bottom"><span>&copy; 2026 LifeLink. Built for more connected care.</span><span>AI guidance is informational and not a substitute for professional medical advice.</span></div>
+    </div>
+  </footer>
 </body>
 </html>

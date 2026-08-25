@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Donor Details - LifeLink</title>
+  <link rel="stylesheet" href="/styles/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <a class="brand" href="/index/index.html"><span class="brand-mark">L</span>LifeLink</a>
+    <button class="mobile-toggle" data-menu-toggle aria-label="Open navigation">&#9776;</button>
+    <a class="nav-link" href="/index/dashboard.html">Dashboard</a>
+    <a class="nav-link" href="/index/prediction.html">AI Prediction</a>
+    <a class="nav-link" href="/index/doctor.html">Doctors</a>
+    <a class="nav-link active" href="/index/blood.html">Blood Donor</a>
+    <a class="nav-link" href="/index/profile.html">My Profile</a>
+    <a class="nav-link emergency-link" href="/index/ambulance.html">Emergency</a>
+  </nav>
+
+  <main class="page donor-details-page-wrapper">
+    <div class="container">
+      <a class="btn btn-outline donor-details-back" href="/index/blood.html">&larr; Back to donors</a>
+      <div class="donor-details-dialog donor-details-page">
+        <aside class="donor-profile-panel">
+          <div id="donor-details-blood" class="avatar">O+</div>
+          <h1 id="donor-details-name">Donor name</h1>
+          <span id="donor-details-group" class="badge">Blood group</span>
+          <span id="donor-details-status" class="donor-profile-status">Not Eligible</span>
+          <div class="donor-profile-contact">
+            <a id="donor-details-phone" href="#">Not provided</a>
+            <a id="donor-details-email" href="#">Not provided</a>
+            <strong id="donor-details-location">Not provided</strong>
+            <span>Last donation: <strong id="donor-details-last-donation">Not provided</strong></span>
+            <span>Gender: <strong id="donor-details-gender">Not provided</strong></span>
+          </div>
+        </aside>
+        <section class="donor-details-content">
+          <div class="donor-details-heading"><div><span class="section-kicker">Donor details</span><h2 id="donor-details-title">Contact donor</h2></div></div>
+          <div class="donor-details-tabs" role="tablist" aria-label="Donor information">
+            <button class="donor-details-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="donor-details-panel" data-details-tab="details">Details</button>
+            <button class="donor-details-tab" type="button" role="tab" aria-selected="false" aria-controls="donor-medical-panel" data-details-tab="medical">Medical</button>
+            <button class="donor-details-tab" type="button" role="tab" aria-selected="false" aria-controls="donor-donation-panel" data-details-tab="donation">Donation</button>
+          </div>
+          <div id="donor-details-panel" class="donor-details-tab-panel is-active" role="tabpanel">
+            <h3>Personal details</h3>
+            <div class="donor-details-grid">
+              <div><span>Date of birth</span><strong id="donor-details-date-of-birth">Not provided</strong></div>
+              <div><span>Member since</span><strong id="donor-details-member-since">Not provided</strong></div>
+              <div><span>Emergency contact</span><strong id="donor-details-emergency-phone">Not provided</strong></div>
+              <div><span>WhatsApp</span><a id="donor-details-whatsapp" href="#">Not provided</a></div>
+              <div><span>Division</span><strong id="donor-details-division">Not provided</strong></div>
+              <div><span>District</span><strong id="donor-details-district">Not provided</strong></div>
+              <div><span>Upazila</span><strong id="donor-details-upazila">Not provided</strong></div>
+              <div><span>Address</span><strong id="donor-details-address">Not provided</strong></div>
+              <div><span>Weight</span><strong id="donor-details-weight">Not provided</strong></div>
+              <div><span>Height</span><strong id="donor-details-height">Not provided</strong></div>
+              <div><span>Facebook</span><a id="donor-details-facebook" href="#">Not provided</a></div>
+              <div><span>Email</span><a id="donor-details-email" href="#">Not provided</a></div>
+            </div>
+          </div>
+          <div id="donor-medical-panel" class="donor-details-tab-panel" role="tabpanel" hidden>
+            <h3>Medical information</h3>
+            <div class="donor-details-notes"><span>Medical conditions</span><p id="donor-details-medical-conditions">Not provided</p></div>
+            <div class="donor-details-notes"><span>Current medications</span><p id="donor-details-medications">Not provided</p></div>
+            <div class="donor-details-notes"><span>Notes</span><p id="donor-details-notes-text">Not provided</p></div>
+          </div>
+          <div id="donor-donation-panel" class="donor-details-tab-panel" role="tabpanel" hidden>
+            <h3>Donation information</h3>
+            <div class="donor-details-grid">
+              <div><span>Eligibility</span><strong id="donor-details-donation-status">Not Eligible</strong></div>
+              <div><span>Last donation</span><strong id="donor-details-donation-date">Not provided</strong></div>
+              <div><span>Donation interval</span><strong id="donor-details-interval">Not provided</strong></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+  <script src="/js/i18n.js"></script>
+  <script src="/js/script.js"></script>
+  <script src="/js/donor-details.js"></script>
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand"><a class="footer-logo" href="/index/index.html"><span class="brand-mark">L</span>LifeLink</a><p>Connected healthcare tools for clearer decisions, faster support, and better everyday care.</p><span class="footer-status"><span></span>Care tools available 24/7</span></div>
+        <div class="footer-column"><h3>Platform</h3><a href="/index/dashboard.html">Dashboard</a><a href="/index/prediction.html">AI Prediction</a><a href="/index/history.html">Prediction History</a></div>
+        <div class="footer-column"><h3>Find care</h3><a href="/index/doctor.html">Doctor Suggestions</a><a href="/index/nearby.html">Nearby Doctors</a><a href="/index/blood.html">Blood Donors</a></div>
+        <div class="footer-column footer-support"><h3>Need help now?</h3><a class="footer-emergency" href="/index/ambulance.html">Open Emergency Support <span>&rarr;</span></a><a href="/index/profile.html">My Profile</a><a href="/index/login.html">Sign in to LifeLink</a></div>
+      </div>
+      <div class="footer-bottom"><span>&copy; 2026 LifeLink. Built for more connected care.</span><span>AI guidance is informational and not a substitute for professional medical advice.</span></div>
+    </div>
+  </footer>
+</body>
+</html>

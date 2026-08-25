@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const fields = {
     full_name: document.getElementById("donor-name"),
     blood_group: document.getElementById("donor-blood-group"),
+    gender: document.getElementById("donor-gender"),
     phone: document.getElementById("donor-phone"),
     location: document.getElementById("donor-location"),
     last_donation_date: document.getElementById("donor-last-donation"),
@@ -132,44 +133,69 @@ document.addEventListener("DOMContentLoaded", async () => {
     return `${years} year${years === 1 ? "" : "s"} ago`;
   }
 
+  function donorEligibilityStatus(gender, lastDonation) {
+    const requiredMonths = String(gender).toLowerCase() === "male" ? 4 : String(gender).toLowerCase() === "female" ? 6 : null;
+    const donationDate = new Date(`${lastDonation}T00:00:00`);
+    if (!requiredMonths || Number.isNaN(donationDate.getTime())) return "Not Eligible";
+    const eligibleDate = new Date(donationDate);
+    eligibleDate.setMonth(eligibleDate.getMonth() + requiredMonths);
+    return Date.now() >= eligibleDate.getTime() ? "Eligible" : "Not Eligible";
+  }
+
   function renderDonors(donors) {
     const cards = donors.map(donor => {
       const initials = donor.full_name.split(/\s+/).map(part => part[0]).slice(0, 2).join("").toUpperCase();
-      return `<article class="card donor-card donor-card--community" data-blood-group="${escapeAttr(donor.blood_group)}">
+      const status = donorEligibilityStatus(donor.gender, donor.last_donation_date);
+      return `<article class="card donor-card donor-card--community" data-blood-group="${escapeAttr(donor.blood_group)}" data-gender="${escapeAttr(donor.gender || "")}">
         <div class="person-card"><div class="avatar">${escapeHtml(donor.blood_group)}</div><div>
           <h3>${escapeHtml(donor.full_name)}</h3><span class="badge">${escapeHtml(donor.blood_group)}</span>
-          <p class="muted">${escapeHtml(donor.location)} · Available donor</p>
+          <p class="muted">${escapeHtml(donor.location)}</p>
         </div></div>
-        <div class="donor-card-footer"><span class="muted">${escapeHtml(initials)} · Last donation: ${escapeHtml(donationAge(donor.last_donation_date))}</span>
-          <button class="btn btn-primary donor-contact-button" type="button" data-name="${escapeAttr(donor.full_name)}" data-blood-group="${escapeAttr(donor.blood_group)}" data-phone="${escapeAttr(donor.phone)}" data-email="${escapeAttr(donor.email || "")}" data-location="${escapeAttr(donor.location)}" data-last-donation="${escapeAttr(donor.last_donation_date)}" data-notes="${escapeAttr(donor.notes || "")}">Contact donor</button>
+        <div class="donor-card-footer"><div class="donor-card-meta"><span class="donor-status">${status}</span><span class="muted">${escapeHtml(initials)} · Last donation: ${escapeHtml(donationAge(donor.last_donation_date))}</span></div>
+          <button class="btn btn-primary donor-contact-button" type="button" data-name="${escapeAttr(donor.full_name)}" data-blood-group="${escapeAttr(donor.blood_group)}" data-gender="${escapeAttr(donor.gender || "")}" data-phone="${escapeAttr(donor.phone)}" data-email="${escapeAttr(donor.email || "")}" data-location="${escapeAttr(donor.location)}" data-last-donation="${escapeAttr(donor.last_donation_date)}" data-created-at="${escapeAttr(donor.created_at || "")}" data-date-of-birth="${escapeAttr(donor.date_of_birth || "")}" data-division="${escapeAttr(donor.division || "")}" data-district="${escapeAttr(donor.district || "")}" data-upazila="${escapeAttr(donor.upazila || "")}" data-address="${escapeAttr(donor.address || "")}" data-whatsapp="${escapeAttr(donor.whatsapp || "")}" data-facebook="${escapeAttr(donor.facebook || "")}" data-weight="${escapeAttr(donor.weight_kg || "")}" data-height="${escapeAttr(donor.height || "")}" data-emergency-phone="${escapeAttr(donor.emergency_phone || "")}" data-medical-conditions="${escapeAttr(donor.medical_conditions || "")}" data-medications="${escapeAttr(donor.current_medications || "")}" data-notes="${escapeAttr(donor.notes || "")}">Contact donor</button>
         </div>
       </article>`;
     });
     if (cards.length) donorList.insertAdjacentHTML("afterbegin", cards.join(""));
+    updateDonorStatuses();
     donorList.querySelectorAll(".donor-contact-button").forEach(button => button.addEventListener("click", () => showDonorDetails(button.dataset)));
   }
 
+  function updateDonorStatuses() {
+    donorList?.querySelectorAll(".donor-card").forEach(card => {
+      const button = card.querySelector(".donor-contact-button");
+      const status = card.querySelector(".donor-status");
+      if (status) {
+        const text = donorEligibilityStatus(card.dataset.gender, button?.dataset.lastDonation);
+        status.textContent = text;
+        status.classList.toggle("is-eligible", text === "Eligible");
+        status.classList.toggle("is-not-eligible", text === "Not Eligible");
+      }
+    });
+  }
+
   function showDonorDetails(donor) {
-    if (!detailsModal) return;
-    document.getElementById("donor-details-title").textContent = `Contact ${donor.name}`;
-    document.getElementById("donor-details-name").textContent = donor.name;
-    document.getElementById("donor-details-blood").textContent = donor.bloodGroup;
-    document.getElementById("donor-details-group").textContent = donor.bloodGroup;
-    const phone = document.getElementById("donor-details-phone");
-    phone.textContent = donor.phone || "Not provided";
-    phone.href = donor.phone ? `tel:${donor.phone}` : "#";
-    const email = document.getElementById("donor-details-email");
-    email.textContent = donor.email || "Not provided";
-    email.href = donor.email ? `mailto:${donor.email}` : "#";
-    document.getElementById("donor-details-location").textContent = donor.location || "Not provided";
-    document.getElementById("donor-details-last-donation").textContent = donor.lastDonation ? new Date(donor.lastDonation).toLocaleDateString() : "Not provided";
-    document.getElementById("donor-details-notes-text").textContent = donor.notes || "No additional notes.";
-    detailsModal.hidden = false;
+    sessionStorage.setItem("lifelink_selected_donor", JSON.stringify(donor));
+    window.location.href = "/index/donor-details.html";
   }
 
   document.querySelectorAll(".donor-contact-button").forEach(button => button.addEventListener("click", () => showDonorDetails(button.dataset)));
   document.getElementById("donor-details-close")?.addEventListener("click", () => { detailsModal.hidden = true; });
   detailsModal?.addEventListener("click", event => { if (event.target === detailsModal) detailsModal.hidden = true; });
+  document.querySelectorAll("[data-details-tab]").forEach(tab => {
+    tab.addEventListener("click", () => {
+      const selected = tab.dataset.detailsTab;
+      document.querySelectorAll("[data-details-tab]").forEach(item => {
+        const active = item === tab;
+        item.classList.toggle("is-active", active);
+        item.setAttribute("aria-selected", String(active));
+      });
+      document.querySelectorAll(".donor-details-tab-panel").forEach(panel => {
+        panel.hidden = panel.id !== `donor-${selected === "details" ? "details" : selected}-panel`;
+        panel.classList.toggle("is-active", !panel.hidden);
+      });
+    });
+  });
 
   function filterDonors() {
     const query = document.getElementById("donor-search")?.value.trim().toLowerCase() || "";
@@ -197,7 +223,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   async function loadDonors() {
     const { data, error } = await supabaseClient.from("blood_donor_applications")
-      .select("full_name,blood_group,phone,email,location,last_donation_date,notes")
+      .select("full_name,blood_group,gender,phone,email,location,last_donation_date,created_at,notes,date_of_birth,division,district,upazila,address,whatsapp,facebook,weight_kg,height,emergency_phone,medical_conditions,current_medications")
       .eq("status", "available").order("created_at", { ascending: false });
     if (error) {
       console.error("Donor loading error:", error);
@@ -210,7 +236,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   async function checkExistingApplication(user) {
     if (!form || !user) return false;
     const { data, error } = await supabaseClient.from("blood_donor_applications")
-      .select("full_name,blood_group,phone,location,last_donation_date,notes")
+      .select("full_name,blood_group,gender,phone,location,last_donation_date,notes")
       .eq("user_id", user.id).maybeSingle();
     if (error) {
       console.error("Donor application check error:", error);
