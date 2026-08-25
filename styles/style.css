@@ -1118,6 +1118,12 @@ textarea:focus {
 }
 .donor-list-heading h2 { margin: 5px 0 0; font: 700 24px "Plus Jakarta Sans" }
 .donor-list-heading p { margin: 0 }
+.donor-filter { display: flex; align-items: center; gap: 12px; color: var(--text); font-size: 13px; font-weight: 700 }
+.blood-type-buttons { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end }
+.blood-type-button { min-width: 42px; min-height: 38px; padding: 7px 10px; border: 1px solid var(--border); border-radius: 10px; background: #fff; color: var(--muted); font-size: 12px; font-weight: 800; transition: transform .25s ease, color .25s ease, background-color .25s ease, border-color .25s ease, box-shadow .25s ease }
+.blood-type-button:hover { border-color: #9bd9d4; color: var(--primary); background: #f5fffe; transform: translateY(-2px) }
+.blood-type-button.active { border-color: var(--primary); background: var(--primary); color: #fff; box-shadow: 0 7px 16px rgba(11, 143, 135, .22) }
+.donor-card[hidden] { display: none }
 .donor-card { display: flex; flex-direction: column; justify-content: space-between; gap: 20px }
 .donor-card-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 12px }
 .donor-card-footer .btn { min-height: 40px; padding: 9px 13px }
@@ -1623,6 +1629,8 @@ textarea:focus {
 
   .donor-list-heading { display: block }
   .donor-list-heading p { margin-top: 6px }
+  .donor-filter { display: block; margin-top: 16px }
+  .blood-type-buttons { justify-content: flex-start; margin-top: 10px }
 
   .profile-form-footer {
     align-items: stretch;

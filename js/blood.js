@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const form = document.getElementById("donor-form");
   const donorList = document.getElementById("donor-list");
+  const bloodTypeFilter = document.getElementById("blood-type-filter");
   if (typeof supabaseClient === "undefined" || (!form && !donorList)) return;
 
   const fields = {
@@ -24,7 +25,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   function renderDonors(donors) {
     const cards = donors.map(donor => {
       const initials = donor.full_name.split(/\s+/).map(part => part[0]).slice(0, 2).join("").toUpperCase();
-      return `<article class="card donor-card donor-card--community">
+      return `<article class="card donor-card donor-card--community" data-blood-group="${escapeAttr(donor.blood_group)}">
         <div class="person-card"><div class="avatar">${escapeHtml(donor.blood_group)}</div><div>
           <h3>${escapeHtml(donor.full_name)}</h3><span class="badge">${escapeHtml(donor.blood_group)}</span>
           <p class="muted">${escapeHtml(donor.location)} · Available donor</p>
@@ -37,6 +38,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (cards.length) donorList.insertAdjacentHTML("afterbegin", cards.join(""));
     donorList.querySelectorAll(".donor-contact-button").forEach(button => {
       button.addEventListener("click", () => toast(`Contact: ${button.dataset.phone}`));
+    });
+  }
+
+  function filterDonors() {
+    const selectedType = bloodTypeFilter?.querySelector(".blood-type-button.active")?.dataset.bloodType || "all";
+    donorList?.querySelectorAll(".donor-card").forEach(card => {
+      card.hidden = selectedType !== "all" && card.dataset.bloodGroup !== selectedType;
     });
   }
 
@@ -108,4 +116,15 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   if (donorList) await loadDonors();
+  bloodTypeFilter?.querySelectorAll(".blood-type-button").forEach(button => {
+    button.addEventListener("click", () => {
+      bloodTypeFilter.querySelectorAll(".blood-type-button").forEach(item => {
+        const isActive = item === button;
+        item.classList.toggle("active", isActive);
+        item.setAttribute("aria-pressed", String(isActive));
+      });
+      filterDonors();
+    });
+  });
+  filterDonors();
 });

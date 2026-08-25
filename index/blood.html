@@ -75,13 +75,26 @@
           <span class="section-kicker">Community donors</span>
           <h2>Available blood donors</h2>
         </div>
-        <p class="muted">Applications are shown after they are submitted.</p>
+        <div class="donor-filter" aria-label="Filter donors by blood type">
+          <span>Blood type</span>
+          <div id="blood-type-filter" class="blood-type-buttons" role="group" aria-label="Blood type filters">
+            <button class="blood-type-button active" type="button" data-blood-type="all" aria-pressed="true">All types</button>
+            <button class="blood-type-button" type="button" data-blood-type="A+" aria-pressed="false">A+</button>
+            <button class="blood-type-button" type="button" data-blood-type="A-" aria-pressed="false">A-</button>
+            <button class="blood-type-button" type="button" data-blood-type="B+" aria-pressed="false">B+</button>
+            <button class="blood-type-button" type="button" data-blood-type="B-" aria-pressed="false">B-</button>
+            <button class="blood-type-button" type="button" data-blood-type="AB+" aria-pressed="false">AB+</button>
+            <button class="blood-type-button" type="button" data-blood-type="AB-" aria-pressed="false">AB-</button>
+            <button class="blood-type-button" type="button" data-blood-type="O+" aria-pressed="false">O+</button>
+            <button class="blood-type-button" type="button" data-blood-type="O-" aria-pressed="false">O-</button>
+          </div>
+        </div>
       </div>
 
       <div id="donor-list" class="grid">
 
         <!-- Donor 1 -->
-        <article class="card">
+        <article class="card donor-card" data-blood-group="O+">
 
           <div class="person-card">
 
@@ -115,7 +128,7 @@
 
 
         <!-- Donor 2 -->
-        <article class="card">
+        <article class="card donor-card" data-blood-group="A-">
 
           <div class="person-card">
 
@@ -149,7 +162,7 @@
 
 
         <!-- Donor 3 -->
-        <article class="card">
+        <article class="card donor-card" data-blood-group="B+">
 
           <div class="person-card">
 
