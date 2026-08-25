@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const form = document.getElementById("donor-form");
   const donorList = document.getElementById("donor-list");
+  const donorPageSize = 10;
+  let donorCurrentPage = 1;
   const bloodTypeFilter = document.getElementById("blood-type-filter");
   const detailsModal = document.getElementById("donor-details-modal");
   const applicationModal = document.getElementById("blood-donor-application-modal");
@@ -201,24 +203,48 @@ document.addEventListener("DOMContentLoaded", async () => {
     const query = document.getElementById("donor-search")?.value.trim().toLowerCase() || "";
     const selectedType = document.getElementById("donor-filter-blood")?.value || "all";
     const selectedDate = document.getElementById("donor-filter-date")?.value || "";
-    let visibleCount = 0;
+    const eligibleOnly = document.getElementById("donor-filter-eligible")?.checked || false;
+    const matchingCards = [];
     donorList?.querySelectorAll(".donor-card").forEach(card => {
       const contactButton = card.querySelector(".donor-contact-button");
       const searchableText = card.textContent.toLowerCase();
       const matchesSearch = !query || searchableText.includes(query);
       const matchesType = selectedType === "all" || card.dataset.bloodGroup === selectedType;
       const matchesDate = !selectedDate || (contactButton?.dataset.lastDonation || "") <= selectedDate;
-      const visible = matchesSearch && matchesType && matchesDate;
-      card.hidden = !visible;
-      if (visible) visibleCount += 1;
+      const matchesEligibility = !eligibleOnly || donorEligibilityStatus(card.dataset.gender, contactButton?.dataset.lastDonation) === "Eligible";
+      const visible = matchesSearch && matchesType && matchesDate && matchesEligibility;
+      if (visible) matchingCards.push(card);
+    });
+    const totalPages = Math.max(1, Math.ceil(matchingCards.length / donorPageSize));
+    donorCurrentPage = Math.min(donorCurrentPage, totalPages);
+    const pageStart = (donorCurrentPage - 1) * donorPageSize;
+    const pageEnd = Math.min(pageStart + donorPageSize, matchingCards.length);
+    donorList?.querySelectorAll(".donor-card").forEach(card => {
+      card.hidden = !matchingCards.slice(pageStart, pageEnd).includes(card);
     });
     const count = document.getElementById("donor-result-count");
-    if (count) count.textContent = `${visibleCount} donor${visibleCount === 1 ? "" : "s"}`;
+    if (count) count.textContent = `${matchingCards.length} donor${matchingCards.length === 1 ? "" : "s"}`;
+    const pagination = document.getElementById("donor-pagination");
+    const pageIndicator = document.getElementById("donor-page-indicator");
+    const summary = document.getElementById("donor-pagination-summary");
+    const previous = document.getElementById("donor-page-previous");
+    const next = document.getElementById("donor-page-next");
+    if (pagination) pagination.hidden = matchingCards.length <= donorPageSize;
+    if (pageIndicator) pageIndicator.textContent = `Page ${donorCurrentPage} of ${totalPages}`;
+    if (summary) summary.textContent = `Showing ${pageEnd - pageStart} of ${matchingCards.length} donors`;
+    if (previous) previous.disabled = donorCurrentPage <= 1;
+    if (next) next.disabled = donorCurrentPage >= totalPages;
     document.querySelectorAll("#blood-type-filter .blood-type-button").forEach(button => {
+      if (button.id === "donor-eligible-quick-filter") return;
       const active = button.dataset.bloodType === selectedType;
       button.classList.toggle("active", active);
       button.setAttribute("aria-pressed", String(active));
     });
+    const eligibleQuickFilter = document.getElementById("donor-eligible-quick-filter");
+    if (eligibleQuickFilter) {
+      eligibleQuickFilter.classList.toggle("active", eligibleOnly);
+      eligibleQuickFilter.setAttribute("aria-pressed", String(eligibleOnly));
+    }
   }
 
   async function loadDonors() {
@@ -290,16 +316,38 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   if (donorList) await loadDonors();
+  const donorFiltersToggle = document.getElementById("donor-filters-toggle");
+  const donorFiltersPanel = document.getElementById("donor-filters-panel");
+  donorFiltersToggle?.addEventListener("click", () => {
+    const expanded = donorFiltersToggle.getAttribute("aria-expanded") === "true";
+    donorFiltersToggle.setAttribute("aria-expanded", String(!expanded));
+    donorFiltersPanel?.classList.toggle("is-open", !expanded);
+  });
   document.getElementById("donor-search-button")?.addEventListener("click", filterDonors);
   document.getElementById("donor-search")?.addEventListener("input", filterDonors);
   document.querySelectorAll("#blood-type-filter .blood-type-button").forEach(button => {
+    if (button.id === "donor-eligible-quick-filter") return;
     button.addEventListener("click", () => {
       const bloodFilter = document.getElementById("donor-filter-blood");
       if (bloodFilter) bloodFilter.value = button.dataset.bloodType;
       filterDonors();
     });
   });
+  document.getElementById("donor-eligible-quick-filter")?.addEventListener("click", () => {
+    const eligible = document.getElementById("donor-filter-eligible");
+    if (eligible) eligible.checked = !eligible.checked;
+    donorCurrentPage = 1;
+    filterDonors();
+  });
   document.getElementById("apply-donor-filters")?.addEventListener("click", filterDonors);
+  document.getElementById("donor-page-previous")?.addEventListener("click", () => {
+    donorCurrentPage -= 1;
+    filterDonors();
+  });
+  document.getElementById("donor-page-next")?.addEventListener("click", () => {
+    donorCurrentPage += 1;
+    filterDonors();
+  });
   document.getElementById("reset-donor-filters")?.addEventListener("click", () => {
     ["donor-search", "donor-filter-district", "donor-filter-upazila", "donor-filter-date"].forEach(id => {
       const input = document.getElementById(id);

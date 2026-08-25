@@ -1161,6 +1161,9 @@ textarea:focus {
 .quick-blood-filter > span { margin-right: 5px }
 .quick-blood-filter .blood-type-button { min-width: 42px; min-height: 38px; padding: 7px 10px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); color: var(--muted); font-size: 12px; font-weight: 800; transition: .25s }
 .quick-blood-filter .blood-type-button:hover, .quick-blood-filter .blood-type-button.active { border-color: var(--primary); background: var(--primary); color: #fff; box-shadow: 0 7px 16px rgba(11, 143, 135, .18) }
+.donor-filters-toggle { display: none; align-items: center; justify-content: center; gap: 9px; min-height: 44px; padding: 9px 16px; border: 1px solid var(--border); border-radius: 10px; background: #fff; color: var(--text); font-weight: 700; box-shadow: 0 8px 20px rgba(16, 42, 67, .05) }
+.donor-filters-toggle svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8 }
+.donor-filters-toggle:hover, .donor-filters-toggle[aria-expanded="true"] { border-color: #9bd9d4; background: var(--accent); color: var(--primary) }
 .donor-browser { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 20px; align-items: start }
 .donor-filters { display: grid; gap: 9px; padding: 18px; border: 1px solid var(--border); border-radius: 14px; background: var(--surface); box-shadow: var(--shadow); position: sticky; top: 88px }
 .donor-filters h3 { margin: 0 0 4px; font: 700 18px "Plus Jakarta Sans" }
@@ -1175,6 +1178,7 @@ textarea:focus {
 .blood-type-button { min-width: 42px; min-height: 38px; padding: 7px 10px; border: 1px solid var(--border); border-radius: 10px; background: #fff; color: var(--muted); font-size: 12px; font-weight: 800; transition: transform .25s ease, color .25s ease, background-color .25s ease, border-color .25s ease, box-shadow .25s ease }
 .blood-type-button:hover { border-color: #9bd9d4; color: var(--primary); background: #f5fffe; transform: translateY(-2px) }
 .blood-type-button.active { border-color: var(--primary); background: var(--primary); color: #fff; box-shadow: 0 7px 16px rgba(11, 143, 135, .22) }
+.eligible-filter-button { color: var(--primary); border-color: #b9dfdc }
 .donor-card[hidden] { display: none }
 .donor-card { display: flex; flex-direction: column; justify-content: space-between; gap: 20px }
 .donor-card-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 12px }
@@ -1184,6 +1188,12 @@ textarea:focus {
 .donor-status.is-not-eligible { color: var(--danger) }
 .donor-card-footer .btn { min-height: 40px; padding: 9px 13px }
 .donor-last-donation { margin: -8px 0 0; color: var(--muted); font-size: 12px }
+.donor-pagination { display: grid; justify-items: center; gap: 14px; margin: 28px 0 4px; padding: 20px 0 0; border-top: 1px solid var(--border) }
+.donor-pagination-controls { display: flex; align-items: center; justify-content: center; gap: 14px }
+.donor-pagination-controls .btn { min-width: 104px; white-space: nowrap }
+.donor-page-indicator { min-width: 100px; color: var(--text); font-weight: 700; text-align: center }
+.donor-pagination p { margin: 0; font-size: 13px }
+.donor-pagination .btn:disabled { cursor: not-allowed; opacity: .5; transform: none; box-shadow: none }
 .donor-details-dialog { width: min(1080px, 100%); max-height: min(760px, calc(100vh - 40px)); overflow: hidden }
 .crop-dialog.donor-details-dialog { padding: 0 }
 .donor-details-dialog { display: grid; grid-template-columns: 270px minmax(0, 1fr); gap: 0 }
@@ -1548,6 +1558,9 @@ textarea:focus {
     position: static
   }
 
+  .donor-filters-toggle { display: inline-flex; margin: 0 0 16px }
+  .donor-filters:not(.is-open) { display: none }
+
   .grid,
   .grid-4 {
     grid-template-columns: repeat(2, 1fr)
@@ -1590,7 +1603,8 @@ textarea:focus {
   }
 
   .navbar .mobile-toggle {
-    display: flex
+    display: flex;
+    margin-left: auto
   }
 
   .navbar .navbar-actions {
@@ -1763,6 +1777,10 @@ textarea:focus {
   .donor-filter { display: block; margin-top: 16px }
   .blood-type-buttons { justify-content: flex-start; margin-top: 10px }
   .donor-details-grid { grid-template-columns: 1fr }
+
+  .donor-pagination-controls { width: 100%; justify-content: space-between; gap: 8px }
+  .donor-pagination-controls .btn { min-width: 0; flex: 1 1 0 }
+  .donor-page-indicator { min-width: auto; flex: 0 0 auto }
 
   .donor-details-dialog { grid-template-columns: 1fr; max-height: calc(100vh - 24px); overflow: auto }
   .donor-details-page { max-height: none; overflow: visible }

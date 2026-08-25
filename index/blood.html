@@ -91,10 +91,16 @@
         <button class="blood-type-button" type="button" data-blood-type="AB-" aria-pressed="false">AB-</button>
         <button class="blood-type-button" type="button" data-blood-type="O+" aria-pressed="false">O+</button>
         <button class="blood-type-button" type="button" data-blood-type="O-" aria-pressed="false">O-</button>
+        <button id="donor-eligible-quick-filter" class="blood-type-button eligible-filter-button" type="button" aria-pressed="false">Eligible</button>
       </div>
 
+      <button id="donor-filters-toggle" class="donor-filters-toggle" type="button" aria-expanded="false" aria-controls="donor-filters-panel">
+        <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="M4 5h16l-6.5 7.2v5.3l-3 1.5v-6.8L4 5Z"></path></svg>
+        <span>Filters</span>
+      </button>
+
       <div class="donor-browser">
-        <aside class="donor-filters" aria-label="Filter donors">
+        <aside id="donor-filters-panel" class="donor-filters" aria-label="Filter donors">
           <h3>Find a donor</h3>
           <label for="donor-filter-blood">Blood group</label>
           <select id="donor-filter-blood"><option value="all">All</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option></select>
@@ -220,6 +226,14 @@
         </article>
 
           </div>
+          <nav id="donor-pagination" class="donor-pagination" aria-label="Donor pages" hidden>
+            <div class="donor-pagination-controls">
+              <button id="donor-page-previous" class="btn btn-outline" type="button">&larr; <span>Previous</span></button>
+              <span id="donor-page-indicator" class="donor-page-indicator">Page 1 of 1</span>
+              <button id="donor-page-next" class="btn btn-outline" type="button"><span>Next</span> &rarr;</button>
+            </div>
+            <p id="donor-pagination-summary" class="muted">Showing 0 of 0 donors</p>
+          </nav>
         </section>
       </div>
 
