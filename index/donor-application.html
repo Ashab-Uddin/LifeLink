@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Become a Donor — LifeLink</title>
+  <link rel="stylesheet" href="/styles/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <a class="brand" href="/index/index.html"><span class="brand-mark">L</span>LifeLink</a>
+    <button class="mobile-toggle" data-menu-toggle aria-label="Open navigation">&#9776;</button>
+    <a class="nav-link" href="/index/dashboard.html">Dashboard</a>
+    <a class="nav-link" href="/index/prediction.html">AI Prediction</a>
+    <a class="nav-link" href="/index/doctor.html">Doctors</a>
+    <a class="nav-link" href="/index/nearby.html">Nearby</a>
+    <a class="nav-link active" href="/index/blood.html">Blood Donor</a>
+    <a class="nav-link" href="/index/profile.html">My Profile</a>
+    <a class="nav-link emergency-link" href="/index/ambulance.html">Emergency</a>
+  </nav>
+
+  <main class="page">
+    <div class="container">
+      <div class="profile-heading">
+        <div>
+          <span class="badge">Give blood, save lives</span>
+          <h1>Become a LifeLink donor</h1>
+          <p class="muted">Complete your details to appear on the LifeLink blood donor page.</p>
+        </div>
+        <a class="btn btn-outline" href="/index/blood.html">Back to donors</a>
+      </div>
+
+      <section class="form-card donor-application-page-card">
+        <form id="donor-application-form" class="form-grid" hidden>
+          <div class="field full"><label for="application-name">Name</label><input id="application-name" type="text" autocomplete="name" required placeholder="Your name"></div>
+          <div class="field"><label for="application-blood-group">Blood group</label><select id="application-blood-group" required><option value="">Select blood group</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option></select></div>
+          <div class="field"><label for="application-gender">Gender</label><select id="application-gender"><option value="">Select gender</option><option>Male</option><option>Female</option><option>Other</option></select></div>
+          <div class="field"><label for="application-date-of-birth">Date of birth</label><input id="application-date-of-birth" type="date"></div>
+          <div class="field"><label for="application-last-donation">Last donation date</label><input id="application-last-donation" type="date" required><span class="field-hint">At least 3 months ago.</span></div>
+          <div class="field"><label for="application-division">Division</label><select id="application-division"><option value="">Select division</option><option>Barisal</option><option>Chattogram</option><option>Dhaka</option><option>Khulna</option><option>Mymensingh</option><option>Rajshahi</option><option>Rangpur</option><option>Sylhet</option></select></div>
+          <div class="field"><label for="application-district">District</label><input id="application-district" type="text" placeholder="Your district"></div>
+          <div class="field"><label for="application-upazila">Upazila</label><input id="application-upazila" type="text" placeholder="Your upazila"></div>
+          <div class="field full"><label for="application-address">Address</label><input id="application-address" type="text" autocomplete="street-address" required placeholder="Your address"></div>
+          <div class="field"><label for="application-phone">Phone number</label><input id="application-phone" type="tel" autocomplete="tel" required placeholder="01XXXXXXXXX"></div>
+          <div class="field"><label for="application-whatsapp">WhatsApp number</label><input id="application-whatsapp" type="tel" placeholder="01XXXXXXXXX"></div>
+          <div class="field"><label for="application-facebook">Facebook profile link</label><input id="application-facebook" type="url" placeholder="https://www.facebook.com"></div>
+          <div class="field"><label for="application-weight">Weight (kg)</label><input id="application-weight" type="number" min="1" placeholder="50"></div>
+          <div class="field"><label for="application-height">Height (ft/in)</label><input id="application-height" type="text" placeholder="5.4"></div>
+          <div class="field full"><label for="application-emergency-phone">Emergency contact phone</label><input id="application-emergency-phone" type="tel" placeholder="Emergency contact phone"></div>
+          <div class="field full"><label for="application-medical-conditions">Medical conditions <span class="muted">(if any)</span></label><textarea id="application-medical-conditions" rows="2" placeholder="List any medical conditions you have"></textarea></div>
+          <div class="field full"><label for="application-medications">Current medications <span class="muted">(if any)</span></label><textarea id="application-medications" rows="2" placeholder="List any medications you are currently taking"></textarea></div>
+          <label class="donor-awareness full"><input id="application-awareness" type="checkbox" required><span><strong>Awareness</strong> If you read them, agree.<small>By checking this box, you agree to our Terms of Service and Privacy Policy.</small></span></label>
+          <div class="donor-form-footer full"><p id="application-message" class="profile-message" role="status"></p><button class="btn btn-primary" type="submit">Register as donor</button></div>
+        </form>
+        <div id="application-existing" class="donor-existing" hidden role="status"><div class="donor-existing-mark" aria-hidden="true">&#10003;</div><h2>Donor application already submitted</h2><p>This account is already listed on the LifeLink blood donor page.</p><a class="btn btn-secondary" href="/index/blood.html">View blood donors</a></div>
+        <div id="application-success" class="donor-success" hidden role="status"><div class="donor-success-mark" aria-hidden="true">&#10003;</div><h2>Congratulations, you are now a donor!</h2><p>Your application has been added to the LifeLink blood donor page.</p><a class="btn btn-primary" href="/index/blood.html">View blood donors</a></div>
+      </section>
+    </div>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/js/supabase.js"></script>
+  <script src="/js/i18n.js"></script>
+  <script src="/js/script.js"></script>
+  <script src="/js/donor-application.js"></script>
+</body>
+</html>

@@ -122,6 +122,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     message.classList.toggle("is-error", isError);
   }
 
+  function donationAge(value) {
+    const donationDate = new Date(`${value}T00:00:00`);
+    const days = Math.max(0, Math.floor((Date.now() - donationDate.getTime()) / 86400000));
+    if (days < 30) return `${days} day${days === 1 ? "" : "s"} ago`;
+    const months = Math.floor(days / 30.44);
+    if (months < 12) return `${months} month${months === 1 ? "" : "s"} ago`;
+    const years = Math.floor(months / 12);
+    return `${years} year${years === 1 ? "" : "s"} ago`;
+  }
+
   function renderDonors(donors) {
     const cards = donors.map(donor => {
       const initials = donor.full_name.split(/\s+/).map(part => part[0]).slice(0, 2).join("").toUpperCase();
@@ -130,7 +140,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           <h3>${escapeHtml(donor.full_name)}</h3><span class="badge">${escapeHtml(donor.blood_group)}</span>
           <p class="muted">${escapeHtml(donor.location)} · Available donor</p>
         </div></div>
-        <div class="donor-card-footer"><span class="muted">${escapeHtml(initials)} · Last donated ${escapeHtml(new Date(donor.last_donation_date).toLocaleDateString())}</span>
+        <div class="donor-card-footer"><span class="muted">${escapeHtml(initials)} · Last donation: ${escapeHtml(donationAge(donor.last_donation_date))}</span>
           <button class="btn btn-primary donor-contact-button" type="button" data-name="${escapeAttr(donor.full_name)}" data-blood-group="${escapeAttr(donor.blood_group)}" data-phone="${escapeAttr(donor.phone)}" data-email="${escapeAttr(donor.email || "")}" data-location="${escapeAttr(donor.location)}" data-last-donation="${escapeAttr(donor.last_donation_date)}" data-notes="${escapeAttr(donor.notes || "")}">Contact donor</button>
         </div>
       </article>`;

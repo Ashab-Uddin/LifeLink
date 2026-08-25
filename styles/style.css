@@ -1166,6 +1166,7 @@ textarea:focus {
 .donor-card { display: flex; flex-direction: column; justify-content: space-between; gap: 20px }
 .donor-card-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 12px }
 .donor-card-footer .btn { min-height: 40px; padding: 9px 13px }
+.donor-last-donation { margin: -8px 0 0; color: var(--muted); font-size: 12px }
 .donor-details-dialog { width: min(560px, 100%); max-height: min(680px, calc(100vh - 40px)); overflow: auto }
 .donor-details-identity { display: flex; align-items: center; gap: 16px; padding: 4px 0 22px; border-bottom: 1px solid var(--border) }
 .donor-details-identity .avatar { width: 58px; height: 58px; font-size: 18px }
