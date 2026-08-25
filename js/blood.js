@@ -3,6 +3,18 @@ document.addEventListener("DOMContentLoaded", async () => {
   const donorList = document.getElementById("donor-list");
   const bloodTypeFilter = document.getElementById("blood-type-filter");
   const detailsModal = document.getElementById("donor-details-modal");
+  const applicationModal = document.getElementById("blood-donor-application-modal");
+  const applicationForm = document.getElementById("blood-donor-form");
+  const applicationExisting = document.getElementById("blood-donor-existing");
+  const applicationFields = {
+    full_name: document.getElementById("blood-donor-name"),
+    blood_group: document.getElementById("blood-donor-group"),
+    phone: document.getElementById("blood-donor-phone"),
+    location: document.getElementById("blood-donor-location"),
+    last_donation_date: document.getElementById("blood-donor-last-donation"),
+    notes: document.getElementById("blood-donor-notes")
+  };
+  const applicationMessage = document.getElementById("blood-donor-message");
   if (typeof supabaseClient === "undefined" || (!form && !donorList)) return;
 
   const fields = {
@@ -17,6 +29,63 @@ document.addEventListener("DOMContentLoaded", async () => {
   const success = document.getElementById("donor-success");
   const existing = document.getElementById("donor-existing");
   const submitButton = form?.querySelector("button[type=submit]");
+
+  document.getElementById("open-blood-donor-form")?.addEventListener("click", async () => {
+    const { data: { user } } = await supabaseClient.auth.getUser();
+    if (!user) {
+      window.location.href = "/index/login.html";
+      return;
+    }
+    const { data, error } = await supabaseClient.from("blood_donor_applications")
+      .select("id").eq("user_id", user.id).maybeSingle();
+    if (error) {
+      console.error("Donor application check error:", error);
+      return;
+    }
+    applicationModal.hidden = false;
+    applicationForm.hidden = Boolean(data);
+    applicationExisting.hidden = !data;
+    if (!data) {
+      applicationFields.full_name.value = user.user_metadata?.full_name || "";
+      applicationFields.full_name.focus();
+    }
+  });
+  document.getElementById("blood-donor-close")?.addEventListener("click", () => { applicationModal.hidden = true; });
+  document.getElementById("blood-donor-existing-close")?.addEventListener("click", () => { applicationModal.hidden = true; });
+  applicationModal?.addEventListener("click", event => { if (event.target === applicationModal) applicationModal.hidden = true; });
+
+  applicationForm?.addEventListener("submit", async event => {
+    event.preventDefault();
+    const { data: { user } } = await supabaseClient.auth.getUser();
+    if (!user) {
+      window.location.href = "/index/login.html";
+      return;
+    }
+    const { data: existingApplication } = await supabaseClient.from("blood_donor_applications")
+      .select("id").eq("user_id", user.id).maybeSingle();
+    if (existingApplication) {
+      applicationForm.hidden = true;
+      applicationExisting.hidden = false;
+      return;
+    }
+    const donationDate = new Date(applicationFields.last_donation_date.value);
+    const monthsSinceDonation = (Date.now() - donationDate.getTime()) / (1000 * 60 * 60 * 24 * 30.44);
+    if (!Number.isFinite(monthsSinceDonation) || monthsSinceDonation < 3) {
+      applicationMessage.textContent = "Your last donation must be at least 3 months ago.";
+      return;
+    }
+    const { error } = await supabaseClient.from("blood_donor_applications").insert({
+      user_id: user.id,
+      email: user.email || "",
+      ...Object.fromEntries(Object.entries(applicationFields).map(([key, field]) => [key, field.value.trim()]))
+    });
+    if (error) {
+      applicationMessage.textContent = error.message || "Unable to submit your application.";
+      return;
+    }
+    applicationForm.hidden = true;
+    applicationExisting.hidden = false;
+  });
 
   function showMessage(text, isError = false) {
     message.textContent = text;

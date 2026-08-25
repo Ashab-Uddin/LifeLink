@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <title>Blood Donor — LifeLink</title>
 
   <link rel="stylesheet" href="/styles/style.css">
@@ -66,7 +69,7 @@
           </p>
         </div>
 
-        <a class="btn btn-primary" href="/index/profile.html#donor-application-modal">Apply to donate</a>
+        <button id="open-blood-donor-form" class="btn btn-primary" type="button">Apply to donate</button>
 
       </div>
 
@@ -241,11 +244,28 @@
     </div>
   </div>
 
+  <div id="blood-donor-application-modal" class="crop-modal" hidden>
+    <div class="crop-dialog donor-dialog" role="dialog" aria-modal="true" aria-labelledby="blood-donor-title">
+      <div class="crop-dialog-heading"><div><span class="section-kicker">Give blood, save lives</span><h2 id="blood-donor-title">Become a LifeLink donor</h2></div><button id="blood-donor-close" class="crop-close" type="button" aria-label="Close donor form">&times;</button></div>
+      <p class="muted donor-dialog-intro">Complete your details to appear on the LifeLink blood donor page.</p>
+      <form id="blood-donor-form" class="form-grid" hidden>
+        <div class="field full"><label for="blood-donor-name">Full name</label><input id="blood-donor-name" type="text" required placeholder="Your name"></div>
+        <div class="field"><label for="blood-donor-group">Blood group</label><select id="blood-donor-group" required><option value="">Select blood group</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option></select></div>
+        <div class="field"><label for="blood-donor-phone">Phone number</label><input id="blood-donor-phone" type="tel" required placeholder="01XXXXXXXXX"></div>
+        <div class="field"><label for="blood-donor-location">City or area</label><input id="blood-donor-location" type="text" required placeholder="e.g. Mirpur, Dhaka"></div>
+        <div class="field"><label for="blood-donor-last-donation">Last blood donation</label><input id="blood-donor-last-donation" type="date" required><span class="field-hint">At least 3 months ago.</span></div>
+        <div class="field full"><label for="blood-donor-notes">Availability or notes <span class="muted">(optional)</span></label><textarea id="blood-donor-notes" rows="3" placeholder="Best time to contact you"></textarea></div>
+        <div class="donor-form-footer full"><p id="blood-donor-message" class="profile-message" role="status"></p><button class="btn btn-primary" type="submit">Submit donor application</button></div>
+      </form>
+      <div id="blood-donor-existing" class="donor-existing" hidden role="status"><div class="donor-existing-mark" aria-hidden="true">&#10003;</div><h3>Donor application already submitted</h3><p>This account is already listed on the LifeLink blood donor page.</p><button id="blood-donor-existing-close" class="btn btn-secondary" type="button">Close</button></div>
+    </div>
+  </div>
+
   <script src="/js/i18n.js"></script>
   <script src="/js/script.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="/js/supabase.js"></script>
-  <script src="/js/blood.js"></script>
+  <script src="/js/blood.js?v=20260826-final"></script>
 
 </body>
 </html>
