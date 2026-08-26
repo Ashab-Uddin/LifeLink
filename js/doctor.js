@@ -24,7 +24,7 @@ async function loadDoctors() {
 
     if (disease && contextEl) {
       contextEl.style.display = "block";
-      contextEl.innerHTML = `Showing <strong>${escapeHtml(data.matched_department || "General Medicine")}</strong> specialists recommended for <strong>${escapeHtml(disease)}</strong>.`;
+      contextEl.innerHTML = `Showing <strong>${escapeHtml(data.matched_department || "General Medicine")}</strong> specialists recommended for <strong>${escapeHtml(disease)}</strong> from LABAID Hospital.`;
     }
 
     if (!data.doctors.length) {
@@ -35,11 +35,10 @@ async function loadDoctors() {
 
     CURRENT_DOCTORS = data.doctors;
 
-    listEl.innerHTML = CURRENT_DOCTORS
-      .map((doc, index) => {
-        const initials = getInitials(doc["Doctor Name"]);
+    listEl.innerHTML = CURRENT_DOCTORS.map((doc, index) => {
+      const initials = getInitials(doc["Doctor Name"]);
 
-        return `
+      return `
         <article class="card">
           <div class="person-card">
             <div class="avatar">${escapeHtml(initials)}</div>
@@ -54,8 +53,7 @@ async function loadDoctors() {
             <button class="btn btn-outline" onclick="viewDoctorProfile(${index})">View Profile</button>
           </div>
         </article>`;
-      })
-      .join("");
+    }).join("");
   } catch (e) {
     listEl.innerHTML = `<div class="notice">${escapeHtml(e.message)}</div>`;
   }
