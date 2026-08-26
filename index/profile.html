@@ -25,11 +25,26 @@
 
     <main class="page profile-page">
         <div class="container">
+            <div class="profile-page-layout">
+                <aside class="profile-section-nav" aria-label="Profile sections">
+                    <a class="profile-section-nav-link is-active" href="#profile-overview"><span aria-hidden="true">&#9638;</span>Overview</a>
+                    <a class="profile-section-nav-link" href="#profile-blood-activity"><span aria-hidden="true">&#9829;</span>Blood Requests</a>
+                    <a class="profile-section-nav-link" href="#profile-blood-activity"><span aria-hidden="true">&#10003;</span>Donations</a>
+                    <a class="profile-section-nav-link" href="/index/history.html"><span aria-hidden="true">&#8764;</span>Health History</a>
+                    <a class="profile-section-nav-link" href="#profile-form"><span aria-hidden="true">&#9733;</span>Achievements</a>
+                    <a class="profile-section-nav-link" href="#profile-security"><span aria-hidden="true">&#9671;</span>Security</a>
+                </aside>
+                <div class="profile-page-content" id="profile-overview">
             <div class="profile-heading">
                 <div>
                     <span class="badge">Personal health space</span>
                     <h1>Your profile</h1>
                     <p class="muted">Keep your details ready for more connected care.</p>
+                    <div class="profile-resource-actions">
+                        <a class="btn btn-primary" href="/index/donor-application.html">Apply to donate</a>
+                        <a class="btn btn-outline" href="/index/blood-request.html">Blood Request</a>
+                        <a class="btn btn-outline" href="/index/blood-requests.html">All requests</a>
+                    </div>
                 </div>
             </div>
 
@@ -122,7 +137,7 @@
                                 class="muted">Ready to improve</span></div>
                         <p class="muted">A complete profile gives your healthcare tools better context.</p>
                     </section>
-                    <section class="card profile-security-card">
+                    <section id="profile-security" class="card profile-security-card">
                         <span class="section-kicker">Account access</span>
                         <h3>Manage your session</h3>
                         <p class="muted">Sign out when you are finished using LifeLink on this device.</p>
@@ -133,13 +148,15 @@
                 </aside>
             </div>
 
-            <section class="profile-blood-activity">
+            <section id="profile-blood-activity" class="profile-blood-activity">
                 <div class="form-card-heading"><div><span class="section-kicker">Blood support</span><h2>My blood activity</h2><p class="muted">Track your requests and donor responses in one place.</p></div><a class="btn btn-secondary" href="/index/blood-request.html">Request blood</a></div>
                 <div class="profile-blood-activity-grid">
                     <section class="card profile-activity-card"><h3>My blood requests</h3><div id="profile-blood-requests" class="profile-activity-list"><p class="muted">Loading requests...</p></div></section>
                     <section class="card profile-activity-card"><h3>Donor responses</h3><div id="profile-blood-notifications" class="profile-activity-list"><p class="muted">Loading notifications...</p></div></section>
                 </div>
             </section>
+                </div>
+            </div>
         </div>
     </main>
 

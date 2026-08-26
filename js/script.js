@@ -20,6 +20,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (linkPath === path) a.classList.add("active");
   });
 
+  document.querySelectorAll("[data-service]").forEach(a => {
+    if (a.dataset.service === path) a.classList.add("is-current");
+  });
+
   document.querySelectorAll(".reveal").forEach(el => {
     const io = new IntersectionObserver(entries => {
       entries.forEach(e => { if(e.isIntersecting){e.target.classList.add("show");io.unobserve(e.target);} });

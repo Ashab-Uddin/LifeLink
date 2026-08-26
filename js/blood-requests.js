@@ -60,9 +60,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     contact.href = request.contact_number ? `tel:${request.contact_number}` : "#";
     const whatsapp = document.getElementById("request-details-whatsapp");
     whatsapp.textContent = request.whatsapp_number || "WhatsApp not provided";
-    whatsapp.href = request.whatsapp_number ? `tel:${request.whatsapp_number}` : "#";
+    const whatsappNumber = String(request.whatsapp_number || "").replace(/[^\d+]/g, "").replace(/^\+/, "");
+    whatsapp.href = whatsappNumber ? `https://wa.me/${whatsappNumber}` : "#";
+    whatsapp.target = whatsappNumber ? "_blank" : "_self";
+    whatsapp.rel = whatsappNumber ? "noopener" : "";
     detail("request-details-hemoglobin", request.hemoglobin ? `${request.hemoglobin} g/dL` : "Not provided");
     detail("request-details-problem", request.patient_problem);
+    const donateButton = document.getElementById("request-donate-button");
+    if (donateButton) {
+      donateButton.textContent = "I want to donate";
+      donateButton.disabled = false;
+    }
     document.getElementById("request-donate-message").textContent = "";
     detailModal.hidden = false;
   };
@@ -96,7 +104,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
     list.innerHTML = filtered.map((request, index) => `<article class="blood-request-item" tabindex="0" data-request-index="${requests.indexOf(request)}">
-      <div class="blood-request-item-heading"><div class="request-card-identity"><span class="request-card-blood">${escape(request.blood_group)}</span><div><h2>${escape(request.patient_name)}</h2><p>${escape(request.donation_center)} · ${escape(request.district)}</p></div></div><span class="blood-request-status">Open request</span></div>
+      <div class="blood-request-item-heading"><div class="request-card-identity"><span class="request-card-blood">${escape(request.blood_group)}</span><div><h2>${escape(request.patient_name)}</h2></div></div><span class="blood-request-status">Open request</span></div>
+      <div class="request-card-center"><span>Hospital / center</span><strong>${escape(request.donation_center || "Not provided")}</strong></div>
       <dl class="blood-request-meta">
         <div><dt>Blood group</dt><dd class="request-blood-value">${escape(request.blood_group)}</dd></div><div><dt>Amount</dt><dd>${escape(request.blood_amount_bags)} bag${Number(request.blood_amount_bags) === 1 ? "" : "s"}</dd></div><div><dt>Donation date</dt><dd>${formatDate(request.donation_date)}</dd></div><div><dt>Time</dt><dd>${formatTime(request.donation_time)}</dd></div><div><dt>Division</dt><dd>${escape(request.division)}</dd></div><div><dt>Upazila</dt><dd>${escape(request.upazila) || "Not provided"}</dd></div>
       </dl><p class="blood-request-card-hint">View complete request details</p>

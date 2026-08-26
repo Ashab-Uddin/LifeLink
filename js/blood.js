@@ -340,10 +340,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (donorList) await loadDonors();
   const donorFiltersToggle = document.getElementById("donor-filters-toggle");
   const donorFiltersPanel = document.getElementById("donor-filters-panel");
+  const donorBrowser = document.querySelector(".donor-browser");
   donorFiltersToggle?.addEventListener("click", () => {
     const expanded = donorFiltersToggle.getAttribute("aria-expanded") === "true";
     donorFiltersToggle.setAttribute("aria-expanded", String(!expanded));
     donorFiltersPanel?.classList.toggle("is-open", !expanded);
+    donorBrowser?.classList.toggle("filters-open", !expanded);
   });
   document.getElementById("donor-search-button")?.addEventListener("click", filterDonors);
   document.getElementById("donor-search")?.addEventListener("input", filterDonors);

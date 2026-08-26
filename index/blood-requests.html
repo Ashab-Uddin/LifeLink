@@ -23,7 +23,7 @@
     <div class="container">
       <div class="section-head">
         <div><span class="badge">Community support</span><h1>Blood requests</h1><p>See open requests and help patients find a matching donor.</p></div>
-        <div class="blood-page-actions"><a class="btn btn-outline" href="/index/blood.html">Find donors</a><a class="btn btn-primary" href="/index/blood-request.html">Blood Request</a></div>
+        <div class="blood-page-actions"><a class="btn btn-outline" data-service="blood.html" href="/index/blood.html">Find donors</a><a class="btn btn-outline" data-service="blood-request.html" href="/index/blood-request.html">Blood Request</a></div>
       </div>
       <div class="request-search-row donor-search-row"><label class="sr-only" for="request-search">Search requests</label><input id="request-search" type="search" placeholder="Search by patient, location, or blood group..."><button id="request-search-button" class="btn btn-primary" type="button">Search</button></div>
       <div id="request-blood-filter" class="quick-blood-filter" role="group" aria-label="Quick blood group filter">
@@ -59,7 +59,7 @@
       <dl class="request-details-grid request-details-primary">
         <div><dt>Blood group</dt><dd id="request-details-blood-label">Not provided</dd></div><div><dt>Required blood</dt><dd id="request-details-amount">Not provided</dd></div><div><dt>Posted date</dt><dd id="request-details-posted">Not provided</dd></div><div><dt>Donation date</dt><dd id="request-details-date">Not provided</dd></div><div><dt>Donation time</dt><dd id="request-details-time">Not provided</dd></div><div><dt>Hospital / center</dt><dd id="request-details-center">Not provided</dd></div><div><dt>Location</dt><dd id="request-details-full-location">Not provided</dd></div><div><dt>Hemoglobin</dt><dd id="request-details-hemoglobin">Not provided</dd></div>
       </dl>
-      <div class="request-details-contact-block"><span>Requester contact</span><div><a id="request-details-contact" href="#">Call requester</a><a id="request-details-whatsapp" href="#">WhatsApp</a></div></div>
+      <div class="request-details-contact-block"><span>Requester contact</span><div class="request-contact-method"><span>Contact number</span><a id="request-details-contact" href="#">Not provided</a></div><div class="request-contact-method"><span>WhatsApp number</span><a id="request-details-whatsapp" href="#">Not provided</a></div></div>
       <div class="request-details-note"><span>Patient problem</span><p id="request-details-problem">Not provided</p></div>
       <button id="request-donate-button" class="btn btn-primary request-donate-button" type="button">I want to donate</button>
       <p id="request-donate-message" class="profile-message" role="status"></p>

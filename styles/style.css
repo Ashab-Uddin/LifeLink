@@ -1007,6 +1007,14 @@ textarea:focus {
   background: linear-gradient(180deg, #f0fbfa 0, var(--bg) 270px)
 }
 
+.profile-page-layout { display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: 28px; align-items: start }
+.profile-page-content { min-width: 0 }
+.profile-section-nav { position: sticky; top: 92px; display: grid; gap: 6px; padding: 8px 0 }
+.profile-section-nav-link { display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 0 14px; border-radius: 10px; color: var(--muted); font-size: 14px; text-decoration: none; transition: background .2s ease, color .2s ease }
+.profile-section-nav-link span { width: 20px; color: var(--primary); font-size: 18px; text-align: center }
+.profile-section-nav-link:hover, .profile-section-nav-link.is-active { background: var(--primary); color: #fff }
+.profile-section-nav-link:hover span, .profile-section-nav-link.is-active span { color: #fff }
+
 .profile-heading {
   display: flex;
   align-items: end;
@@ -1022,6 +1030,8 @@ textarea:focus {
 }
 
 .profile-heading p { margin: 0 }
+.profile-resource-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 20px }
+.profile-resource-actions .btn { white-space: nowrap }
 
 .profile-hero {
   display: flex;
@@ -1175,15 +1185,17 @@ textarea:focus {
 .quick-blood-filter > span { margin-right: 5px }
 .quick-blood-filter .blood-type-button { min-width: 42px; min-height: 38px; padding: 7px 10px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); color: var(--muted); font-size: 12px; font-weight: 800; transition: .25s }
 .quick-blood-filter .blood-type-button:hover, .quick-blood-filter .blood-type-button.active { border-color: var(--primary); background: var(--primary); color: #fff; box-shadow: 0 7px 16px rgba(11, 143, 135, .18) }
-.donor-filters-toggle { display: none; align-items: center; justify-content: center; gap: 9px; min-height: 44px; padding: 9px 16px; border: 1px solid var(--border); border-radius: 10px; background: #fff; color: var(--text); font-weight: 700; box-shadow: 0 8px 20px rgba(16, 42, 67, .05) }
+.donor-filters-toggle { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 40px; padding: 8px 14px; border: 1px solid var(--border); border-radius: 10px; background: #fff; color: var(--text); font-size: 13px; font-weight: 700; box-shadow: 0 8px 20px rgba(16, 42, 67, .05) }
 .donor-filters-toggle svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8 }
 .donor-filters-toggle:hover, .donor-filters-toggle[aria-expanded="true"] { border-color: #9bd9d4; background: var(--accent); color: var(--primary) }
-.donor-browser { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 20px; align-items: start }
+.donor-browser { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; align-items: start }
+.donor-browser.filters-open { grid-template-columns: 280px minmax(0, 1fr) }
 .donor-filters { display: grid; gap: 9px; padding: 18px; border: 1px solid var(--border); border-radius: 14px; background: var(--surface); box-shadow: var(--shadow); position: sticky; top: 88px }
+.donor-filters:not(.is-open) { display: none }
 .donor-filters h3 { margin: 0 0 4px; font: 700 18px "Plus Jakarta Sans" }
 .donor-filters label { font-size: 12px }
 .donor-filters input, .donor-filters select { min-height: 38px; padding: 8px 10px; font-size: 12px }
-.donor-filters .btn { width: 100%; margin-top: 3px }
+.donor-filters .btn { width: 100%; min-height: 40px; padding: 9px 14px; margin-top: 3px }
 .filter-check { display: flex; align-items: center; gap: 8px; margin: 4px 0 }
 .filter-check input { width: auto; min-height: auto; accent-color: var(--primary) }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0 }
@@ -1571,6 +1583,8 @@ textarea:focus {
     grid-template-columns: 1fr
   }
 
+  .donor-browser.filters-open { grid-template-columns: 1fr }
+
   .donor-filters {
     position: static
   }
@@ -1749,6 +1763,10 @@ textarea:focus {
     display: block
   }
 
+  .profile-page-layout { display: block }
+  .profile-section-nav { position: static; display: flex; gap: 4px; margin: -8px 0 22px; padding: 0 0 8px; overflow-x: auto }
+  .profile-section-nav-link { flex: 0 0 auto; min-height: 42px; padding: 0 12px; white-space: nowrap }
+
   .profile-heading .btn {
     width: 100%;
     margin-top: 18px
@@ -1874,7 +1892,28 @@ textarea:focus {
 
   .home-tools .card:hover::before { transform: scaleX(0) }
 }
-.blood-page-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: flex-end }
+.blood-page-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: flex-start }
+.blood-page-actions .btn { border-color: var(--primary); background: var(--primary); color: #fff }
+.blood-page-actions .btn:hover { border-color: var(--primary); background: #087f79; color: #fff }
+.blood-page-actions .is-current { border-color: var(--primary); background: var(--primary); color: #fff }
+.blood-page-actions .is-current:hover { border-color: var(--primary); background: var(--primary); color: #fff }
+.blood-donor-page .section-head { display: block }
+.blood-donor-content-layout { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 28px; align-items: start }
+.blood-donor-page > .container { width: calc(100% - 40px); max-width: none; margin-left: 20px; margin-right: 20px }
+.blood-services-panel { position: sticky; top: 92px; padding: 20px 0 24px 16px }
+.blood-services-panel::before { position: absolute; top: 18px; bottom: 22px; left: 0; width: 3px; border-radius: 3px; background: var(--primary); content: ""; opacity: .8 }
+.blood-services-panel h3 { margin: 0 0 14px; color: var(--primary); font: 700 20px "Plus Jakarta Sans"; letter-spacing: .01em }
+.blood-services-panel .blood-page-actions { display: grid; justify-items: start; gap: 10px; width: 100%; margin: 0 }
+.blood-services-panel .blood-page-actions { width: 100% }
+.blood-services-panel .blood-page-actions .btn,
+.blood-services-panel .donor-filters-toggle { display: flex; align-items: center; justify-content: center; width: 160px; max-width: 160px; height: 40px !important; min-height: 40px !important; flex: 0 0 160px; box-sizing: border-box; padding: 9px 14px; border-radius: 10px; text-align: center; line-height: 20px }
+.blood-services-panel .blood-service-control { width: 160px !important; max-width: 160px !important; min-width: 160px; flex-basis: 160px !important }
+.blood-services-panel .blood-page-actions .btn { border: 1px solid var(--border); background: #fff; color: var(--text); box-shadow: 0 8px 20px rgba(16, 42, 67, .05) }
+.blood-services-panel .blood-page-actions .btn:hover { border-color: #9bd9d4; background: var(--accent); color: var(--primary) }
+.blood-services-panel .donor-filters-toggle { margin-top: 10px }
+.blood-service-control { display: flex !important; align-items: center; justify-content: center; align-self: start; width: 160px !important; min-width: 160px !important; max-width: 160px !important; inline-size: 160px !important; height: 40px !important; min-height: 40px !important; max-height: 40px !important; box-sizing: border-box; font-size: 14px; font-weight: 600; line-height: 20px }
+.blood-donor-main { min-width: 0 }
+.blood-donor-main .section-head { margin-top: 48px }
 .blood-request-page { background: linear-gradient(180deg, #f0fbfa 0, var(--bg) 430px) }
 .blood-request-card { max-width: 900px; padding: 28px }
 .blood-request-notice { margin: 0 0 20px; padding: 12px 14px; border: 1px solid #b9dfdc; border-radius: 10px; background: var(--accent); color: var(--text); font-size: 13px }
@@ -1893,6 +1932,7 @@ textarea:focus {
 .blood-request-item-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; min-height: 58px }
 .blood-request-item-heading h2 { margin: 0 0 4px; font: 700 20px "Plus Jakarta Sans" }
 .request-card-identity { display: flex; align-items: center; gap: 12px; min-width: 0 }
+.request-card-identity > div { min-width: 0; flex: 1 }
 .request-card-blood { display: grid; place-items: center; flex: 0 0 auto; width: 54px; height: 54px; border-radius: 15px; background: var(--accent); color: var(--primary); font-size: 16px; font-weight: 800 }
 .blood-request-status { padding: 4px 10px; border-radius: 999px; background: var(--accent); color: var(--primary); font-size: 11px; font-weight: 800; white-space: nowrap }
 .blood-request-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 12px; margin: 0; padding-top: 4px; border-top: 1px solid var(--border) }
@@ -1900,6 +1940,9 @@ textarea:focus {
 .blood-request-meta dt { color: var(--muted); font-size: 11px; font-weight: 700 }
 .blood-request-meta dd { margin: 0; color: var(--text); font-size: 13px; font-weight: 700; overflow-wrap: anywhere }
 .blood-request-item p { margin: 0; color: var(--muted); font-size: 13px }
+.request-card-center { display: grid; gap: 5px; width: 100%; min-height: 52px; padding: 10px 12px; border-radius: 10px; background: #f5fbfb }
+.request-card-center span { color: var(--muted); font-size: 11px; font-weight: 700 }
+.request-card-center strong { color: var(--text); font-size: 13px; line-height: 1.5; overflow-wrap: anywhere }
 .blood-request-card-hint { color: var(--primary) !important; font-size: 12px !important; font-weight: 700 }
 .blood-request-empty { padding: 28px; border: 1px dashed var(--border); border-radius: 14px; color: var(--muted); text-align: center }
 .request-browser { display: grid; grid-template-columns: 280px minmax(0, 1fr); align-items: start; gap: 20px; }
@@ -1916,7 +1959,7 @@ textarea:focus {
 .request-date-range { display: grid; gap: 8px }
 .request-range { width: 100%; accent-color: var(--primary) }
 .request-search-row { margin: 0 0 20px }
-.request-details-dialog { width: min(700px, 100%); max-height: min(760px, calc(100vh - 40px)); overflow: auto }
+.request-details-dialog { width: min(700px, calc(100vw - 40px)); max-height: min(760px, calc(100vh - 40px)); overflow: auto }
 .donor-response-success-dialog { position: relative; width: min(420px, 100%); padding: 30px; text-align: center }
 .donor-response-success-close { position: absolute; top: 18px; right: 18px }
 .donor-response-success-icon { display: grid; place-items: center; width: 60px; height: 60px; margin: 8px auto 16px; border-radius: 50%; background: var(--accent); color: var(--primary); font-size: 30px; font-weight: 800 }
@@ -1939,8 +1982,15 @@ textarea:focus {
 .request-details-primary { padding: 20px 0 18px }
 .request-details-contact-block { display: grid; gap: 8px; padding: 16px 0; border-top: 1px solid var(--border) }
 .request-details-contact-block > span, .request-details-note > span { color: var(--muted); font-size: 12px; font-weight: 700 }
-.request-details-contact-block div { display: flex; gap: 18px; flex-wrap: wrap }
+.request-details-contact-block > div { display: flex; align-items: baseline; gap: 10px; min-width: 170px }
+.request-contact-method > span { flex: 0 0 112px; color: var(--muted); font-size: 11px; font-weight: 700 }
 .request-details-contact-block a { color: var(--primary); font-size: 14px; font-weight: 700 }
+
+@media(min-width:701px) {
+  .request-details-contact-block { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 24px }
+  .request-details-contact-block > span { grid-column: 1 / -1 }
+}
+
 .blood-request-card .donor-awareness { padding: 10px 12px; font-size: 12px }
 .blood-request-card .donor-awareness.full { grid-column: 1 / -1; width: 100% }
 .blood-request-card .donor-awareness-copy { color: var(--text) }
@@ -1952,6 +2002,11 @@ textarea:focus {
 .blood-request-card .donor-form-footer .btn { margin-inline: 0; padding: 10px 18px }
 
 @media(max-width:700px) {
+  .blood-donor-content-layout { grid-template-columns: 1fr; gap: 0 }
+  .blood-services-panel { position: static; padding: 0; margin: 0 0 24px }
+  .blood-services-panel h3 { margin-bottom: 12px }
+  .blood-services-panel .blood-page-actions { grid-template-columns: 1fr; max-width: 320px }
+  .blood-donor-main .section-head { margin-top: 0 }
   .blood-page-actions { justify-content: flex-start; margin-top: 18px }
   .blood-page-actions .btn { flex: 1 1 180px; text-align: center }
   .blood-request-card { padding: 20px }
@@ -1961,9 +2016,17 @@ textarea:focus {
   .blood-request-meta { grid-template-columns: 1fr 1fr }
   .request-browser { grid-template-columns: 1fr }
   .request-browser-toolbar { position: static; width: 100%; }
-  .request-details-grid { grid-template-columns: 1fr }
+  .request-details-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) }
+  .request-details-contact-block { grid-template-columns: 1fr }
+  .request-contact-method > span { flex-basis: 112px }
   .request-details-header { align-items: flex-start; flex-wrap: wrap }
   .request-details-header .blood-request-status { margin-left: 0 }
+}
+
+@media(min-width:480px) and (max-width:700px) {
+  .request-details-dialog { width: calc(100vw - 40px) }
+  .request-details-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) }
+  .request-details-contact-block { grid-template-columns: 1fr }
 }
 
 @media(max-width:1000px) and (min-width:701px) {
