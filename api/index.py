@@ -148,6 +148,17 @@ except Exception as e:
     print(e)
     raise
 
+from disease_department import DISEASE_TO_DEPARTMENT
+
+print("Loading doctors CSV...")
+
+try:
+    doctors_df = pd.read_csv(BASE_DIR / "LABAID_Specialized_Hospital_Doctors.csv")
+    print("Doctors CSV loaded successfully. Rows:", len(doctors_df))
+except Exception as e:
+    print("ERROR loading doctors CSV:")
+    print(e)
+    doctors_df = pd.DataFrame()
 
 # =========================================================
 # Model Accuracies
@@ -346,25 +357,47 @@ def get_models():
 
 
 # =========================================================
-# Doctor Recommendations
+# Prediction
 # =========================================================
 
 @app.get("/api/doctors")
-def get_doctors(disease: str | None = Query(default=None)):
+def get_doctors(disease: str = None, department: str = None):
 
-    doctors = get_recommended_doctors(disease)
+    try:
+        if doctors_df.empty:
+            return {"success": False, "message": "Doctor data not available."}
 
-    return {
-        "success": True,
-        "disease": disease,
-        "count": len(doctors),
-        "doctors": doctors,
-    }
+        target_department = department
 
+        if disease and not target_department:
+            target_department = DISEASE_TO_DEPARTMENT.get(disease)
 
-# =========================================================
-# Prediction
-# =========================================================
+        if target_department:
+            matches = doctors_df[
+                doctors_df["Department"].str.contains(target_department, case=False, na=False)
+            ]
+        else:
+            matches = doctors_df
+
+        if matches.empty:
+            matches = doctors_df[
+                doctors_df["Department"].str.contains("Medicine", case=False, na=False)
+            ]
+
+        doctor_list = matches.to_dict(orient="records")
+
+        return {
+            "success": True,
+            "disease": disease,
+            "matched_department": target_department,
+            "count": len(doctor_list),
+            "doctors": doctor_list
+        }
+
+    except Exception as e:
+        traceback.print_exc()
+        return {"success": False, "error": type(e).__name__, "message": str(e)}
+
 
 @app.post("/api/predict")
 def predict(data: PredictionRequest):

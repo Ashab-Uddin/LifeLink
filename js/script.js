@@ -41,7 +41,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   initPrediction();
-  initDoctors();
   renderHistory();
 });
 
@@ -175,6 +174,10 @@ async function predictDisease() {
     const doctorLink = document.getElementById("doctor-link");
     if (doctorLink)
       doctorLink.href = `/index/doctor.html?disease=${encodeURIComponent(data.disease)}`;
+    const findDoctorBtn = document.querySelector('a[href="/index/doctor.html"]');
+    if (findDoctorBtn)
+      findDoctorBtn.href = `/index/doctor.html?disease=${encodeURIComponent(data.disease)}`;
+
     result?.classList.add("visible");
     saveHistory(data, selected);
     requestAnimationFrame(() => {
@@ -185,41 +188,6 @@ async function predictDisease() {
     toast(uiText(e.message));
   } finally {
     loader?.classList.remove("active");
-  }
-}
-
-async function initDoctors() {
-  const list = document.getElementById("doctor-list");
-  if (!list) return;
-
-  const disease = new URLSearchParams(location.search).get("disease");
-  const context = document.getElementById("doctor-context");
-  if (disease)
-    context.textContent = `Recommended Labaid specialists for ${healthText(disease)}.`;
-
-  try {
-    const query = disease ? `?disease=${encodeURIComponent(disease)}` : "";
-    const res = await fetch(`${API_BASE}/doctors${query}`);
-    const data = await res.json();
-    if (!data.success)
-      throw new Error(data.message || "Unable to load doctors.");
-    list.innerHTML =
-      (data.doctors || [])
-        .map((doctor) => {
-          const initials = doctor.name
-            .replace(/[^A-Za-z ]/g, "")
-            .trim()
-            .split(/\s+/)
-            .slice(-2)
-            .map((part) => part[0])
-            .join("")
-            .toUpperCase();
-          return `<article class="card"><div class="person-card"><div class="avatar">${escapeHtml(initials)}</div><div><h3>${escapeHtml(doctor.name)}</h3><span class="badge">${escapeHtml(doctor.department)}</span><p class="muted">${escapeHtml(doctor.specialty)}</p><p class="muted">${escapeHtml(doctor.designation)} · Labaid Specialized Hospital</p></div></div></article>`;
-        })
-        .join("") ||
-      "<div class='notice'>No matching Labaid doctors were found.</div>";
-  } catch (error) {
-    list.innerHTML = `<div class="notice">${escapeHtml(error.message || "Unable to load doctors.")}</div>`;
   }
 }
 
