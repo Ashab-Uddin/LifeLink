@@ -2207,3 +2207,110 @@ textarea:focus {
   .request-card-identity > div { min-width: 0; }
   .blood-request-item-heading h2 { overflow-wrap: anywhere; }
 }
+
+/* ===================== Doctor Profile Modal ===================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(16, 42, 67, .55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 1000;
+}
+
+.modal-overlay.hidden {
+  display: none;
+}
+
+.modal-box {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  max-width: 480px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 28px;
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  border: none;
+  background: var(--surface-2);
+  color: var(--text);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.modal-close:hover {
+  background: var(--accent);
+}
+
+.modal-doctor-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 18px;
+  padding-right: 30px;
+}
+
+.modal-doctor-header .avatar {
+  width: 56px;
+  height: 56px;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.modal-doctor-header h3 {
+  margin: 0 0 4px;
+}
+
+.modal-doctor-details {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.modal-doctor-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 10px;
+}
+
+.modal-doctor-row:last-child {
+  border-bottom: none;
+}
+
+.modal-doctor-row .label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .03em;
+}
+
+.modal-doctor-row .value {
+  font-size: 15px;
+  color: var(--text);
+}
+
+.modal-doctor-row .value a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.modal-doctor-row .value a:hover {
+  text-decoration: underline;
+}
