@@ -139,7 +139,8 @@ try:
     medications = pd.read_csv(BASE_DIR / "medications.csv")
     diets = pd.read_csv(BASE_DIR / "diets.csv")
     labaid_doctors = pd.read_csv(
-        BASE_DIR / "LABAID_Specialized_Hospital_Doctors.csv")
+        BASE_DIR / "LABAID_Specialized_Hospital_Doctors.csv",
+        dtype={"Phone Number": str})
 
     print("CSV files loaded successfully.")
 
@@ -153,7 +154,9 @@ from disease_department import DISEASE_TO_DEPARTMENT
 print("Loading doctors CSV...")
 
 try:
-    doctors_df = pd.read_csv(BASE_DIR / "LABAID_Specialized_Hospital_Doctors.csv")
+    doctors_df = pd.read_csv(
+        BASE_DIR / "LABAID_Specialized_Hospital_Doctors.csv",
+        dtype={"Phone Number": str})
     print("Doctors CSV loaded successfully. Rows:", len(doctors_df))
 except Exception as e:
     print("ERROR loading doctors CSV:")
@@ -286,6 +289,7 @@ def get_recommended_doctors(disease=None):
             "name": str(row["Doctor Name"]),
             "specialty": str(row["Specialty"]),
             "designation": str(row["Designation"]),
+            "phone": str(row["Phone Number"]) if "Phone Number" in row else None,
         }
         for _, row in department_matches.iterrows()
     ]
