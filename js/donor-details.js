@@ -1,8 +1,42 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const donor = JSON.parse(sessionStorage.getItem("lifelink_selected_donor") || "null");
-  if (!donor) {
+document.addEventListener("DOMContentLoaded", async () => {
+  const cachedDonor = JSON.parse(sessionStorage.getItem("lifelink_selected_donor") || "null");
+  if (!cachedDonor) {
     window.location.replace("/index/blood.html");
     return;
+  }
+
+  let donor = cachedDonor;
+  if (typeof supabaseClient !== "undefined" && cachedDonor.userId) {
+    const { data: latestDonor } = await supabaseClient.from("blood_donor_applications")
+      .select("user_id,full_name,blood_group,gender,phone,email,location,last_donation_date,created_at,date_of_birth,division,district,upazila,address,whatsapp,facebook,weight_kg,height,emergency_phone,medical_conditions,current_medications,notes")
+      .eq("user_id", cachedDonor.userId).maybeSingle();
+    if (latestDonor) {
+      donor = {
+        ...cachedDonor,
+        userId: latestDonor.user_id,
+        name: latestDonor.full_name,
+        bloodGroup: latestDonor.blood_group,
+        gender: latestDonor.gender,
+        phone: latestDonor.phone,
+        email: latestDonor.email,
+        location: latestDonor.location,
+        lastDonation: latestDonor.last_donation_date,
+        createdAt: latestDonor.created_at,
+        dateOfBirth: latestDonor.date_of_birth,
+        division: latestDonor.division,
+        district: latestDonor.district,
+        upazila: latestDonor.upazila,
+        address: latestDonor.address,
+        whatsapp: latestDonor.whatsapp,
+        facebook: latestDonor.facebook,
+        weight: latestDonor.weight_kg,
+        height: latestDonor.height,
+        emergencyPhone: latestDonor.emergency_phone,
+        medicalConditions: latestDonor.medical_conditions,
+        medications: latestDonor.current_medications,
+        notes: latestDonor.notes
+      };
+    }
   }
 
   const value = field => donor[field] || "Not provided";
