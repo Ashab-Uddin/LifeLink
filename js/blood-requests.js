@@ -120,10 +120,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   else render();
   const filtersToggle = document.getElementById("request-filters-toggle");
   const filtersPanel = document.getElementById("request-filters-panel");
+  const requestBrowser = document.querySelector(".request-browser");
   filtersToggle?.addEventListener("click", () => {
     const expanded = filtersToggle.getAttribute("aria-expanded") === "true";
     filtersToggle.setAttribute("aria-expanded", String(!expanded));
     filtersPanel?.classList.toggle("is-open", !expanded);
+    requestBrowser?.classList.toggle("filters-open", !expanded);
   });
   ["request-search", "request-filter-blood", "request-filter-division", "request-filter-district", "request-filter-upazila", "request-filter-date-from", "request-filter-date-to", "request-filter-amount", "request-filter-hemoglobin"].forEach(id => document.getElementById(id)?.addEventListener("input", render));
   document.getElementById("request-search-button")?.addEventListener("click", render);

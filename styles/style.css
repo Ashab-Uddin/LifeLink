@@ -1927,6 +1927,10 @@ textarea:focus {
 .blood-request-card { max-width: 900px; padding: 28px }
 .blood-request-notice { margin: 0 0 20px; padding: 12px 14px; border: 1px solid #b9dfdc; border-radius: 10px; background: var(--accent); color: var(--text); font-size: 13px }
 .blood-requests-page { background: linear-gradient(180deg, #f0fbfa 0, var(--bg) 430px) }
+.blood-requests-content-layout { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 28px; align-items: start }
+.blood-requests-page > .container { width: calc(100% - 40px); max-width: none; margin-left: 20px; margin-right: 20px }
+.blood-requests-main { min-width: 0 }
+.blood-requests-services-panel { margin-top: 28px }
 .blood-requests-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; max-width: 1120px; margin: 0 auto }
 .blood-request-notifications { max-width: 900px; margin: 0 auto 22px; padding: 16px 18px; border: 1px solid #b9dfdc; border-radius: 14px; background: var(--accent) }
 .blood-request-notification-list { display: grid; gap: 8px; margin-top: 8px }
@@ -1954,8 +1958,10 @@ textarea:focus {
 .request-card-center strong { color: var(--text); font-size: 13px; line-height: 1.5; overflow-wrap: anywhere }
 .blood-request-card-hint { color: var(--primary) !important; font-size: 12px !important; font-weight: 700 }
 .blood-request-empty { padding: 28px; border: 1px dashed var(--border); border-radius: 14px; color: var(--muted); text-align: center }
-.request-browser { display: grid; grid-template-columns: 280px minmax(0, 1fr); align-items: start; gap: 20px; }
+.request-browser { display: grid; grid-template-columns: minmax(0, 1fr); align-items: start; gap: 20px; }
+.request-browser.filters-open { grid-template-columns: 280px minmax(0, 1fr) }
 .request-browser-toolbar { display: grid; gap: 9px; padding: 18px; border: 1px solid var(--border); border-radius: 14px; background: var(--surface); box-shadow: var(--shadow); position: sticky; top: 88px }
+.request-browser-toolbar:not(.is-open) { display: none }
 .request-browser-toolbar h2 { margin: 0 0 4px; font: 700 18px "Plus Jakarta Sans" }
 .request-browser-toolbar label { color: var(--text); font-size: 12px; font-weight: 700 }
 .request-browser-toolbar input, .request-browser-toolbar select { width: 100%; min-height: 38px; padding: 8px 10px; font-size: 12px }
@@ -2013,9 +2019,12 @@ textarea:focus {
 @media(max-width:700px) {
   .blood-donor-content-layout { grid-template-columns: 1fr; gap: 0 }
   .blood-request-content-layout { grid-template-columns: 1fr; gap: 0 }
+  .blood-requests-content-layout { grid-template-columns: 1fr; gap: 0 }
   .blood-services-panel { position: static; padding: 0; margin: 0 0 24px }
   .blood-request-services-panel { margin-top: 0 }
+  .blood-requests-services-panel { margin-top: 0 }
   .blood-request-page .profile-heading { width: 100%; margin-left: 0; margin-right: 0 }
+  .blood-requests-main .section-head { margin-top: 0 }
   .blood-services-panel h3 { margin-bottom: 12px }
   .blood-services-panel .blood-page-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; max-width: 320px }
   .blood-services-panel .blood-page-actions .blood-service-control { width: 140px !important; min-width: 140px !important; max-width: 140px !important; inline-size: 140px !important; flex-basis: 140px !important; height: 40px !important; min-height: 40px !important; max-height: 40px !important }
@@ -2055,6 +2064,7 @@ textarea:focus {
 
 @media(max-width:1000px) {
   .request-browser { grid-template-columns: 1fr; }
+  .request-browser.filters-open { grid-template-columns: 1fr; }
   .request-browser-toolbar { position: static; width: 100%; }
   .blood-requests-list { grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; min-width: 0; }
   .request-filters-toggle { display: inline-flex; }
