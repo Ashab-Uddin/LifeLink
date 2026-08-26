@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
@@ -138,6 +138,8 @@ try:
     description = pd.read_csv(BASE_DIR / "description.csv")
     medications = pd.read_csv(BASE_DIR / "medications.csv")
     diets = pd.read_csv(BASE_DIR / "diets.csv")
+    labaid_doctors = pd.read_csv(
+        BASE_DIR / "LABAID_Specialized_Hospital_Doctors.csv")
 
     print("CSV files loaded successfully.")
 
@@ -146,6 +148,17 @@ except Exception as e:
     print(e)
     raise
 
+from disease_department import DISEASE_TO_DEPARTMENT
+
+print("Loading doctors CSV...")
+
+try:
+    doctors_df = pd.read_csv(BASE_DIR / "LABAID_Specialized_Hospital_Doctors.csv")
+    print("Doctors CSV loaded successfully. Rows:", len(doctors_df))
+except Exception as e:
+    print("ERROR loading doctors CSV:")
+    print(e)
+    doctors_df = pd.DataFrame()
 
 # =========================================================
 # Model Accuracies
@@ -208,6 +221,74 @@ def load_dynamic_model(model_name):
     raise ValueError(
         f"Unsupported model type: {info['type']}"
     )
+
+
+# Disease terms are matched to the closest Labaid department. Medicine is the
+# fallback for conditions that do not need a narrower specialty.
+DOCTOR_DEPARTMENT_RULES = [
+    ("gynaecology & obstetrics", ("pregnan", "pregnancy", "menstrual", "period",
+     "ovarian", "uterine", "vaginal", "cervical", "endometriosis", "infertility", "pcos")),
+    ("paediatrics", ("chickenpox", "measles",
+     "mumps", "pediatric", "paediatric", "child")),
+    ("cardiology", ("heart", "cardiac", "cardiovascular", "hypertension", "cholesterol")),
+    ("neurology", ("migraine", "epilepsy", "paralysis",
+     "parkinson", "neurolog", "headache", "dizziness")),
+    ("neurosurgery", ("brain tumor", "brain tumour", "spinal", "stroke")),
+    ("nephrology", ("kidney", "renal", "urinary tract", "uti")),
+    ("hepatology", ("hepatitis", "liver", "jaundice")),
+    ("gastroenterology", ("gastric", "gastro",
+     "stomach", "ulcer", "intestinal", "digestive")),
+    ("dermatology", ("skin", "acne", "dermat", "rash", "psoriasis", "impetigo")),
+    ("ophthalmology", ("eye", "vision", "cataract", "glaucoma")),
+    ("ent", ("ear", "nose", "throat", "sinus", "tonsill", "hearing")),
+    ("orthopaedic surgery", ("bone", "joint",
+     "arthritis", "fracture", "orthop", "muscle")),
+    ("pain medicine & rheumatology", ("rheumat", "gout", "back pain", "neck pain")),
+    ("urology", ("prostate", "urolog", "bladder")),
+    ("oncology", ("cancer", "tumor", "tumour", "leukemia", "lymphoma")),
+    ("pulmonology / medicine", ("asthma", "lung",
+     "pneumonia", "bronch", "tuberculosis", "tb")),
+]
+
+
+def get_recommended_doctors(disease=None):
+    disease_text = str(disease or "").strip().lower()
+    department = "medicine"
+
+    for candidate_department, terms in DOCTOR_DEPARTMENT_RULES:
+        if any(term in disease_text for term in terms):
+            department = candidate_department
+            break
+
+    department_aliases = {
+        "gynaecology & obstetrics": "gynaecology",
+        "paediatrics": "paediatric",
+        "ent": "ent",
+    }
+    department_term = department_aliases.get(department, department)
+    department_series = labaid_doctors["Department"].str.lower()
+    if department == "ent":
+        department_matches = labaid_doctors[department_series ==
+                                            department_term]
+    else:
+        department_matches = labaid_doctors[
+            department_series.str.contains(department_term, na=False)
+        ]
+    if department_matches.empty:
+        department_matches = labaid_doctors[
+            labaid_doctors["Department"].str.lower(
+            ).str.contains("medicine", na=False)
+        ]
+
+    return [
+        {
+            "department": str(row["Department"]),
+            "name": str(row["Doctor Name"]),
+            "specialty": str(row["Specialty"]),
+            "designation": str(row["Designation"]),
+        }
+        for _, row in department_matches.iterrows()
+    ]
 
 
 # =========================================================
@@ -278,6 +359,45 @@ def get_models():
 # =========================================================
 # Prediction
 # =========================================================
+
+@app.get("/api/doctors")
+def get_doctors(disease: str = None, department: str = None):
+
+    try:
+        if doctors_df.empty:
+            return {"success": False, "message": "Doctor data not available."}
+
+        target_department = department
+
+        if disease and not target_department:
+            target_department = DISEASE_TO_DEPARTMENT.get(disease)
+
+        if target_department:
+            matches = doctors_df[
+                doctors_df["Department"].str.contains(target_department, case=False, na=False)
+            ]
+        else:
+            matches = doctors_df
+
+        if matches.empty:
+            matches = doctors_df[
+                doctors_df["Department"].str.contains("Medicine", case=False, na=False)
+            ]
+
+        doctor_list = matches.to_dict(orient="records")
+
+        return {
+            "success": True,
+            "disease": disease,
+            "matched_department": target_department,
+            "count": len(doctor_list),
+            "doctors": doctor_list
+        }
+
+    except Exception as e:
+        traceback.print_exc()
+        return {"success": False, "error": type(e).__name__, "message": str(e)}
+
 
 @app.post("/api/predict")
 def predict(data: PredictionRequest):
@@ -537,7 +657,9 @@ def predict(data: PredictionRequest):
             "workout": [
                 str(item)
                 for item in workout_list
-            ]
+            ],
+
+            "doctors": get_recommended_doctors(disease)
         }
 
         print()

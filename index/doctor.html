@@ -28,58 +28,44 @@
           <p>Explore healthcare professionals for your next step.</p>
         </div>
       </div>
-      <div class="grid">
-        <article class="card">
-          <div class="person-card">
-            <div class="avatar">AH</div>
-            <div>
-              <h3>Dr. Arif Hossain</h3><span class="badge">Cardiologist</span>
-              <p class="muted">Square Hospital, Dhaka · 10+ years · ★ 4.8</p>
-            </div>
-          </div>
-          <div class="card-actions"><button class="btn btn-primary"
-              onclick="toast('Contact option selected')">Contact</button><button class="btn btn-outline">View
-              Profile</button></div>
-        </article>
-        <article class="card">
-          <div class="person-card">
-            <div class="avatar">SA</div>
-            <div>
-              <h3>Dr. Shaila Akter</h3><span class="badge">Neurologist</span>
-              <p class="muted">Dhaka · 8+ years · ★ 4.7</p>
-            </div>
-          </div>
-          <div class="card-actions"><button class="btn btn-primary"
-              onclick="toast('Contact option selected')">Contact</button><button class="btn btn-outline">View
-              Profile</button></div>
-        </article>
-        <article class="card">
-          <div class="person-card">
-            <div class="avatar">KM</div>
-            <div>
-              <h3>Dr. Kamal Mahmud</h3><span class="badge">General Physician</span>
-              <p class="muted">Dhaka · 12+ years · ★ 4.9</p>
-            </div>
-          </div>
-          <div class="card-actions"><button class="btn btn-primary"
-              onclick="toast('Contact option selected')">Contact</button><button class="btn btn-outline">View
-              Profile</button></div>
-        </article>
+
+      <div id="doctor-context" class="notice" style="display:none;margin-bottom:16px"></div>
+
+      <div id="doctor-list" class="grid">
+        <div class="loader active">
+          <div class="spinner"></div>Loading Labaid doctors...
+        </div>
       </div>
     </div>
   </main>
   <div class="toast"></div>
   <script src="/js/i18n.js"></script>
   <script src="/js/script.js"></script>
+  <script src="/js/doctor.js"></script>
   <footer class="footer">
     <div class="container">
       <div class="footer-grid">
-        <div class="footer-brand"><a class="footer-logo" href="/index/index.html"><span class="brand-mark">L</span>LifeLink</a><p>Connected healthcare tools for clearer decisions, faster support, and better everyday care.</p><span class="footer-status"><span></span>Care tools available 24/7</span></div>
-        <div class="footer-column"><h3>Platform</h3><a href="/index/dashboard.html">Dashboard</a><a href="/index/prediction.html">AI Prediction</a><a href="/index/history.html">Prediction History</a></div>
-        <div class="footer-column"><h3>Find care</h3><a href="/index/doctor.html">Doctor Suggestions</a><a href="/index/nearby.html">Nearby Doctors</a><a href="/index/blood.html">Blood Donors</a></div>
-        <div class="footer-column footer-support"><h3>Need help now?</h3><a class="footer-emergency" href="/index/ambulance.html">Open Emergency Support <span>&rarr;</span></a><a href="/index/profile.html">My Profile</a><a href="/index/login.html">Sign in to LifeLink</a></div>
+        <div class="footer-brand"><a class="footer-logo" href="/index/index.html"><span
+              class="brand-mark">L</span>LifeLink</a>
+          <p>Connected healthcare tools for clearer decisions, faster support, and better everyday care.</p><span
+            class="footer-status"><span></span>Care tools available 24/7</span>
+        </div>
+        <div class="footer-column">
+          <h3>Platform</h3><a href="/index/dashboard.html">Dashboard</a><a href="/index/prediction.html">AI
+            Prediction</a><a href="/index/history.html">Prediction History</a>
+        </div>
+        <div class="footer-column">
+          <h3>Find care</h3><a href="/index/doctor.html">Doctor Suggestions</a><a href="/index/nearby.html">Nearby
+            Doctors</a><a href="/index/blood.html">Blood Donors</a>
+        </div>
+        <div class="footer-column footer-support">
+          <h3>Need help now?</h3><a class="footer-emergency" href="/index/ambulance.html">Open Emergency Support
+            <span>&rarr;</span></a><a href="/index/profile.html">My Profile</a><a href="/index/login.html">Sign in to
+            LifeLink</a>
+        </div>
       </div>
-      <div class="footer-bottom"><span>&copy; 2026 LifeLink. Built for more connected care.</span><span>AI guidance is informational and not a substitute for professional medical advice.</span></div>
+      <div class="footer-bottom"><span>&copy; 2026 LifeLink. Built for more connected care.</span><span>AI guidance is
+          informational and not a substitute for professional medical advice.</span></div>
     </div>
   </footer>
 </body>
