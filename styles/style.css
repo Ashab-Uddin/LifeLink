@@ -408,6 +408,20 @@ img {
   color: var(--muted)
 }
 
+.doctor-filter {
+  flex: 0 0 190px
+}
+
+.doctor-filter .field {
+  gap: 6px
+}
+
+.doctor-filter select {
+  padding: 9px 10px;
+  font-size: 13px;
+  border-radius: 10px
+}
+
 .clear-symptoms-btn {
   min-height: 40px;
   padding: 9px 14px;
@@ -1843,6 +1857,11 @@ textarea:focus {
 
   .section-head {
     display: block
+  }
+
+  .doctor-filter {
+    width: 190px;
+    margin-top: 16px
   }
 
   .clear-symptoms-btn {

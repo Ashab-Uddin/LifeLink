@@ -11,9 +11,14 @@ async function loadDoctors() {
 
   const params = new URLSearchParams(location.search);
   const disease = params.get("disease");
+  const hospital = params.get("hospital") || "LABAID Hospital";
+  const hospitalFilter = document.getElementById("hospital-filter");
+  if (hospitalFilter) hospitalFilter.value = hospital;
 
   let url = `${API_BASE}/doctors`;
-  if (disease) url += `?disease=${encodeURIComponent(disease)}`;
+  const query = new URLSearchParams({ hospital });
+  if (disease) query.set("disease", disease);
+  url += `?${query.toString()}`;
 
   try {
     const res = await fetch(url);
@@ -24,7 +29,7 @@ async function loadDoctors() {
 
     if (disease && contextEl) {
       contextEl.style.display = "block";
-      contextEl.innerHTML = `Showing <strong>${escapeHtml(data.matched_department || "General Medicine")}</strong> specialists recommended for <strong>${escapeHtml(disease)}</strong> from LABAID Hospital.`;
+      contextEl.innerHTML = `Showing <strong>${escapeHtml(data.matched_department || "General Medicine")}</strong> specialists recommended for <strong>${escapeHtml(disease)}</strong>.`;
     }
 
     if (!data.doctors.length) {
@@ -57,6 +62,12 @@ async function loadDoctors() {
   } catch (e) {
     listEl.innerHTML = `<div class="notice">${escapeHtml(e.message)}</div>`;
   }
+}
+
+function filterDoctorsByHospital(hospital) {
+  const params = new URLSearchParams(location.search);
+  params.set("hospital", hospital);
+  window.location.search = params.toString();
 }
 
 function getInitials(name) {

@@ -27,6 +27,14 @@
           <h2>Doctor Suggestion</h2>
           <p>Explore healthcare professionals for your next step.</p>
         </div>
+        <div class="doctor-filter">
+          <div class="field">
+            <label for="hospital-filter">Hospital</label>
+            <select id="hospital-filter" onchange="filterDoctorsByHospital(this.value)">
+              <option value="LABAID Hospital">LABAID Hospital</option>
+            </select>
+          </div>
+        </div>
       </div>
 
       <div id="doctor-context" class="notice" style="display:none;margin-bottom:16px"></div>

@@ -1,3 +1,4 @@
+from disease_department import DISEASE_TO_DEPARTMENT
 from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -149,7 +150,6 @@ except Exception as e:
     print(e)
     raise
 
-from disease_department import DISEASE_TO_DEPARTMENT
 
 print("Loading doctors CSV...")
 
@@ -365,11 +365,23 @@ def get_models():
 # =========================================================
 
 @app.get("/api/doctors")
-def get_doctors(disease: str = None, department: str = None):
+def get_doctors(disease: str = None, department: str = None,
+                hospital: str = None):
 
     try:
         if doctors_df.empty:
             return {"success": False, "message": "Doctor data not available."}
+
+        target_hospital = str(hospital or "LABAID Hospital").strip()
+        if "Hospital" in doctors_df.columns:
+            matches = doctors_df[
+                doctors_df["Hospital"].str.casefold(
+                ) == target_hospital.casefold()
+            ]
+        elif target_hospital.casefold() == "labaid hospital":
+            matches = doctors_df
+        else:
+            matches = doctors_df.iloc[0:0]
 
         target_department = department
 
@@ -377,15 +389,15 @@ def get_doctors(disease: str = None, department: str = None):
             target_department = DISEASE_TO_DEPARTMENT.get(disease)
 
         if target_department:
-            matches = doctors_df[
-                doctors_df["Department"].str.contains(target_department, case=False, na=False)
+            matches = matches[
+                matches["Department"].str.contains(
+                    target_department, case=False, na=False)
             ]
-        else:
-            matches = doctors_df
 
         if matches.empty:
-            matches = doctors_df[
-                doctors_df["Department"].str.contains("Medicine", case=False, na=False)
+            matches = matches[
+                matches["Department"].str.contains(
+                    "Medicine", case=False, na=False)
             ]
 
         doctor_list = matches.to_dict(orient="records")
@@ -393,6 +405,7 @@ def get_doctors(disease: str = None, department: str = None):
         return {
             "success": True,
             "disease": disease,
+            "hospital": target_hospital,
             "matched_department": target_department,
             "count": len(doctor_list),
             "doctors": doctor_list
