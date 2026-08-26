@@ -19,8 +19,18 @@
     <a class="nav-link emergency-link" href="/index/ambulance.html">Emergency</a>
   </nav>
 
-  <main class="page">
+  <main class="page donor-application-page">
     <div class="container">
+      <div class="donor-application-content-layout">
+        <aside class="blood-services-panel donor-application-services-panel" aria-label="Services">
+          <h3>Services</h3>
+          <div class="blood-page-actions">
+            <a class="btn btn-outline blood-service-control" data-service="blood.html" href="/index/blood.html">Blood Donor</a>
+            <a class="btn btn-outline blood-service-control" data-service="blood-request.html" href="/index/blood-request.html">Blood Request</a>
+            <a class="btn btn-outline blood-service-control" data-service="blood-requests.html" href="/index/blood-requests.html">All requests</a>
+          </div>
+        </aside>
+        <div class="donor-application-main">
       <div class="profile-heading donor-application-page-heading">
         <div>
           <span class="badge">Give blood, save lives</span>
@@ -54,6 +64,8 @@
         <div id="application-existing" class="donor-existing" hidden role="status"><div class="donor-existing-mark" aria-hidden="true">&#10003;</div><h2>Donor application already submitted</h2><p>This account is already listed on the LifeLink blood donor page.</p><a class="btn btn-secondary" href="/index/blood.html">View blood donors</a></div>
         <div id="application-success" class="donor-success" hidden role="status"><div class="donor-success-mark" aria-hidden="true">&#10003;</div><h2>Congratulations, you are now a donor!</h2><p>Your application has been added to the LifeLink blood donor page.</p><a class="btn btn-primary" href="/index/blood.html">View blood donors</a></div>
       </section>
+        </div>
+      </div>
     </div>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

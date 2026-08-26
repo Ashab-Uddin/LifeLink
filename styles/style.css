@@ -683,7 +683,16 @@ img {
   padding: 28px;
 }
 
+.donor-application-page .blood-page-actions .is-current { border-color: var(--border); background: #fff; color: var(--text) }
+.donor-application-page .blood-page-actions .is-current:hover { border-color: #9bd9d4; background: var(--accent); color: var(--primary) }
+
 .donor-application-page-heading { width: min(1000px, 100%); margin-left: auto; margin-right: auto }
+.donor-application-content-layout { display: grid; grid-template-columns: 220px minmax(0, 1000px); gap: 28px; align-items: start }
+.donor-application-page-wrapper > .container,
+.page:has(.donor-application-content-layout) > .container { width: calc(100% - 40px); max-width: none; margin-left: 20px; margin-right: 20px }
+.donor-application-main { min-width: 0 }
+.donor-application-services-panel { margin-top: 28px }
+.donor-application-main .donor-application-page-heading { width: 100%; margin-left: 0; margin-right: 0 }
 
 .field {
   display: flex;
@@ -1914,6 +1923,9 @@ textarea:focus {
 .blood-services-panel .blood-service-control { width: 140px !important; max-width: 140px !important; min-width: 140px !important; flex: 0 0 140px !important; flex-basis: 140px !important; inline-size: 140px !important }
 .blood-services-panel .blood-page-actions .btn { border: 1px solid var(--border); background: #fff; color: var(--text); box-shadow: 0 8px 20px rgba(16, 42, 67, .05) }
 .blood-services-panel .blood-page-actions .btn:hover { border-color: #9bd9d4; background: var(--accent); color: var(--primary) }
+.blood-services-panel .blood-service-control.is-current { border-color: var(--primary); background: var(--primary); color: #fff }
+.donor-application-page .blood-services-panel .blood-service-control.is-current { border-color: var(--border); background: #fff; color: var(--text) }
+.donor-application-page .blood-services-panel .blood-service-control.is-current:hover { border-color: #9bd9d4; background: var(--accent); color: var(--primary) }
 .blood-services-panel .donor-filters-toggle { margin-top: 10px }
 .blood-service-control { display: flex !important; align-items: center; justify-content: center; align-self: start; width: 140px !important; min-width: 140px !important; max-width: 140px !important; inline-size: 140px !important; height: 40px !important; min-height: 40px !important; max-height: 40px !important; flex: 0 0 140px !important; box-sizing: border-box; padding: 9px 10px !important; font-size: 14px; font-weight: 600; line-height: 20px }
 .blood-donor-main { min-width: 0 }
@@ -2020,9 +2032,12 @@ textarea:focus {
   .blood-donor-content-layout { grid-template-columns: 1fr; gap: 0 }
   .blood-request-content-layout { grid-template-columns: 1fr; gap: 0 }
   .blood-requests-content-layout { grid-template-columns: 1fr; gap: 0 }
+  .donor-application-content-layout { grid-template-columns: 1fr; gap: 0 }
   .blood-services-panel { position: static; padding: 0; margin: 0 0 24px }
   .blood-request-services-panel { margin-top: 0 }
   .blood-requests-services-panel { margin-top: 0 }
+  .donor-application-services-panel { margin-top: 0 }
+  .donor-application-main .donor-application-page-heading { width: 100% }
   .blood-request-page .profile-heading { width: 100%; margin-left: 0; margin-right: 0 }
   .blood-requests-main .section-head { margin-top: 0 }
   .blood-services-panel h3 { margin-bottom: 12px }
