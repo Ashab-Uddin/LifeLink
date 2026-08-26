@@ -21,13 +21,22 @@
 
   <main class="page blood-request-page">
     <div class="container">
+      <div class="blood-request-content-layout">
+        <aside class="blood-services-panel blood-request-services-panel" aria-label="Services">
+          <h3>Services</h3>
+          <div class="blood-page-actions">
+            <a class="btn btn-outline blood-service-control" href="/index/donor-application.html">Apply to donate</a>
+            <a class="btn btn-outline blood-service-control" href="/index/blood.html">Blood Donor</a>
+            <a class="btn btn-outline blood-service-control" href="/index/blood-requests.html">All requests</a>
+          </div>
+        </aside>
+        <div class="blood-request-main">
       <div class="profile-heading">
         <div>
           <span class="badge">Blood support</span>
           <h1>Blood Request Form</h1>
           <p class="muted">Please fill out the required information to submit a blood request.</p>
         </div>
-        <a class="btn btn-outline" href="/index/blood-requests.html">All requests</a>
       </div>
 
       <section class="form-card blood-request-card">
@@ -52,6 +61,8 @@
         </form>
         <div id="blood-request-success" class="donor-success" hidden role="status"><div class="donor-success-mark" aria-hidden="true">&#10003;</div><h2>Blood request submitted</h2><p>Your request has been securely saved. Donor matching support can now use these details.</p><a class="btn btn-primary" href="/index/blood.html">Find eligible donors</a></div>
       </section>
+        </div>
+      </div>
     </div>
   </main>
 

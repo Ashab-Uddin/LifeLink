@@ -39,9 +39,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const phone = document.getElementById("donor-details-phone");
   phone.textContent = value("phone");
   phone.href = donor.phone ? `tel:${donor.phone}` : "#";
-  const email = document.getElementById("donor-details-email");
-  email.textContent = value("email");
-  email.href = donor.email ? `mailto:${donor.email}` : "#";
+  const emailTargets = ["donor-details-profile-email", "donor-details-email-details"];
+  emailTargets.forEach(id => {
+    const email = document.getElementById(id);
+    if (!email) return;
+    email.textContent = value("email");
+    email.href = donor.email ? `mailto:${donor.email}` : "#";
+  });
   const whatsapp = document.getElementById("donor-details-whatsapp");
   whatsapp.textContent = value("whatsapp");
   whatsapp.href = donor.whatsapp ? `tel:${donor.whatsapp}` : "#";
