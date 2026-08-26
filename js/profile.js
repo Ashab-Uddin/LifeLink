@@ -65,6 +65,24 @@ document.addEventListener("DOMContentLoaded", async () => {
     const overviewClosedRequests =
         document.getElementById("overview-closed-requests");
 
+    const overviewTotalDonations =
+        document.getElementById("overview-total-donations");
+
+    const overviewLivesSaved =
+        document.getElementById("overview-lives-saved");
+
+    const overviewDonationHistory =
+        document.getElementById("overview-donation-history");
+
+    const overviewChartLabels =
+        document.getElementById("overview-chart-labels");
+
+    const overviewImpactPercent =
+        document.getElementById("overview-impact-percent");
+
+    const overviewImpactLives =
+        document.getElementById("overview-impact-lives");
+
     const editProfileButton =
         document.getElementById("edit-profile-btn");
 
@@ -127,8 +145,12 @@ document.addEventListener("DOMContentLoaded", async () => {
             const view = link.dataset.profileView || "overview";
             history.replaceState(null, "", `#${link.getAttribute("href").slice(1)}`);
             showProfileView(view);
-            if (view === "blood-requests") loadBloodActivity();
-            document.querySelector(`[data-profile-content~="${view}"]`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+            if (view === "blood-requests" || view === "donations") loadBloodActivity();
+            if (view === "overview") {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            } else {
+                document.querySelector(`[data-profile-content~="${view}"]`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
         });
     });
 
@@ -208,19 +230,68 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const { data: donorApplication, error } = await supabaseClient
             .from("blood_donor_applications")
-            .select("gender,last_donation_date")
+            .select("gender,last_donation_date,location,blood_group")
             .eq("user_id", currentUser.id)
             .maybeSingle();
 
-        if (error || !donorApplication?.last_donation_date) return;
+        if (error || !donorApplication?.last_donation_date) {
+            if (overviewTotalDonations) overviewTotalDonations.textContent = "0";
+            if (overviewLivesSaved) overviewLivesSaved.textContent = "0";
+            if (overviewDonationHistory) overviewDonationHistory.innerHTML = '<p class="muted">No completed donations recorded.</p>';
+            if (overviewImpactPercent) overviewImpactPercent.textContent = "0%";
+            if (overviewImpactLives) overviewImpactLives.textContent = "0";
+            return;
+        }
+
+        const { data: donations, error: donationsError } = await supabaseClient
+            .from("blood_donations")
+            .select("id,blood_group,donation_date,created_at")
+            .eq("donor_user_id", currentUser.id)
+            .order("donation_date", { ascending: false });
+        const donationRows = donationsError ? [] : (donations || []);
+        const donationCount = donationRows.length;
+        if (overviewTotalDonations) overviewTotalDonations.textContent = donationCount;
+        if (overviewLivesSaved) overviewLivesSaved.textContent = donationCount * 3;
+        if (overviewImpactLives) overviewImpactLives.textContent = donationCount * 3;
+        if (overviewImpactPercent) overviewImpactPercent.textContent = donationCount ? "100%" : "0%";
+        if (overviewDonationHistory) {
+            overviewDonationHistory.innerHTML = donationCount
+                ? donationRows.map(donation => `<article><strong>Donation recorded</strong><span>${new Date(`${donation.donation_date}T00:00:00`).toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" })}</span><small>${donation.blood_group || donorApplication.blood_group || "Blood group not provided"}</small></article>`).join("")
+                : '<p class="muted">No completed donations recorded.</p>';
+        }
 
         const lastDonation = new Date(`${donorApplication.last_donation_date}T00:00:00`);
         if (Number.isNaN(lastDonation.getTime())) return;
 
-        const requiredMonths = String(donorApplication.gender).toLowerCase() === "male" ? 4 : 6;
+        const requiredMonths = ["male", "female"].includes(String(donorApplication.gender).toLowerCase()) ? 4 : null;
+        if (!requiredMonths) {
+            overviewNextEligible.textContent = "Not set";
+            overviewEligibilityNote.textContent = "Complete your donor details";
+            return;
+        }
         const eligibleDate = new Date(lastDonation);
         eligibleDate.setMonth(eligibleDate.getMonth() + requiredMonths);
         overviewLastDonation.textContent = `Last donation: ${lastDonation.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" })}`;
+        if (overviewChartLabels) {
+            const months = Array.from({ length: 6 }, (_, index) => {
+                const month = new Date();
+                month.setDate(1);
+                month.setMonth(month.getMonth() - 5 + index);
+                return month;
+            });
+            overviewChartLabels.innerHTML = months.map(month => `<span>${month.toLocaleDateString(undefined, { month: "short" })}</span>`).join("");
+            const donationIndexes = donationRows.map(donation => {
+                const date = new Date(`${donation.donation_date}T00:00:00`);
+                return months.findIndex(month => month.getFullYear() === date.getFullYear() && month.getMonth() === date.getMonth());
+            });
+            const points = months.map((_, index) => `${index * 120},${donationIndexes.includes(index) ? 30 : 168}`).join(" ");
+            const line = document.querySelector(".overview-chart-line polyline");
+            if (line) line.setAttribute("points", points);
+            document.querySelectorAll(".overview-chart-line circle").forEach((circle, index) => {
+                circle.setAttribute("cx", index * 120);
+                circle.setAttribute("cy", donationIndexes.includes(index) ? 30 : 168);
+            });
+        }
 
         if (eligibleDate <= new Date()) {
             overviewNextEligible.textContent = "Eligible now";
@@ -681,6 +752,16 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             }
 
+            const { data: donorApplication } = await supabaseClient
+                .from("blood_donor_applications")
+                .select("blood_group")
+                .eq("user_id", currentUser.id)
+                .maybeSingle();
+            if (donorApplication && String(donorApplication.blood_group || "").trim().toLowerCase() !== String(bloodGroup || "").trim().toLowerCase()) {
+                showMessage("Your profile blood group must match your donor application.");
+                return;
+            }
+
 
             showMessage(
                 "Saving profile..."
@@ -800,6 +881,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         const requestDetailsModal = document.getElementById("profile-request-details-modal");
         const requestDeleteButton = document.getElementById("profile-request-delete");
         const responseDetailsModal = document.getElementById("profile-response-details-modal");
+        const donationRequestList = document.getElementById("profile-donation-requests");
+        const incomingRequestList = document.getElementById("profile-incoming-requests");
         const detail = (id, value) => {
             const element = document.getElementById(id);
             if (element) element.textContent = value || "Not provided";
@@ -896,6 +979,19 @@ document.addEventListener("DOMContentLoaded", async () => {
             responseDetailsModal.hidden = false;
         };
         const updateResponseDecision = async (responseId, decision) => {
+            if (decision === "accept") {
+                const { error } = await supabaseClient.rpc("accept_blood_response", { p_response_id: responseId });
+                if (error) {
+                    if (typeof toast === "function") toast(error.message || "Unable to accept this response.", "error");
+                    return;
+                }
+                if (responseDetailsModal) responseDetailsModal.hidden = true;
+                selectedProfileResponses = [];
+                if (typeof toast === "function") toast("Response accepted and donation recorded.", "success");
+                await loadOverview();
+                await loadBloodActivity();
+                return;
+            }
             const column = decision === "accept" ? "accepted_at" : "rejected_at";
             const { error } = await supabaseClient.from("blood_request_notifications")
                 .update({ [column]: new Date().toISOString() })
@@ -924,6 +1020,92 @@ document.addEventListener("DOMContentLoaded", async () => {
                 card.querySelector(".profile-request-close-button")?.addEventListener("click", event => { event.stopPropagation(); closeRequest(request); });
                 card.querySelector(".profile-request-delete-button")?.addEventListener("click", event => { event.stopPropagation(); deleteRequest(request); });
             });
+        }
+
+        if (donationRequestList) {
+            const { data: donationRequests, error: donationRequestError } = await supabaseClient.from("blood_donation_requests")
+                .select("id,blood_request_id,donor_user_id,status,created_at,completed_at,blood_requests(patient_name,blood_group,district,donation_center,donation_date,contact_number,whatsapp_number)")
+                .eq("requester_user_id", currentUser.id).order("created_at", { ascending: false });
+            if (donationRequestError || !donationRequests?.length) {
+                donationRequestList.innerHTML = '<p class="muted">No donation requests yet.</p>';
+            } else {
+                const donorResults = await Promise.all(donationRequests.map(async donationRequest => ({ donationRequest, result: await supabaseClient.from("blood_donor_applications").select("full_name,phone,location").eq("user_id", donationRequest.donor_user_id).maybeSingle() })));
+                donationRequestList.innerHTML = donorResults.map(({ donationRequest, result }) => {
+                    const request = donationRequest.blood_requests || {};
+                    const completed = donationRequest.status === "completed";
+                    const donor = result.data || {};
+                    return `<article class="profile-activity-item donation-request-item"><strong>${escape(donor.full_name || "Donor")}</strong><span>${escape(request.blood_group)} · ${escape(request.donation_center)}</span><small>${escape(request.district)} · ${formatDate(request.donation_date)} · Status: ${escape(donationRequest.status)}</small><p>${escape(donor.location || "Location not provided")} · ${escape(donor.phone || "Phone not provided")}</p><div class="donation-request-actions">${completed ? '<b>Donation completed</b>' : `<button class="gave-blood-button" type="button" data-donation-request-id="${escape(donationRequest.id)}">Gave Blood</button>`}<button class="delete-donation-request-button" type="button" data-donation-request-id="${escape(donationRequest.id)}">Delete</button></div></article>`;
+                }).join("");
+                donationRequestList.querySelectorAll(".gave-blood-button").forEach(button => {
+                    button.addEventListener("click", async () => {
+                        button.disabled = true;
+                        const { error } = await supabaseClient.rpc("mark_blood_donation_given", { p_donation_request_id: button.dataset.donationRequestId });
+                        if (error) {
+                            button.disabled = false;
+                            if (typeof toast === "function") toast(error.message || "Unable to complete this donation.", "error");
+                            return;
+                        }
+                        if (typeof toast === "function") toast("Donation completed and recorded.", "success");
+                        await loadOverview();
+                        await loadBloodActivity();
+                    });
+                });
+                donationRequestList.querySelectorAll(".delete-donation-request-button").forEach(button => {
+                    button.addEventListener("click", async () => {
+                        if (!window.confirm("Delete this donation request?")) return;
+                        button.disabled = true;
+                        const { error } = await supabaseClient.from("blood_donation_requests")
+                            .delete().eq("id", button.dataset.donationRequestId).eq("requester_user_id", currentUser.id);
+                        if (error) {
+                            button.disabled = false;
+                            if (typeof toast === "function") toast(error.message || "Unable to delete this donation request.", "error");
+                            return;
+                        }
+                        if (typeof toast === "function") toast("Donation request deleted.", "success");
+                        await loadBloodActivity();
+                    });
+                });
+            }
+        }
+
+        if (incomingRequestList) {
+            const { data: notifications, error: notificationError } = await supabaseClient.from("blood_request_notifications")
+                .select("id,request_id,message,created_at,accepted_at,rejected_at,blood_requests(patient_name,user_id,blood_group,district,upazila,address,donation_center,donation_date,contact_number,whatsapp_number,patient_problem)")
+                .eq("recipient_user_id", currentUser.id).not("donor_user_id", "is", null).order("created_at", { ascending: false });
+            if (notificationError || !notifications?.length) incomingRequestList.innerHTML = '<div class="incoming-request-table-wrap"><table class="incoming-request-table"><thead><tr><th>Patient Name</th><th>Blood</th><th>Hospital</th><th>Required Date</th><th>Action</th></tr></thead><tbody><tr><td colspan="5" class="incoming-request-empty">No blood requests found</td></tr></tbody></table></div>';
+            else {
+                const profiles = await supabaseClient.from("profiles").select("id,full_name,email").in("id", notifications.map(item => item.blood_requests?.user_id).filter(Boolean));
+                const profileById = new Map((profiles.data || []).map(profile => [profile.id, profile]));
+                const donationRequests = await supabaseClient.from("blood_donation_requests")
+                    .select("id,blood_request_id,status,response_id").eq("donor_user_id", currentUser.id);
+                const donationRequestByResponse = new Map((donationRequests.data || []).map(request => [request.response_id, request]));
+                incomingRequestList.innerHTML = `<div class="incoming-request-table-wrap"><table class="incoming-request-table"><thead><tr><th>Patient Name</th><th>Blood</th><th>Hospital</th><th>Required Date</th><th>Action</th></tr></thead><tbody>${notifications.map(notification => {
+                    const request = notification.blood_requests || {};
+                    const sender = profileById.get(request.user_id) || {};
+                    const donationRequest = donationRequestByResponse.get(notification.id);
+                    const status = donationRequest?.status || (notification.accepted_at ? "accepted" : notification.rejected_at ? "declined" : "pending");
+                    const canDecide = status === "pending";
+                    return `<tr class="incoming-request-row" data-notification-id="${escape(notification.id)}" title="${escape(sender.full_name || "Request sender")} · Status: ${escape(status)}"><td>${escape(request.patient_name || "Patient not provided")}</td><td>${escape(request.blood_group || "Not provided")}</td><td>${escape(request.donation_center || "Hospital not provided")}</td><td>${formatDate(request.donation_date)}</td><td class="incoming-request-actions"><button class="incoming-request-accept" type="button" data-response-decision="accept" data-response-id="${escape(notification.id)}"${canDecide ? "" : " disabled"}>Accept</button><button class="incoming-request-decline" type="button" data-response-decision="decline" data-response-id="${escape(notification.id)}"${canDecide ? "" : " disabled"}>Decline</button></td></tr>`;
+                }).join("")}</tbody></table></div>`;
+                incomingRequestList.querySelectorAll("[data-notification-id]").forEach(item => item.addEventListener("click", () => {
+                    supabaseClient.from("blood_request_notifications").update({ read_at: new Date().toISOString() }).eq("id", item.dataset.notificationId).eq("recipient_user_id", currentUser.id);
+                    item.classList.add("is-read");
+                }));
+                incomingRequestList.querySelectorAll("[data-response-decision]").forEach(button => button.addEventListener("click", async event => {
+                    event.stopPropagation();
+                    button.disabled = true;
+                    const decision = button.dataset.responseDecision === "accept" ? "accept" : "decline";
+                    const rpcName = decision === "accept" ? "accept_incoming_blood_request" : "decline_incoming_blood_request";
+                    const { error } = await supabaseClient.rpc(rpcName, { p_response_id: button.dataset.responseId });
+                    if (error) {
+                        button.disabled = false;
+                        if (typeof toast === "function") toast(error.message || `Unable to ${decision} this request.`, "error");
+                        return;
+                    }
+                    if (typeof toast === "function") toast(decision === "accept" ? "Request accepted and requester notified." : "Request declined.", "success");
+                    await loadBloodActivity();
+                }));
+            }
         }
 
         if (!profileRequestDetailsEventsBound) {

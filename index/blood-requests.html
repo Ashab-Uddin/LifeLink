@@ -27,6 +27,7 @@
           <div class="blood-page-actions">
             <a class="btn btn-outline blood-service-control" href="/index/donor-application.html">Apply to donate</a>
             <a class="btn btn-outline blood-service-control" href="/index/blood-request.html">Blood Request</a>
+            <a class="btn btn-outline blood-service-control" href="/index/blood.html">Blood Donor</a>
             <button id="request-filters-toggle" class="donor-filters-toggle blood-service-control" type="button" aria-expanded="false" aria-controls="request-filters-panel"><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="M4 5h16l-6.5 7.2v5.3l-3 1.5v-6.8L4 5Z"></path></svg><span>Filters</span></button>
           </div>
         </aside>
@@ -66,12 +67,14 @@
     <div class="crop-dialog request-details-dialog" role="dialog" aria-modal="true" aria-labelledby="request-details-title">
       <div class="crop-dialog-heading"><div><span class="section-kicker">Blood request</span><h2 id="request-details-title">Blood request details</h2></div><button id="request-details-close" class="crop-close" type="button" aria-label="Close request details">&times;</button></div>
       <div class="request-details-header"><span id="request-details-blood" class="request-blood-badge">O+</span><div><h3 id="request-details-patient">Patient name</h3><p id="request-details-location">Location</p></div><span class="blood-request-status">Open request</span></div>
+      <div class="request-details-contact-block request-details-profile-block"><span>Request created by</span><div class="request-contact-method"><span>Profile name</span><strong id="request-details-requester-name">Not provided</strong></div><div class="request-contact-method"><span>Gmail</span><a id="request-details-requester-email" href="#">Not provided</a></div></div>
       <dl class="request-details-grid request-details-primary">
+        <div><dt>Patient name</dt><dd id="request-details-patient-name">Not provided</dd></div><div><dt>Blood donation center</dt><dd id="request-details-donation-center">Not provided</dd></div>
         <div><dt>Blood group</dt><dd id="request-details-blood-label">Not provided</dd></div><div><dt>Required blood</dt><dd id="request-details-amount">Not provided</dd></div><div><dt>Posted date</dt><dd id="request-details-posted">Not provided</dd></div><div><dt>Donation date</dt><dd id="request-details-date">Not provided</dd></div><div><dt>Donation time</dt><dd id="request-details-time">Not provided</dd></div><div><dt>Hospital / center</dt><dd id="request-details-center">Not provided</dd></div><div><dt>Location</dt><dd id="request-details-full-location">Not provided</dd></div><div><dt>Hemoglobin</dt><dd id="request-details-hemoglobin">Not provided</dd></div>
       </dl>
       <div class="request-details-contact-block"><span>Requester contact</span><div class="request-contact-method"><span>Contact number</span><a id="request-details-contact" href="#">Not provided</a></div><div class="request-contact-method"><span>WhatsApp number</span><a id="request-details-whatsapp" href="#">Not provided</a></div></div>
       <div class="request-details-note"><span>Patient problem</span><p id="request-details-problem">Not provided</p></div>
-      <button id="request-donate-button" class="btn btn-primary request-donate-button" type="button">I want to donate</button>
+      <button id="request-donate-button" class="btn btn-primary request-donate-button" type="button">Donate request</button>
       <p id="request-donate-message" class="profile-message" role="status"></p>
     </div>
   </div>

@@ -36,6 +36,17 @@ document.addEventListener("DOMContentLoaded", async () => {
   form.addEventListener("submit", async event => {
     event.preventDefault();
     const values = id => document.getElementById(id).value.trim() || null;
+    const { data: profile } = await supabaseClient.from("profiles").select("blood_group").eq("id", user.id).maybeSingle();
+    const profileBloodGroup = String(profile?.blood_group || "").trim().toLowerCase();
+    const applicationBloodGroup = String(values("application-blood-group") || "").trim().toLowerCase();
+    if (!profileBloodGroup) {
+      message.textContent = "Please set your blood group in your profile before applying as a donor.";
+      return;
+    }
+    if (profileBloodGroup !== applicationBloodGroup) {
+      message.textContent = "Your donor application blood group must match your profile blood group.";
+      return;
+    }
     const donationDate = new Date(values("application-last-donation"));
     const monthsSinceDonation = (Date.now() - donationDate.getTime()) / (1000 * 60 * 60 * 24 * 30.44);
     if (!Number.isFinite(monthsSinceDonation) || monthsSinceDonation < 3) {

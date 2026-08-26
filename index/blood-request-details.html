@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blood Request Details - LifeLink</title>
+  <link rel="stylesheet" href="/styles/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <a class="brand" href="/index/index.html"><span class="brand-mark">L</span>LifeLink</a>
+    <button class="mobile-toggle" data-menu-toggle aria-label="Open navigation">&#9776;</button>
+    <a class="nav-link" href="/index/dashboard.html">Dashboard</a>
+    <a class="nav-link" href="/index/prediction.html">AI Prediction</a>
+    <a class="nav-link" href="/index/doctor.html">Doctors</a>
+    <a class="nav-link" href="/index/nearby.html">Nearby</a>
+    <a class="nav-link active" href="/index/blood.html">Blood Donor</a>
+    <a class="nav-link" href="/index/profile.html">My Profile</a>
+    <a class="nav-link emergency-link" href="/index/ambulance.html">Emergency</a>
+  </nav>
+
+  <main class="page blood-request-details-page">
+    <div class="container">
+      <a class="request-details-back" href="/index/blood-requests.html">&larr; Back to blood requests</a>
+      <section id="blood-request-details" class="request-details-page-card" hidden>
+        <div class="section-head"><div><span class="section-kicker">Blood request</span><h1 id="request-details-title">Request details</h1></div><span class="blood-request-status">Open request</span></div>
+        <div class="request-details-header"><span id="request-details-blood" class="request-blood-badge">O+</span><div><h3 id="request-details-patient">Patient name</h3><p id="request-details-location">Location</p></div></div>
+        <div class="request-details-contact-block request-details-profile-block"><span>Request created by</span><div class="request-contact-method"><span>Profile name</span><strong id="request-details-requester-name">Not provided</strong></div><div class="request-contact-method"><span>Gmail</span><a id="request-details-requester-email" href="#">Not provided</a></div></div>
+        <dl class="request-details-grid request-details-primary">
+          <div><dt>Patient name</dt><dd id="request-details-patient-name">Not provided</dd></div><div><dt>Blood donation center</dt><dd id="request-details-donation-center">Not provided</dd></div>
+          <div><dt>Blood group</dt><dd id="request-details-blood-label">Not provided</dd></div><div><dt>Required blood</dt><dd id="request-details-amount">Not provided</dd></div><div><dt>Posted date</dt><dd id="request-details-posted">Not provided</dd></div><div><dt>Donation date</dt><dd id="request-details-date">Not provided</dd></div><div><dt>Donation time</dt><dd id="request-details-time">Not provided</dd></div><div><dt>Hospital / center</dt><dd id="request-details-center">Not provided</dd></div><div><dt>Location</dt><dd id="request-details-full-location">Not provided</dd></div><div><dt>Hemoglobin</dt><dd id="request-details-hemoglobin">Not provided</dd></div>
+        </dl>
+        <div class="request-details-contact-block"><span>Requester contact</span><div class="request-contact-method"><span>Contact number</span><a id="request-details-contact" href="#">Not provided</a></div><div class="request-contact-method"><span>WhatsApp number</span><a id="request-details-whatsapp" href="#">Not provided</a></div></div>
+        <div class="request-details-note"><span>Patient problem</span><p id="request-details-problem">Not provided</p></div>
+        <button id="request-donate-button" class="btn btn-primary request-donate-button" type="button">I want to donate</button>
+        <p id="request-donate-message" class="profile-message" role="status"></p>
+      </section>
+      <p id="blood-request-details-message" class="blood-request-empty">Loading blood request...</p>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/js/supabase.js"></script>
+  <script src="/js/i18n.js"></script>
+  <script src="/js/script.js"></script>
+  <script src="/js/blood-request-details.js"></script>
+</body>
+</html>

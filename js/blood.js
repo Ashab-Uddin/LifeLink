@@ -5,6 +5,13 @@ document.addEventListener("DOMContentLoaded", async () => {
   let donorCurrentPage = 1;
   const bloodTypeFilter = document.getElementById("blood-type-filter");
   const detailsModal = document.getElementById("donor-details-modal");
+  const donorRequestModal = document.getElementById("donor-request-modal");
+  const donorRequestSelect = document.getElementById("donor-request-select");
+  const donorRequestMessage = document.getElementById("donor-request-message");
+  const donorRequestSubmit = document.getElementById("donor-request-submit");
+  let selectedDonorForRequest = null;
+  let openBloodRequests = [];
+  const requestedDonorIds = new Set();
   const applicationModal = document.getElementById("blood-donor-application-modal");
   const applicationForm = document.getElementById("blood-donor-form");
   const applicationExisting = document.getElementById("blood-donor-existing");
@@ -88,6 +95,15 @@ document.addEventListener("DOMContentLoaded", async () => {
       window.location.href = "/index/login.html";
       return;
     }
+    const { data: profile } = await supabaseClient.from("profiles").select("blood_group").eq("id", user.id).maybeSingle();
+    const profileBloodGroup = String(profile?.blood_group || "").trim().toLowerCase();
+    const applicationBloodGroup = String(applicationFields.blood_group.value || "").trim().toLowerCase();
+    if (!profileBloodGroup || profileBloodGroup !== applicationBloodGroup) {
+      applicationMessage.textContent = !profileBloodGroup
+        ? "Please set your blood group in your profile before applying as a donor."
+        : "Your donor application blood group must match your profile blood group.";
+      return;
+    }
     const { data: existingApplication } = await supabaseClient.from("blood_donor_applications")
       .select("id").eq("user_id", user.id).maybeSingle();
     if (existingApplication) {
@@ -136,7 +152,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   function donorEligibilityStatus(gender, lastDonation) {
-    const requiredMonths = String(gender).toLowerCase() === "male" ? 4 : String(gender).toLowerCase() === "female" ? 6 : null;
+    const requiredMonths = ["male", "female"].includes(String(gender).toLowerCase()) ? 4 : null;
     const donationDate = new Date(`${lastDonation}T00:00:00`);
     if (!requiredMonths || Number.isNaN(donationDate.getTime())) return "Not Eligible";
     const eligibleDate = new Date(donationDate);
@@ -148,13 +164,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     const cards = donors.map(donor => {
       const initials = donor.full_name.split(/\s+/).map(part => part[0]).slice(0, 2).join("").toUpperCase();
       const status = donorEligibilityStatus(donor.gender, donor.last_donation_date);
+      const requestSent = requestedDonorIds.has(donor.user_id);
+      const requestDisabled = requestSent || status === "Not Eligible";
       return `<article class="card donor-card donor-card--community" data-blood-group="${escapeAttr(donor.blood_group)}" data-gender="${escapeAttr(donor.gender || "")}">
         <div class="person-card"><div class="avatar">${escapeHtml(donor.blood_group)}</div><div>
           <h3>${escapeHtml(donor.full_name)}</h3><span class="badge">${escapeHtml(donor.blood_group)}</span>
           <p class="muted">${escapeHtml(donor.location)}</p>
         </div></div>
         <div class="donor-card-footer"><div class="donor-card-meta"><span class="donor-status">${status}</span><span class="muted">${escapeHtml(initials)} · Last donation: ${escapeHtml(donationAge(donor.last_donation_date))}</span></div>
-          <button class="btn btn-primary donor-contact-button" type="button" data-name="${escapeAttr(donor.full_name)}" data-blood-group="${escapeAttr(donor.blood_group)}" data-gender="${escapeAttr(donor.gender || "")}" data-phone="${escapeAttr(donor.phone)}" data-email="${escapeAttr(donor.email || "")}" data-location="${escapeAttr(donor.location)}" data-last-donation="${escapeAttr(donor.last_donation_date)}" data-created-at="${escapeAttr(donor.created_at || "")}" data-date-of-birth="${escapeAttr(donor.date_of_birth || "")}" data-division="${escapeAttr(donor.division || "")}" data-district="${escapeAttr(donor.district || "")}" data-upazila="${escapeAttr(donor.upazila || "")}" data-address="${escapeAttr(donor.address || "")}" data-whatsapp="${escapeAttr(donor.whatsapp || "")}" data-facebook="${escapeAttr(donor.facebook || "")}" data-weight="${escapeAttr(donor.weight_kg || "")}" data-height="${escapeAttr(donor.height || "")}" data-emergency-phone="${escapeAttr(donor.emergency_phone || "")}" data-medical-conditions="${escapeAttr(donor.medical_conditions || "")}" data-medications="${escapeAttr(donor.current_medications || "")}" data-notes="${escapeAttr(donor.notes || "")}">Contact donor</button>
+          <div class="donor-card-actions"><button class="btn btn-primary donor-contact-button" type="button" data-name="${escapeAttr(donor.full_name)}" data-user-id="${escapeAttr(donor.user_id)}" data-blood-group="${escapeAttr(donor.blood_group)}" data-gender="${escapeAttr(donor.gender || "")}" data-phone="${escapeAttr(donor.phone)}" data-email="${escapeAttr(donor.email || "")}" data-location="${escapeAttr(donor.location)}" data-last-donation="${escapeAttr(donor.last_donation_date)}" data-created-at="${escapeAttr(donor.created_at || "")}" data-date-of-birth="${escapeAttr(donor.date_of_birth || "")}" data-division="${escapeAttr(donor.division || "")}" data-district="${escapeAttr(donor.district || "")}" data-upazila="${escapeAttr(donor.upazila || "")}" data-address="${escapeAttr(donor.address || "")}" data-whatsapp="${escapeAttr(donor.whatsapp || "")}" data-facebook="${escapeAttr(donor.facebook || "")}" data-weight="${escapeAttr(donor.weight_kg || "")}" data-height="${escapeAttr(donor.height || "")}" data-emergency-phone="${escapeAttr(donor.emergency_phone || "")}" data-medical-conditions="${escapeAttr(donor.medical_conditions || "")}" data-medications="${escapeAttr(donor.current_medications || "")}" data-notes="${escapeAttr(donor.notes || "")}">Contact donor</button><button class="btn btn-outline donor-request-button" type="button" data-donor-user-id="${escapeAttr(donor.user_id)}" data-donor-name="${escapeAttr(donor.full_name)}"${requestDisabled ? " disabled" : ""}>${requestSent ? "Request Sent" : "Request for Donate"}</button></div>
         </div>
       </article>`;
     });
@@ -249,13 +267,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   async function loadDonors() {
     const { data, error } = await supabaseClient.from("blood_donor_applications")
-      .select("full_name,blood_group,gender,phone,email,location,last_donation_date,created_at,notes,date_of_birth,division,district,upazila,address,whatsapp,facebook,weight_kg,height,emergency_phone,medical_conditions,current_medications")
+      .select("user_id,full_name,blood_group,gender,phone,email,location,last_donation_date,created_at,notes,date_of_birth,division,district,upazila,address,whatsapp,facebook,weight_kg,height,emergency_phone,medical_conditions,current_medications")
       .eq("status", "available").order("created_at", { ascending: false });
     if (error) {
       console.error("Donor loading error:", error);
       return;
     }
-    donorList?.querySelectorAll(".donor-card--community").forEach(card => card.remove());
+    donorList?.querySelectorAll(".donor-card").forEach(card => card.remove());
     renderDonors(data || []);
   }
 
@@ -280,6 +298,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   const { data: { user } } = await supabaseClient.auth.getUser();
+  if (user && donorList) {
+    const { data: requests } = await supabaseClient.from("blood_requests").select("id,patient_name,blood_group,donation_date").eq("user_id", user.id).eq("status", "open").order("created_at", { ascending: false });
+    openBloodRequests = requests || [];
+    const { data: sentRequests } = await supabaseClient.from("blood_donation_requests").select("donor_user_id").eq("requester_user_id", user.id);
+    (sentRequests || []).forEach(request => requestedDonorIds.add(request.donor_user_id));
+  }
   if (user && form) {
     fields.full_name.value = user.user_metadata?.full_name || "";
     await checkExistingApplication(user);
@@ -338,6 +362,39 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   if (donorList) await loadDonors();
+  const openDonorRequest = button => {
+    selectedDonorForRequest = button.dataset;
+    document.getElementById("donor-request-recipient").textContent = `Request ${selectedDonorForRequest.donorName} to donate for one of your open requests.`;
+    donorRequestSelect.innerHTML = openBloodRequests.length ? openBloodRequests.map(request => `<option value="${escapeAttr(request.id)}">${escapeHtml(request.patient_name)} · ${escapeHtml(request.blood_group)} · ${escapeHtml(request.donation_date)}</option>`).join("") : '<option value="">No open blood request found</option>';
+    donorRequestMessage.textContent = openBloodRequests.length ? "" : "Create an open blood request first.";
+    donorRequestSubmit.disabled = !openBloodRequests.length;
+    donorRequestModal.hidden = false;
+  };
+  document.getElementById("donor-request-close")?.addEventListener("click", () => { donorRequestModal.hidden = true; });
+  donorRequestModal?.addEventListener("click", event => { if (event.target === donorRequestModal) donorRequestModal.hidden = true; });
+  donorList?.addEventListener("click", event => {
+    const button = event.target.closest(".donor-request-button");
+    if (!button) return;
+    event.stopPropagation();
+    openDonorRequest(button);
+  });
+  donorRequestSubmit?.addEventListener("click", async () => {
+    if (!selectedDonorForRequest || !donorRequestSelect.value) return;
+    donorRequestSubmit.disabled = true;
+    donorRequestMessage.textContent = "Sending request...";
+    const { error } = await supabaseClient.rpc("request_blood_donation_from_donor", { p_donor_user_id: selectedDonorForRequest.donorUserId, p_blood_request_id: donorRequestSelect.value });
+    if (error) {
+      donorRequestMessage.textContent = error.message || "Unable to send request.";
+      donorRequestMessage.classList.add("is-error");
+      donorRequestSubmit.disabled = false;
+      return;
+    }
+    requestedDonorIds.add(selectedDonorForRequest.donorUserId);
+    const cardButton = donorList.querySelector(`.donor-request-button[data-donor-user-id="${CSS.escape(selectedDonorForRequest.donorUserId)}"]`);
+    if (cardButton) { cardButton.textContent = "Request Sent"; cardButton.disabled = true; }
+    donorRequestModal.hidden = true;
+    if (typeof toast === "function") toast("Donation request sent.", "success");
+  });
   const donorFiltersToggle = document.getElementById("donor-filters-toggle");
   const donorFiltersPanel = document.getElementById("donor-filters-panel");
   const donorBrowser = document.querySelector(".donor-browser");

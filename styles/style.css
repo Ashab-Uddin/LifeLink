@@ -181,6 +181,28 @@ img {
   background: var(--accent)
 }
 
+.auth-links button {
+  border: 0;
+  padding: 9px 11px;
+  border-radius: 10px;
+  background: var(--primary);
+  color: #fff;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: .25s
+}
+
+.auth-links button:hover {
+  background: var(--primary-2)
+}
+
+.auth-links .auth-logout:hover {
+  background: var(--danger);
+  color: #fff
+}
+
 .auth-links .auth-signup {
   background: var(--primary);
   color: #fff
@@ -710,6 +732,13 @@ label {
   color: var(--text)
 }
 
+.field:has(:required) > label::after,
+.donor-awareness:has(input:required) .donor-awareness-copy > span:first-child::after {
+  content: " *";
+  color: #dc3545;
+  font-weight: 800;
+}
+
 input,
 select,
 textarea {
@@ -1033,6 +1062,14 @@ textarea:focus {
 .profile-page[data-active-profile-view="blood-requests"] .profile-page-content > .profile-heading,
 .profile-page[data-active-profile-view="blood-requests"] .profile-page-content > .profile-hero { display: none !important }
 .profile-page[data-active-profile-view="blood-requests"] .profile-page-content > .profile-blood-activity { display: block !important; margin-top: 0 }
+.profile-page[data-active-profile-view="donations"] .profile-page-content > [data-profile-content="overview"],
+.profile-page[data-active-profile-view="donations"] .profile-page-content > .profile-layout,
+.profile-page[data-active-profile-view="donations"] .profile-page-content > .profile-overview,
+.profile-page[data-active-profile-view="donations"] .profile-page-content > .profile-heading,
+.profile-page[data-active-profile-view="donations"] .profile-page-content > .profile-hero { display: none !important }
+.profile-page[data-active-profile-view="donations"] .profile-page-content > .profile-blood-activity { display: block !important; margin-top: 0 }
+.profile-page[data-active-profile-view="achievements"] .profile-layout { grid-template-columns: 1fr; }
+.profile-page [hidden] { display: none !important }
 .profile-section-nav { position: sticky; top: 92px; display: grid; gap: 6px; padding: 8px 0 }
 .profile-section-nav-link { display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 0 14px; border-radius: 10px; color: var(--muted); font-size: 14px; text-decoration: none; transition: background .2s ease, color .2s ease }
 .profile-section-nav-link span { width: 20px; color: var(--primary); font-size: 18px; text-align: center }
@@ -1057,6 +1094,11 @@ textarea:focus {
 }
 
 .profile-heading p { margin: 0 }
+.profile-completeness-inline { width: min(600px, 52%); margin: 0; padding: 16px 18px; box-shadow: 0 10px 24px rgba(16, 42, 67, .06) }
+.profile-completeness-inline-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px }
+.profile-completeness-inline-heading strong { color: var(--primary); font: 700 16px "Plus Jakarta Sans" }
+.profile-completeness-inline .progress-track { margin: 0 0 6px }
+.profile-completeness-inline > .muted { display: block; font-size: 11px }
 .profile-resource-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 20px }
 .profile-resource-actions .btn { white-space: nowrap }
 
@@ -1088,6 +1130,11 @@ textarea:focus {
 .overview-chart-line { position: absolute; inset: 0 0 29px; width: 100%; height: calc(100% - 29px); overflow: visible; color: var(--primary); }
 .overview-chart-line circle { fill: #fff; stroke: currentColor; stroke-width: 2 }
 .overview-chart-labels { position: absolute; right: 0; bottom: 0; left: 0; display: flex; justify-content: space-between; color: var(--muted); font-size: 13px; transform: translateX(-1px) }
+.overview-donation-history { display: grid; gap: 8px; margin-top: 12px }
+.overview-donation-history article { display: grid; grid-template-columns: 1fr auto; gap: 2px 14px; padding-top: 10px; border-top: 1px solid var(--border); font-size: 12px }
+.overview-donation-history strong { color: var(--text) }
+.overview-donation-history span { color: var(--primary); font-weight: 700; text-align: right }
+.overview-donation-history small { grid-column: 1 / -1; color: var(--muted); font-size: 11px }
 .overview-impact-panel { display: flex; flex-direction: column }
 .overview-impact-visual { display: flex; align-items: center; justify-content: center; gap: 24px; min-height: 180px }
 .overview-impact-ring { width: 148px; height: 148px; display: grid; place-items: center; flex: 0 0 auto; border-radius: 50%; background: conic-gradient(var(--primary) 0deg, var(--primary) 0deg, #dfe5eb 0deg, #dfe5eb 360deg); position: relative }
@@ -1157,6 +1204,46 @@ textarea:focus {
 .profile-activity-item span { color: var(--muted); overflow-wrap: anywhere }
 .profile-activity-item small { color: var(--muted); font-size: 11px }
 .profile-activity-item b { width: fit-content; color: var(--primary); font-size: 11px; text-transform: capitalize }
+.donation-request-item { gap: 5px }
+.donation-request-contact { display: flex; flex-wrap: wrap; gap: 8px 12px; margin-top: 4px }
+.donation-request-contact a { color: var(--primary); font-size: 11px; font-weight: 700; overflow-wrap: anywhere }
+.donation-request-item > b { color: var(--primary); font-size: 11px }
+.complete-donation-button { width: fit-content; margin-top: 5px; padding: 6px 10px; border: 1px solid var(--primary); border-radius: 7px; background: var(--primary); color: #fff; font-size: 11px; font-weight: 700 }
+.complete-donation-button:hover { background: var(--primary-2) }
+.complete-donation-button:disabled { cursor: wait; opacity: .65 }
+.gave-blood-button { width: fit-content; margin-top: 5px; padding: 6px 10px; border: 1px solid var(--primary); border-radius: 7px; background: var(--primary); color: #fff; font-size: 11px; font-weight: 700 }
+.gave-blood-button:hover { background: var(--primary-2) }
+.gave-blood-button:disabled { cursor: wait; opacity: .65 }
+.donation-request-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; margin-top: 5px }
+.delete-donation-request-button { width: fit-content; padding: 6px 10px; border: 1px solid #f0b7b7; border-radius: 7px; background: var(--surface); color: #c24141; font-size: 11px; font-weight: 700 }
+.delete-donation-request-button:hover { background: #fff5f5; }
+.delete-donation-request-button:disabled { cursor: wait; opacity: .65 }
+.incoming-request-table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; }
+.incoming-request-table { width: 100%; min-width: 0; table-layout: fixed; border-collapse: collapse; font-size: 13px; }
+.incoming-request-table th, .incoming-request-table td { padding: 14px 16px; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
+.incoming-request-table th:nth-child(1), .incoming-request-table td:nth-child(1) { width: 25%; }
+.incoming-request-table th:nth-child(2), .incoming-request-table td:nth-child(2) { width: 12%; }
+.incoming-request-table th:nth-child(3), .incoming-request-table td:nth-child(3) { width: 25%; }
+.incoming-request-table th:nth-child(4), .incoming-request-table td:nth-child(4) { width: 18%; }
+.incoming-request-table th:nth-child(5), .incoming-request-table td:nth-child(5) { width: 20%; }
+.incoming-request-table th { color: var(--muted); font-size: 12px; font-weight: 700; }
+.incoming-request-table td { color: var(--text); }
+.incoming-request-table tbody tr:last-child td { border-bottom: 0; }
+.incoming-request-row { cursor: pointer; transition: background .2s ease; }
+.incoming-request-row:hover { background: #f5fffe; }
+.incoming-request-empty { height: 92px; color: var(--text) !important; text-align: center !important; }
+.incoming-request-actions { display: flex; gap: 6px; }
+.incoming-request-actions button { padding: 6px 10px; border: 1px solid var(--primary); border-radius: 7px; background: var(--surface); color: var(--primary); font-size: 11px; font-weight: 700; cursor: pointer; }
+.incoming-request-actions button:hover { background: var(--accent); }
+.incoming-request-actions .incoming-request-decline { border-color: #f0b7b7; color: var(--danger); }
+.incoming-request-actions .incoming-request-decline:hover { background: #fff0f0; }
+.incoming-request-actions button:disabled { cursor: default; opacity: .55; }
+.donor-card-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px }
+.donor-card-actions .btn { margin-top: 0; }
+.donor-request-button:disabled { cursor: not-allowed; opacity: .55; transform: none; box-shadow: none; }
+.donor-request-dialog { width: min(460px, calc(100vw - 40px)); }
+.donor-request-dialog > label { display: block; margin: 18px 0 7px; color: var(--muted); font-size: 12px; font-weight: 700 }
+.donor-request-dialog > select { width: 100%; }
 .profile-request-item { cursor: pointer; transition: border-color .2s ease, background .2s ease, transform .2s ease, box-shadow .2s ease }
 .profile-request-item:hover, .profile-request-item:focus-visible { border-color: #9bd9d4; background: #f5fffe; outline: none; transform: translateY(-1px); box-shadow: 0 8px 18px rgba(16, 42, 67, .08) }
 .profile-request-item em { color: var(--primary); font-size: 11px; font-style: normal; font-weight: 700 }
@@ -1193,7 +1280,7 @@ textarea:focus {
 .profile-response-item-actions .profile-response-reject-button { color: var(--danger) }
 .profile-response-item-actions .profile-response-reject-button:hover { border-color: #f2b8ba; background: #fff0f0 }
 .profile-response-item-actions button:disabled { cursor: default; opacity: .6 }
-.profile-form-card { max-width: none; margin: 0; padding: 30px }
+.profile-form-card { width: min(900px, 100%); max-width: 900px; margin: 0 auto; padding: 30px }
 .form-card-heading { display: flex; justify-content: space-between; gap: 20px; margin-bottom: 24px }
 .form-card-heading h2 { margin: 5px 0 3px; font: 700 24px "Plus Jakarta Sans" }
 .form-card-heading p { margin: 0; font-size: 14px }
@@ -1870,6 +1957,8 @@ textarea:focus {
     display: block
   }
 
+  .profile-completeness-inline { width: 100%; margin-top: 18px }
+
   .profile-overview-heading { display: block; margin-top: 0 }
   .profile-overview-heading h1 { font-size: 32px }
   .profile-overview-actions { margin-top: 18px }
@@ -2125,11 +2214,18 @@ textarea:focus {
 .request-details-contact-block > div { display: flex; align-items: baseline; gap: 10px; min-width: 170px }
 .request-contact-method > span { flex: 0 0 112px; color: var(--muted); font-size: 11px; font-weight: 700 }
 .request-details-contact-block a { color: var(--primary); font-size: 14px; font-weight: 700 }
+.request-details-profile-block { padding-top: 14px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+.request-details-profile-block strong { color: var(--text); font-size: 14px; overflow-wrap: anywhere }
+.request-details-profile-block > div { display: grid; grid-template-columns: max-content minmax(0, 1fr); align-items: baseline; gap: 10px; min-width: 0; }
+.request-details-profile-block a { min-width: 0; overflow-wrap: anywhere; }
 
 @media(min-width:701px) {
   .request-details-contact-block { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 24px }
   .request-details-contact-block > span { grid-column: 1 / -1 }
+  .request-details-profile-block { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+
+.request-details-profile-block .request-contact-method > span { flex: 0 0 auto; }
 
 .blood-request-card .donor-awareness { padding: 10px 12px; font-size: 12px }
 .blood-request-card .donor-awareness.full { grid-column: 1 / -1; width: 100% }

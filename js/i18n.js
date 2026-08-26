@@ -581,12 +581,29 @@ function translateLifeLinkHealth(value) {
       const authLinks = document.createElement("div");
       authLinks.className = "auth-links";
       authLinks.innerHTML = `
+        <a href="/index/login.html">Sign in</a>
         <a class="auth-signup" href="/index/signup.html">Sign up</a>`;
       actions.appendChild(authLinks);
       navbar.appendChild(actions);
+      updateAuthLinks(authLinks);
     } else {
       target.appendChild(actions);
     }
+  }
+
+  async function updateAuthLinks(authLinks) {
+    if (typeof supabaseClient === "undefined") return;
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    if (!session) return;
+    authLinks.innerHTML = `<button class="auth-logout" type="button">Logout</button>`;
+    authLinks.querySelector(".auth-logout")?.addEventListener("click", async () => {
+      const { error } = await supabaseClient.auth.signOut();
+      if (error) {
+        if (typeof toast === "function") toast(error.message || "Unable to sign out.", "error");
+        return;
+      }
+      window.location.reload();
+    });
   }
 
   document.addEventListener("DOMContentLoaded", () => {

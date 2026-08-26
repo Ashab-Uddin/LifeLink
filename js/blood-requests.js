@@ -22,9 +22,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   await checkRequesterNotifications();
   window.setInterval(checkRequesterNotifications, 30000);
 
+  const today = new Date();
+  const todayValue = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
   const { data, error } = await supabaseClient.from("blood_requests")
     .select("id,user_id,patient_name,blood_group,division,district,upazila,address,donation_center,contact_number,whatsapp_number,blood_amount_bags,donation_date,donation_time,hemoglobin,patient_problem,status,created_at")
     .eq("status", "open")
+    .gte("donation_date", todayValue)
     .order("created_at", { ascending: false });
 
   if (error) {
@@ -35,6 +38,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   const formatDate = value => value ? new Date(`${value}T00:00:00`).toLocaleDateString() : "Not provided";
   const formatTime = value => value ? value.slice(0, 5) : "Not provided";
   const requests = data || [];
+  const profileById = new Map();
+  const profileIds = [...new Set(requests.map(request => request.user_id).filter(Boolean))];
+  if (profileIds.length) {
+    const { data: profiles } = await supabaseClient.from("profiles").select("id,full_name,email").in("id", profileIds);
+    (profiles || []).forEach(profile => profileById.set(profile.id, profile));
+  }
   const detailModal = document.getElementById("blood-request-details-modal");
   let selectedRequest = null;
   const detail = (id, value) => { const element = document.getElementById(id); if (element) element.textContent = value || "Not provided"; };
@@ -42,15 +51,22 @@ document.addEventListener("DOMContentLoaded", async () => {
     selectedRequest = request;
     detail("request-details-title", `Request for ${request.patient_name}`);
     detail("request-details-patient", request.patient_name);
+    detail("request-details-patient-name", request.patient_name);
     detail("request-details-blood", request.blood_group);
     detail("request-details-blood-label", request.blood_group);
     detail("request-details-location", `${request.donation_center} · ${request.district}`);
+    const requester = profileById.get(request.user_id) || {};
+    detail("request-details-requester-name", requester.full_name);
+    const requesterEmail = document.getElementById("request-details-requester-email");
+    requesterEmail.textContent = requester.email || "Email not provided";
+    requesterEmail.href = requester.email ? `mailto:${encodeURIComponent(requester.email)}` : "#";
     detail("request-details-full-location", [request.address, request.upazila, request.district, request.division].filter(Boolean).join(", "));
     detail("request-details-amount", `${request.blood_amount_bags} bag${Number(request.blood_amount_bags) === 1 ? "" : "s"}`);
     detail("request-details-posted", formatDate(request.created_at?.slice(0, 10)));
     detail("request-details-date", formatDate(request.donation_date));
     detail("request-details-time", formatTime(request.donation_time));
     detail("request-details-center", request.donation_center);
+    detail("request-details-donation-center", request.donation_center);
     detail("request-details-division", request.division);
     detail("request-details-district", request.district);
     detail("request-details-upazila", request.upazila);
@@ -161,16 +177,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     const response = document.getElementById("request-donate-message");
     button.disabled = true;
     response.textContent = "Sending your response...";
-    const { error: responseError } = await supabaseClient.rpc("respond_to_blood_request", { p_request_id: selectedRequest.id });
+    const { error: responseError } = await supabaseClient.rpc("create_blood_donation_request", { p_blood_request_id: selectedRequest.id });
     if (responseError) {
-      response.textContent = responseError.message || "Unable to send your response.";
+      const missingFunction = responseError.message?.includes("Could not find the function public.create_blood_donation_request") || responseError.code === "PGRST202";
+      response.textContent = missingFunction
+        ? "Donation setup is not active yet. Run SUPABASE_BLOOD_REQUEST_SETUP.sql in Supabase, then refresh."
+        : (responseError.message || "Unable to send your donation request.");
       response.classList.add("is-error");
       button.disabled = false;
       return;
     }
     response.classList.remove("is-error");
     response.textContent = "";
-    button.textContent = "Response sent";
+    button.textContent = "Donation request sent";
     detailModal.hidden = true;
     document.getElementById("donor-response-success-modal").hidden = false;
   });

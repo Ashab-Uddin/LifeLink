@@ -22,6 +22,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   };
 
   const readValue = field => document.getElementById(fields[field]).value.trim() || null;
+  const currentDate = new Date();
+  const todayValue = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, "0")}-${String(currentDate.getDate()).padStart(2, "0")}`;
+  const donationDateInput = document.getElementById(fields.donation_date);
+  if (donationDateInput) donationDateInput.min = todayValue;
   const { data: authData } = await supabaseClient.auth.getUser();
   if (!authData.user) {
     window.location.replace("/index/login.html");
@@ -36,6 +40,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     const donationDate = new Date(`${readValue("donation_date")}T${readValue("donation_time")}`);
     if (Number.isNaN(donationDate.getTime())) {
       message.textContent = "Please provide a valid donation date and time.";
+      message.classList.add("is-error");
+      return;
+    }
+    if (donationDate.getTime() <= Date.now()) {
+      message.textContent = "Donation date and time must be in the future.";
       message.classList.add("is-error");
       return;
     }

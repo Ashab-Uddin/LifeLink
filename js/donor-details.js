@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const date = new Date(field === "createdAt" ? donor[field] : `${donor[field]}T00:00:00`);
     return Number.isNaN(date.getTime()) ? "Not provided" : date.toLocaleDateString();
   };
-  const requiredMonths = String(donor.gender).toLowerCase() === "male" ? 4 : String(donor.gender).toLowerCase() === "female" ? 6 : null;
+  const requiredMonths = ["male", "female"].includes(String(donor.gender).toLowerCase()) ? 4 : null;
   const donationDate = new Date(`${donor.lastDonation}T00:00:00`);
   const eligibleDate = requiredMonths && !Number.isNaN(donationDate.getTime()) ? new Date(donationDate.setMonth(donationDate.getMonth() + requiredMonths)) : null;
   const eligibility = eligibleDate && Date.now() >= eligibleDate.getTime() ? "Eligible" : "Not Eligible";

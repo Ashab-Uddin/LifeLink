@@ -312,6 +312,17 @@
     </div>
   </div>
 
+  <div id="donor-request-modal" class="crop-modal" hidden>
+    <div class="crop-dialog donor-request-dialog" role="dialog" aria-modal="true" aria-labelledby="donor-request-title">
+      <div class="crop-dialog-heading"><div><span class="section-kicker">Ask a donor</span><h2 id="donor-request-title">Request for donate</h2></div><button id="donor-request-close" class="crop-close" type="button" aria-label="Close donor request">&times;</button></div>
+      <p id="donor-request-recipient" class="muted">Choose one of your open blood requests.</p>
+      <label for="donor-request-select">Your open blood request</label>
+      <select id="donor-request-select"></select>
+      <p id="donor-request-message" class="profile-message" role="status"></p>
+      <button id="donor-request-submit" class="btn btn-primary" type="button">Send request</button>
+    </div>
+  </div>
+
   <div id="blood-donor-application-modal" class="crop-modal" hidden>
     <div class="crop-dialog donor-dialog" role="dialog" aria-modal="true" aria-labelledby="blood-donor-title">
       <div class="crop-dialog-heading">

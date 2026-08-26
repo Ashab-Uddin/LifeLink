@@ -31,8 +31,6 @@
                     <a class="profile-section-nav-link" href="#profile-blood-activity" data-profile-view="blood-requests"><span aria-hidden="true">&#9829;</span>Your Blood Requests</a>
                     <a class="profile-section-nav-link" href="#profile-blood-activity" data-profile-view="donations"><span aria-hidden="true">&#10003;</span>Donations</a>
                     <a class="profile-section-nav-link" href="/index/history.html"><span aria-hidden="true">&#8764;</span>Health History</a>
-                    <a class="profile-section-nav-link" href="#profile-form" data-profile-view="achievements"><span aria-hidden="true">&#9733;</span>Achievements</a>
-                    <a class="profile-section-nav-link" href="#profile-security" data-profile-view="security"><span aria-hidden="true">&#9671;</span>Security</a>
                     <button id="profile-sidebar-logout" class="profile-section-nav-link profile-sidebar-logout" type="button"><span aria-hidden="true">&#10132;</span>Logout</button>
                 </aside>
                 <div class="profile-page-content" id="profile-overview">
@@ -40,7 +38,7 @@
                 <div class="profile-overview-heading">
                     <div>
                         <span class="badge">LifeLink Overview</span>
-                        <h1 id="profile-overview-title">Welcome to Your Dashboard</h1>
+                        <h1 id="profile-overview-title">You Activity</h1>
                         <p class="muted">Your donation journey, at a glance.</p>
                     </div>
                     <div class="profile-overview-actions">
@@ -72,30 +70,6 @@
                     </section>
                 </div>
 
-                <div class="profile-overview-panels">
-                    <section class="card overview-history-panel">
-                        <h2>Donation History</h2>
-                        <div class="overview-chart" role="img" aria-label="Donation history from March to August">
-                            <div class="overview-chart-y-axis" aria-hidden="true"><span>2</span><span>1</span><span>0</span></div>
-                            <div class="overview-chart-plot">
-                                <div class="overview-chart-grid" aria-hidden="true"><span></span><span></span><span></span></div>
-                                <svg class="overview-chart-line" viewBox="0 0 600 180" preserveAspectRatio="none" aria-hidden="true">
-                                    <polyline points="0,168 120,168 240,168 360,168 480,168 600,168" fill="none" stroke="currentColor" stroke-width="3" vector-effect="non-scaling-stroke"></polyline>
-                                    <circle cx="0" cy="168" r="5"></circle><circle cx="120" cy="168" r="5"></circle><circle cx="240" cy="168" r="5"></circle><circle cx="360" cy="168" r="5"></circle><circle cx="480" cy="168" r="5"></circle><circle cx="600" cy="168" r="5"></circle>
-                                </svg>
-                                <div class="overview-chart-labels" aria-hidden="true"><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span></div>
-                            </div>
-                        </div>
-                    </section>
-                    <section class="card overview-impact-panel">
-                        <h2>Your Impact</h2>
-                        <div class="overview-impact-visual">
-                            <div class="overview-impact-ring"><strong id="overview-impact-percent">0%</strong></div>
-                            <div class="overview-impact-legend"><span><i></i>Lives Saved</span><strong id="overview-impact-lives">0</strong></div>
-                        </div>
-                        <p class="muted">Your impact grows with every donation.</p>
-                    </section>
-                </div>
             </section>
             <div class="profile-heading" data-profile-content="overview">
                 <div>
@@ -103,6 +77,11 @@
                     <h1>Your profile</h1>
                     <p class="muted">Keep your details ready for more connected care.</p>
                 </div>
+                <section class="card profile-completeness-card profile-completeness-inline">
+                    <div class="profile-completeness-inline-heading"><span class="section-kicker">Profile completeness</span><strong id="profile-completeness">0%</strong></div>
+                    <div class="progress-track"><span id="profile-completeness-bar"></span></div>
+                    <span class="muted">Ready to improve</span>
+                </section>
             </div>
 
             <section class="profile-hero" data-profile-content="overview">
@@ -186,30 +165,15 @@
                 </form>
 
                 <aside class="profile-side-column" data-profile-content="security" hidden>
-                    <section class="card profile-completeness-card">
-                        <div class="side-card-heading"><span class="icon-box">+</span><span class="badge">Account
-                                setup</span></div>
-                        <h3>Profile completeness</h3>
-                        <div class="progress-track"><span id="profile-completeness-bar"></span></div>
-                        <div class="progress-label"><strong id="profile-completeness">0%</strong><span
-                                class="muted">Ready to improve</span></div>
-                        <p class="muted">A complete profile gives your healthcare tools better context.</p>
-                    </section>
-                    <section id="profile-security" class="card profile-security-card">
-                        <span class="section-kicker">Account access</span>
-                        <h3>Manage your session</h3>
-                        <p class="muted">Sign out when you are finished using LifeLink on this device.</p>
-                        <a class="btn btn-secondary profile-history-link" href="/index/history.html">View history</a>
-                        <a class="btn btn-primary profile-donor-link" href="/index/donor-application.html">Become a blood donor</a>
-                        <button id="logout-btn" class="btn btn-outline profile-logout" type="button">Sign out</button>
-                    </section>
                 </aside>
             </div>
 
             <section id="profile-blood-activity" class="profile-blood-activity" data-profile-content="blood-requests donations">
                 <div class="form-card-heading"><div><span class="section-kicker">Blood support</span><h2>My blood activity</h2><p class="muted">Track your requests and donor responses in one place.</p></div></div>
                 <div class="profile-blood-activity-grid">
-                    <section class="card profile-activity-card"><h3>Your blood requests</h3><div id="profile-blood-requests" class="profile-activity-list"><p class="muted">Loading requests...</p></div></section>
+                    <section class="card profile-activity-card" data-profile-content="blood-requests"><h3>Your blood requests</h3><div id="profile-blood-requests" class="profile-activity-list"><p class="muted">Loading requests...</p></div></section>
+                    <section class="card profile-activity-card" data-profile-content="donations" data-profile-donation-requests><h3>Donation requests I sent</h3><div id="profile-donation-requests" class="profile-activity-list"><p class="muted">Loading donation requests...</p></div></section>
+                    <section class="card profile-activity-card" data-profile-content="donations" data-profile-incoming-requests><h3>Incoming request for blood</h3><div id="profile-incoming-requests" class="profile-activity-list"><p class="muted">Loading incoming requests...</p></div></section>
                 </div>
             </section>
                 </div>
@@ -315,20 +279,6 @@
     </div>
 
 
-    <!-- Supabase -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-    <!-- Your Supabase configuration -->
-    <script src="/js/supabase.js"></script>
-
-    <!-- Existing JavaScript -->
-    <script src="/js/i18n.js"></script>
-    <script src="/js/script.js"></script>
-
-    <!-- Profile JavaScript -->
-    <script src="/js/profile.js"></script>
-    <script src="/js/blood.js"></script>
-
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
@@ -340,6 +290,13 @@
             <div class="footer-bottom"><span>&copy; 2026 LifeLink. Built for more connected care.</span><span>AI guidance is informational and not a substitute for professional medical advice.</span></div>
         </div>
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/js/supabase.js"></script>
+    <script src="/js/i18n.js"></script>
+    <script src="/js/script.js"></script>
+    <script src="/js/profile.js"></script>
+    <script src="/js/blood.js"></script>
 </body>
 
 </html>

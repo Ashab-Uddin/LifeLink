@@ -1,6 +1,23 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     const signupForm = document.getElementById("signup-form");
+    const googleSignupButton = document.getElementById("google-signup-btn");
+    const oauthRedirectUrl = "https://life-link-ui93.vercel.app/index/login.html";
+
+    googleSignupButton?.addEventListener("click", async () => {
+        googleSignupButton.disabled = true;
+        googleSignupButton.classList.add("is-loading");
+        const { error } = await supabaseClient.auth.signInWithOAuth({
+            provider: "google",
+            options: { redirectTo: oauthRedirectUrl }
+        });
+        if (error) {
+            console.error("Google signup error:", error);
+            alert(error.message || "Unable to continue with Google.");
+            googleSignupButton.disabled = false;
+            googleSignupButton.classList.remove("is-loading");
+        }
+    });
 
     if (!signupForm) {
         return;
