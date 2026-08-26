@@ -33,6 +33,19 @@ on public.blood_requests for select
 to authenticated
 using (auth.uid() = user_id);
 
+drop policy if exists "Users can delete their own blood requests" on public.blood_requests;
+create policy "Users can delete their own blood requests"
+on public.blood_requests for delete
+to authenticated
+using (auth.uid() = user_id);
+
+drop policy if exists "Users can update their own blood requests" on public.blood_requests;
+create policy "Users can update their own blood requests"
+on public.blood_requests for update
+to authenticated
+using (auth.uid() = user_id)
+with check (auth.uid() = user_id);
+
 drop policy if exists "Authenticated users can view open blood requests" on public.blood_requests;
 create policy "Authenticated users can view open blood requests"
 on public.blood_requests for select
@@ -43,10 +56,17 @@ create table if not exists public.blood_request_notifications (
   id uuid primary key default gen_random_uuid(),
   request_id uuid not null references public.blood_requests(id) on delete cascade,
   recipient_user_id uuid not null references auth.users(id) on delete cascade,
+  donor_user_id uuid references auth.users(id) on delete set null,
   message text not null,
   read_at timestamptz,
+  accepted_at timestamptz,
+  rejected_at timestamptz,
   created_at timestamptz not null default now()
 );
+
+alter table public.blood_request_notifications add column if not exists donor_user_id uuid references auth.users(id) on delete set null;
+alter table public.blood_request_notifications add column if not exists accepted_at timestamptz;
+alter table public.blood_request_notifications add column if not exists rejected_at timestamptz;
 
 alter table public.blood_request_notifications enable row level security;
 
@@ -127,7 +147,7 @@ begin
     or (lower(coalesce(donor_row.gender, '')) = 'female' and donor_row.last_donation_date + interval '6 months' <= current_date)) then
     raise exception 'You are not currently eligible to donate.';
   end if;
-  insert into public.blood_request_notifications (request_id, recipient_user_id, message)
-  values (request_row.id, request_row.user_id, format('A matching %s donor wants to donate for %s. Contact: %s', donor_row.blood_group, request_row.patient_name, donor_row.phone));
+  insert into public.blood_request_notifications (request_id, recipient_user_id, donor_user_id, message)
+  values (request_row.id, request_row.user_id, donor_row.user_id, format('A matching %s donor wants to donate for %s. Contact: %s', donor_row.blood_group, request_row.patient_name, donor_row.phone));
 end;
 $$;

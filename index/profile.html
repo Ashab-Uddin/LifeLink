@@ -27,28 +27,85 @@
         <div class="container">
             <div class="profile-page-layout">
                 <aside class="profile-section-nav" aria-label="Profile sections">
-                    <a class="profile-section-nav-link is-active" href="#profile-overview"><span aria-hidden="true">&#9638;</span>Overview</a>
-                    <a class="profile-section-nav-link" href="#profile-blood-activity"><span aria-hidden="true">&#9829;</span>Blood Requests</a>
-                    <a class="profile-section-nav-link" href="#profile-blood-activity"><span aria-hidden="true">&#10003;</span>Donations</a>
+                    <a class="profile-section-nav-link is-active" href="#profile-overview" data-profile-view="overview"><span aria-hidden="true">&#9638;</span>Overview</a>
+                    <a class="profile-section-nav-link" href="#profile-blood-activity" data-profile-view="blood-requests"><span aria-hidden="true">&#9829;</span>Your Blood Requests</a>
+                    <a class="profile-section-nav-link" href="#profile-blood-activity" data-profile-view="donations"><span aria-hidden="true">&#10003;</span>Donations</a>
                     <a class="profile-section-nav-link" href="/index/history.html"><span aria-hidden="true">&#8764;</span>Health History</a>
-                    <a class="profile-section-nav-link" href="#profile-form"><span aria-hidden="true">&#9733;</span>Achievements</a>
-                    <a class="profile-section-nav-link" href="#profile-security"><span aria-hidden="true">&#9671;</span>Security</a>
+                    <a class="profile-section-nav-link" href="#profile-form" data-profile-view="achievements"><span aria-hidden="true">&#9733;</span>Achievements</a>
+                    <a class="profile-section-nav-link" href="#profile-security" data-profile-view="security"><span aria-hidden="true">&#9671;</span>Security</a>
+                    <button id="profile-sidebar-logout" class="profile-section-nav-link profile-sidebar-logout" type="button"><span aria-hidden="true">&#10132;</span>Logout</button>
                 </aside>
                 <div class="profile-page-content" id="profile-overview">
-            <div class="profile-heading">
+            <section class="profile-overview" data-profile-content="overview" aria-labelledby="profile-overview-title">
+                <div class="profile-overview-heading">
+                    <div>
+                        <span class="badge">LifeLink Overview</span>
+                        <h1 id="profile-overview-title">Welcome to Your Dashboard</h1>
+                        <p class="muted">Your donation journey, at a glance.</p>
+                    </div>
+                    <div class="profile-overview-actions">
+                        <a class="btn btn-primary" href="/index/donor-application.html">Donate Now</a>
+                        <a class="btn btn-outline" href="/index/blood-request.html">Request Blood</a>
+                    </div>
+                </div>
+
+                <div class="profile-overview-stats">
+                    <section class="stat-card profile-overview-stat">
+                        <div class="stat-row"><span class="muted">Total Donations</span><span class="stat-icon" aria-hidden="true">&#9829;</span></div>
+                        <strong id="overview-total-donations" class="stat">0</strong>
+                        <p id="overview-last-donation" class="muted">No donations recorded</p>
+                    </section>
+                    <section class="stat-card profile-overview-stat">
+                        <div class="stat-row"><span class="muted">Lives Saved</span><span class="stat-icon" aria-hidden="true">&#10084;</span></div>
+                        <strong id="overview-lives-saved" class="stat">0</strong>
+                        <p class="muted">Each donation can save up to 3 lives</p>
+                    </section>
+                    <section class="stat-card profile-overview-stat">
+                        <div class="stat-row"><span class="muted">Next Eligible</span><span class="stat-icon overview-stat-icon-success" aria-hidden="true">&#128197;</span></div>
+                        <strong id="overview-next-eligible" class="stat overview-stat-value">Not set</strong>
+                        <p id="overview-eligibility-note" class="muted">Complete a donor application</p>
+                    </section>
+                    <section class="stat-card profile-overview-stat overview-request-stat">
+                        <div class="stat-row"><span class="muted">Blood Requests</span><span class="stat-icon overview-stat-icon-blue" aria-hidden="true">&#9829;</span></div>
+                        <strong id="overview-total-requests" class="stat overview-stat-value">0</strong>
+                        <p class="overview-request-counts"><span>Total requests</span><span>Open <b id="overview-open-requests">0</b></span><span>Closed <b id="overview-closed-requests">0</b></span></p>
+                    </section>
+                </div>
+
+                <div class="profile-overview-panels">
+                    <section class="card overview-history-panel">
+                        <h2>Donation History</h2>
+                        <div class="overview-chart" role="img" aria-label="Donation history from March to August">
+                            <div class="overview-chart-y-axis" aria-hidden="true"><span>2</span><span>1</span><span>0</span></div>
+                            <div class="overview-chart-plot">
+                                <div class="overview-chart-grid" aria-hidden="true"><span></span><span></span><span></span></div>
+                                <svg class="overview-chart-line" viewBox="0 0 600 180" preserveAspectRatio="none" aria-hidden="true">
+                                    <polyline points="0,168 120,168 240,168 360,168 480,168 600,168" fill="none" stroke="currentColor" stroke-width="3" vector-effect="non-scaling-stroke"></polyline>
+                                    <circle cx="0" cy="168" r="5"></circle><circle cx="120" cy="168" r="5"></circle><circle cx="240" cy="168" r="5"></circle><circle cx="360" cy="168" r="5"></circle><circle cx="480" cy="168" r="5"></circle><circle cx="600" cy="168" r="5"></circle>
+                                </svg>
+                                <div class="overview-chart-labels" aria-hidden="true"><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span></div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="card overview-impact-panel">
+                        <h2>Your Impact</h2>
+                        <div class="overview-impact-visual">
+                            <div class="overview-impact-ring"><strong id="overview-impact-percent">0%</strong></div>
+                            <div class="overview-impact-legend"><span><i></i>Lives Saved</span><strong id="overview-impact-lives">0</strong></div>
+                        </div>
+                        <p class="muted">Your impact grows with every donation.</p>
+                    </section>
+                </div>
+            </section>
+            <div class="profile-heading" data-profile-content="overview">
                 <div>
                     <span class="badge">Personal health space</span>
                     <h1>Your profile</h1>
                     <p class="muted">Keep your details ready for more connected care.</p>
-                    <div class="profile-resource-actions">
-                        <a class="btn btn-primary" href="/index/donor-application.html">Apply to donate</a>
-                        <a class="btn btn-outline" href="/index/blood-request.html">Blood Request</a>
-                        <a class="btn btn-outline" href="/index/blood-requests.html">All requests</a>
-                    </div>
                 </div>
             </div>
 
-            <section class="profile-hero">
+            <section class="profile-hero" data-profile-content="overview">
                 <div class="profile-avatar" id="profile-avatar" aria-hidden="true">
                     <span id="profile-initials">L</span>
                     <img id="profile-avatar-image" alt="Profile photo">
@@ -60,6 +117,7 @@
                     <div class="profile-badges">
                         <span class="badge">Active account</span>
                         <span class="badge" id="profile-blood-badge">Blood group not set</span>
+                        <button id="profile-hero-edit" class="profile-hero-edit" type="button">Edit profile</button>
                     </div>
                 </div>
                 <div class="profile-hero-note">
@@ -69,7 +127,7 @@
             </section>
 
             <div class="profile-layout">
-                <form id="profile-form" class="form-card profile-form-card">
+                <form id="profile-form" class="form-card profile-form-card" data-profile-content="achievements" hidden>
                     <div class="form-card-heading">
                         <div>
                             <span class="section-kicker">Profile details</span>
@@ -127,7 +185,7 @@
                     </div>
                 </form>
 
-                <aside class="profile-side-column">
+                <aside class="profile-side-column" data-profile-content="security" hidden>
                     <section class="card profile-completeness-card">
                         <div class="side-card-heading"><span class="icon-box">+</span><span class="badge">Account
                                 setup</span></div>
@@ -148,17 +206,56 @@
                 </aside>
             </div>
 
-            <section id="profile-blood-activity" class="profile-blood-activity">
-                <div class="form-card-heading"><div><span class="section-kicker">Blood support</span><h2>My blood activity</h2><p class="muted">Track your requests and donor responses in one place.</p></div><a class="btn btn-secondary" href="/index/blood-request.html">Request blood</a></div>
+            <section id="profile-blood-activity" class="profile-blood-activity" data-profile-content="blood-requests donations">
+                <div class="form-card-heading"><div><span class="section-kicker">Blood support</span><h2>My blood activity</h2><p class="muted">Track your requests and donor responses in one place.</p></div></div>
                 <div class="profile-blood-activity-grid">
-                    <section class="card profile-activity-card"><h3>My blood requests</h3><div id="profile-blood-requests" class="profile-activity-list"><p class="muted">Loading requests...</p></div></section>
-                    <section class="card profile-activity-card"><h3>Donor responses</h3><div id="profile-blood-notifications" class="profile-activity-list"><p class="muted">Loading notifications...</p></div></section>
+                    <section class="card profile-activity-card"><h3>Your blood requests</h3><div id="profile-blood-requests" class="profile-activity-list"><p class="muted">Loading requests...</p></div></section>
                 </div>
             </section>
                 </div>
             </div>
         </div>
     </main>
+
+    <div id="profile-request-details-modal" class="crop-modal" hidden>
+        <div class="crop-dialog request-details-dialog profile-request-details-dialog" role="dialog" aria-modal="true" aria-labelledby="profile-request-details-title">
+            <div class="crop-dialog-heading">
+                <div><span class="section-kicker">Your blood request</span><h2 id="profile-request-details-title">Blood request details</h2></div>
+                <button id="profile-request-details-close" class="crop-close" type="button" aria-label="Close request details">&times;</button>
+            </div>
+            <div class="request-details-header">
+                <span id="profile-request-details-blood" class="request-blood-badge">O+</span>
+                <div><h3 id="profile-request-details-patient">Patient name</h3><p id="profile-request-details-location">Location</p></div>
+                <span id="profile-request-details-status" class="blood-request-status">Open request</span>
+            </div>
+            <dl class="request-details-grid request-details-primary">
+                <div><dt>Blood group</dt><dd id="profile-request-details-blood-label">Not provided</dd></div>
+                <div><dt>Required blood</dt><dd id="profile-request-details-amount">Not provided</dd></div>
+                <div><dt>Posted date</dt><dd id="profile-request-details-posted">Not provided</dd></div>
+                <div><dt>Donation date</dt><dd id="profile-request-details-date">Not provided</dd></div>
+                <div><dt>Donation time</dt><dd id="profile-request-details-time">Not provided</dd></div>
+                <div><dt>Hospital / center</dt><dd id="profile-request-details-center">Not provided</dd></div>
+                <div><dt>Location</dt><dd id="profile-request-details-full-location">Not provided</dd></div>
+                <div><dt>Hemoglobin</dt><dd id="profile-request-details-hemoglobin">Not provided</dd></div>
+            </dl>
+            <div class="request-details-contact-block"><span>Requester contact</span><div class="request-contact-method"><span>Contact number</span><a id="profile-request-details-contact" href="#">Not provided</a></div><div class="request-contact-method"><span>WhatsApp number</span><a id="profile-request-details-whatsapp" href="#">Not provided</a></div></div>
+            <div class="request-details-note"><span>Patient problem</span><p id="profile-request-details-problem">Not provided</p></div>
+            <div class="profile-request-details-actions"><button id="profile-request-delete" class="btn btn-danger" type="button">Delete request</button><button id="profile-request-details-cancel" class="btn btn-outline" type="button">Close</button></div>
+            <p id="profile-request-details-message" class="profile-message" role="status"></p>
+        </div>
+    </div>
+
+    <div id="profile-response-details-modal" class="crop-modal" hidden>
+        <div class="crop-dialog profile-response-details-dialog" role="dialog" aria-modal="true" aria-labelledby="profile-response-details-title">
+            <div class="crop-dialog-heading">
+                <div><span class="section-kicker">Donor response</span><h2 id="profile-response-details-title">Donor details</h2></div>
+                <button id="profile-response-details-close" class="crop-close" type="button" aria-label="Close donor details">&times;</button>
+            </div>
+            <div id="profile-response-list" class="profile-response-list"><p class="muted">No responses yet.</p></div>
+            <p id="profile-response-details-message" class="profile-message" role="status"></p>
+            <div class="profile-response-actions"><button id="profile-response-cancel" class="btn btn-outline" type="button">Close</button></div>
+        </div>
+    </div>
 
     <div id="donor-application-modal" class="crop-modal" hidden>
         <div class="crop-dialog donor-dialog" role="dialog" aria-modal="true" aria-labelledby="donor-title">

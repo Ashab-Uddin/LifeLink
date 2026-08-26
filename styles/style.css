@@ -1018,13 +1018,29 @@ textarea:focus {
   background: linear-gradient(180deg, #f0fbfa 0, var(--bg) 270px)
 }
 
+.profile-page > .container { width: calc(100% - 40px); max-width: none; margin-left: 20px; margin-right: 20px }
+
 .profile-page-layout { display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: 28px; align-items: start }
-.profile-page-content { min-width: 0 }
+.profile-page-content { min-width: 0; display: flex; flex-direction: column }
+.profile-overview { order: 2 }
+.profile-page-content > .profile-heading { order: 1 }
+.profile-page-content > .profile-hero { order: 1 }
+.profile-page-content > .profile-layout { order: 3 }
+.profile-page-content > .profile-blood-activity { order: 4 }
+.profile-page[data-active-profile-view="blood-requests"] .profile-page-content > [data-profile-content="overview"],
+.profile-page[data-active-profile-view="blood-requests"] .profile-page-content > .profile-layout,
+.profile-page[data-active-profile-view="blood-requests"] .profile-page-content > .profile-overview,
+.profile-page[data-active-profile-view="blood-requests"] .profile-page-content > .profile-heading,
+.profile-page[data-active-profile-view="blood-requests"] .profile-page-content > .profile-hero { display: none !important }
+.profile-page[data-active-profile-view="blood-requests"] .profile-page-content > .profile-blood-activity { display: block !important; margin-top: 0 }
 .profile-section-nav { position: sticky; top: 92px; display: grid; gap: 6px; padding: 8px 0 }
 .profile-section-nav-link { display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 0 14px; border-radius: 10px; color: var(--muted); font-size: 14px; text-decoration: none; transition: background .2s ease, color .2s ease }
 .profile-section-nav-link span { width: 20px; color: var(--primary); font-size: 18px; text-align: center }
 .profile-section-nav-link:hover, .profile-section-nav-link.is-active { background: var(--primary); color: #fff }
 .profile-section-nav-link:hover span, .profile-section-nav-link.is-active span { color: #fff }
+.profile-sidebar-logout { width: 100%; border: 0; background: transparent; text-align: left; font-family: inherit }
+.profile-sidebar-logout:hover { background: #fff0f0; color: var(--danger) }
+.profile-sidebar-logout:hover span { color: var(--danger) }
 
 .profile-heading {
   display: flex;
@@ -1043,6 +1059,45 @@ textarea:focus {
 .profile-heading p { margin: 0 }
 .profile-resource-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 20px }
 .profile-resource-actions .btn { white-space: nowrap }
+
+.profile-overview { margin-bottom: 34px }
+.profile-overview-heading { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin: 8px 0 26px }
+.profile-overview-heading h1 { margin: 12px 0 4px; font: 800 38px "Plus Jakarta Sans"; color: var(--text) }
+.profile-overview-heading p { margin: 0 }
+.profile-overview-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap }
+.profile-overview-actions .btn { white-space: nowrap }
+.profile-overview-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-bottom: 20px }
+.profile-overview-stat { min-width: 0; margin: 0; padding: 20px; box-shadow: 0 12px 30px rgba(16, 42, 67, .06) }
+.profile-overview-stat .stat { display: block; margin: 16px 0 2px; font: 800 30px "Plus Jakarta Sans"; color: var(--text) }
+.profile-overview-stat p { margin: 0; min-height: 44px; font-size: 13px; line-height: 1.55 }
+.overview-stat-value { overflow-wrap: anywhere }
+.overview-request-counts { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center }
+.overview-request-counts span { color: var(--muted); white-space: nowrap }
+.overview-request-counts span + span { padding-left: 12px; border-left: 1px solid var(--border) }
+.overview-request-counts b { color: var(--text); font-weight: 800 }
+.overview-stat-icon-success { background: #eaf9ef; color: #20a45a }
+.overview-stat-icon-blue { background: #edf3ff; color: #3979e8 }
+.profile-overview-panels { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(280px, .85fr); gap: 20px }
+.overview-history-panel, .overview-impact-panel { min-width: 0; margin: 0; padding: 24px 30px; box-shadow: 0 12px 30px rgba(16, 42, 67, .06) }
+.overview-history-panel h2, .overview-impact-panel h2 { margin: 0 0 22px; font: 700 22px "Plus Jakarta Sans"; color: var(--text) }
+.overview-chart { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 10px; height: 250px; padding-top: 4px }
+.overview-chart-y-axis { display: flex; flex-direction: column; justify-content: space-between; padding: 0 0 29px; color: var(--muted); font-size: 13px; text-align: right }
+.overview-chart-plot { position: relative; min-width: 0; padding-bottom: 29px; border-left: 1px solid #9baabc; border-bottom: 1px solid #9baabc }
+.overview-chart-grid { position: absolute; inset: 0 0 29px; display: flex; flex-direction: column; justify-content: space-between; pointer-events: none }
+.overview-chart-grid span { border-top: 1px dashed #dce5ec }
+.overview-chart-line { position: absolute; inset: 0 0 29px; width: 100%; height: calc(100% - 29px); overflow: visible; color: var(--primary); }
+.overview-chart-line circle { fill: #fff; stroke: currentColor; stroke-width: 2 }
+.overview-chart-labels { position: absolute; right: 0; bottom: 0; left: 0; display: flex; justify-content: space-between; color: var(--muted); font-size: 13px; transform: translateX(-1px) }
+.overview-impact-panel { display: flex; flex-direction: column }
+.overview-impact-visual { display: flex; align-items: center; justify-content: center; gap: 24px; min-height: 180px }
+.overview-impact-ring { width: 148px; height: 148px; display: grid; place-items: center; flex: 0 0 auto; border-radius: 50%; background: conic-gradient(var(--primary) 0deg, var(--primary) 0deg, #dfe5eb 0deg, #dfe5eb 360deg); position: relative }
+.overview-impact-ring::after { position: absolute; inset: 12px; border-radius: 50%; background: var(--surface); content: "" }
+.overview-impact-ring strong { position: relative; z-index: 1; color: var(--text); font: 800 20px "Plus Jakarta Sans" }
+.overview-impact-legend { display: grid; gap: 8px; color: var(--muted); font-size: 13px }
+.overview-impact-legend span { display: flex; align-items: center; gap: 7px; white-space: nowrap }
+.overview-impact-legend i { width: 9px; height: 9px; border-radius: 50%; background: var(--primary); display: inline-block }
+.overview-impact-legend strong { color: var(--text); font: 800 22px "Plus Jakarta Sans" }
+.overview-impact-panel > p { margin: auto 0 0; font-size: 13px }
 
 .profile-hero {
   display: flex;
@@ -1085,20 +1140,59 @@ textarea:focus {
 .profile-hero-note { max-width: 210px; margin-left: auto; padding-left: 24px; border-left: 1px solid rgba(255,255,255,.25); color: rgba(255,255,255,.78); font-size: 13px }
 .profile-hero-note strong, .profile-hero-note span { display: block }
 .profile-hero-note strong { margin-bottom: 6px; color: #fff; font-size: 14px }
+.profile-hero-edit { flex: 0 0 auto; padding: 7px 11px; border: 1px solid rgba(255,255,255,.35); border-radius: 9px; background: rgba(255,255,255,.14); color: #fff; font-size: 11px; font-weight: 800 }
+.profile-hero-edit:hover { border-color: #fff; background: rgba(255,255,255,.24) }
 
 .profile-layout { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(260px, .75fr); gap: 20px; margin-top: 20px }
-.profile-blood-activity { margin-top: 20px; padding: 28px; border: 1px solid var(--border); border-radius: 20px; background: var(--surface); box-shadow: var(--shadow) }
+.profile-blood-activity { margin-top: 20px; padding: 28px; border: 1px solid var(--border); border-radius: 20px; background: var(--surface); box-shadow: var(--shadow); scroll-margin-top: 100px }
 .profile-blood-activity .form-card-heading { margin-bottom: 18px }
-.profile-blood-activity-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px }
+.profile-blood-activity-grid { display: grid; grid-template-columns: 1fr; gap: 16px }
 .profile-activity-card { padding: 18px; box-shadow: none }
 .profile-activity-card h3 { margin: 0 0 12px; font: 700 18px "Plus Jakarta Sans" }
 .profile-activity-list { display: grid; gap: 8px }
+.profile-blood-activity-grid > .profile-activity-card:first-child .profile-activity-list { grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: start }
 .profile-activity-item { display: grid; gap: 3px; padding: 11px 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); font-size: 12px }
 .profile-activity-item.is-new { border-left: 3px solid var(--primary); background: #f5fffe }
 .profile-activity-item strong { color: var(--text); font-size: 13px }
 .profile-activity-item span { color: var(--muted); overflow-wrap: anywhere }
 .profile-activity-item small { color: var(--muted); font-size: 11px }
 .profile-activity-item b { width: fit-content; color: var(--primary); font-size: 11px; text-transform: capitalize }
+.profile-request-item { cursor: pointer; transition: border-color .2s ease, background .2s ease, transform .2s ease, box-shadow .2s ease }
+.profile-request-item:hover, .profile-request-item:focus-visible { border-color: #9bd9d4; background: #f5fffe; outline: none; transform: translateY(-1px); box-shadow: 0 8px 18px rgba(16, 42, 67, .08) }
+.profile-request-item em { color: var(--primary); font-size: 11px; font-style: normal; font-weight: 700 }
+.profile-request-card-actions { display: flex; gap: 6px; margin-top: 5px }
+.profile-request-card-actions button { min-height: 26px; padding: 4px 8px; border: 1px solid var(--border); border-radius: 7px; background: var(--surface); color: var(--primary); font-size: 10px; font-weight: 700 }
+.profile-request-card-actions button:hover { border-color: var(--primary); background: var(--accent) }
+.profile-request-card-actions .profile-request-delete-button { color: var(--danger) }
+.profile-request-card-actions .profile-request-delete-button:hover { border-color: #f2b8ba; background: #fff0f0 }
+.profile-request-card-actions .profile-request-response-button { color: var(--primary); background: var(--accent) }
+.profile-request-card-actions .profile-request-response-button:hover { border-color: var(--primary); background: #d8f3ef }
+.profile-request-card-actions button:disabled { cursor: default; opacity: .65 }
+.profile-request-details-dialog { width: min(700px, calc(100vw - 40px)); max-height: min(760px, calc(100vh - 40px)); overflow: auto }
+.profile-request-details-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px }
+.profile-request-details-actions .btn-danger { background: #fff0f0; border: 1px solid #f2b8ba; color: var(--danger) }
+.profile-request-details-actions .btn-danger:hover { background: var(--danger); color: #fff }
+.profile-request-details-dialog > .profile-message { min-height: 20px; margin: 8px 0 0; text-align: right }
+.crop-modal .profile-response-details-dialog { display: flex; flex-direction: column; width: min(860px, calc(100vw - 32px)); max-height: min(820px, calc(100vh - 32px)); overflow: hidden }
+.profile-response-list { display: grid; flex: 1 1 auto; gap: 12px; min-height: 0; max-height: none; overflow-y: auto; overflow-x: hidden; padding: 2px 6px 2px 0 }
+.profile-response-item { padding: 14px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface-2) }
+.profile-response-person { display: flex; align-items: center; gap: 14px; padding: 4px 0 20px; border-bottom: 1px solid var(--border) }
+.profile-response-person .avatar { display: grid; place-items: center; width: 62px; height: 62px; flex: 0 0 auto; border-radius: 16px; background: var(--accent); color: var(--primary); font: 800 18px "Plus Jakarta Sans" }
+.profile-response-person h3 { margin: 0 0 4px; font: 700 20px "Plus Jakarta Sans"; overflow-wrap: anywhere }
+.profile-response-person p { margin: 5px 0 0; font-size: 13px }
+.profile-response-details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 0; padding: 20px 0 4px }
+.profile-response-details-grid div { display: grid; gap: 4px; min-width: 0 }
+.profile-response-details-grid dt { color: var(--muted); font-size: 11px; font-weight: 700 }
+.profile-response-details-grid dd { margin: 0; color: var(--text); font-size: 13px; font-weight: 700; overflow-wrap: anywhere }
+.profile-response-details-grid a { color: var(--primary) }
+.profile-response-details-dialog > .profile-message { min-height: 20px; margin: 12px 0 0; text-align: center }
+.profile-response-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 18px }
+.profile-response-item-actions { display: flex; gap: 7px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border) }
+.profile-response-item-actions button { min-height: 30px; padding: 5px 9px; border: 1px solid var(--border); border-radius: 7px; background: var(--surface); color: var(--primary); font-size: 11px; font-weight: 700 }
+.profile-response-item-actions button:hover { border-color: var(--primary); background: var(--accent) }
+.profile-response-item-actions .profile-response-reject-button { color: var(--danger) }
+.profile-response-item-actions .profile-response-reject-button:hover { border-color: #f2b8ba; background: #fff0f0 }
+.profile-response-item-actions button:disabled { cursor: default; opacity: .6 }
 .profile-form-card { max-width: none; margin: 0; padding: 30px }
 .form-card-heading { display: flex; justify-content: space-between; gap: 20px; margin-bottom: 24px }
 .form-card-heading h2 { margin: 5px 0 3px; font: 700 24px "Plus Jakarta Sans" }
@@ -1776,7 +1870,18 @@ textarea:focus {
     display: block
   }
 
+  .profile-overview-heading { display: block; margin-top: 0 }
+  .profile-overview-heading h1 { font-size: 32px }
+  .profile-overview-actions { margin-top: 18px }
+  .profile-overview-actions .btn { flex: 1 1 150px; text-align: center }
+  .profile-overview-stats { grid-template-columns: 1fr 1fr; gap: 12px }
+  .profile-overview-stat { padding: 16px }
+  .profile-overview-stat .stat { font-size: 25px }
+  .profile-overview-panels { grid-template-columns: 1fr }
+  .overview-history-panel, .overview-impact-panel { padding: 20px }
+
   .profile-page-layout { display: block }
+  .profile-page > .container { width: min(100% - 24px, 1180px); margin-left: auto; margin-right: auto }
   .profile-section-nav { position: static; display: flex; gap: 4px; margin: -8px 0 22px; padding: 0 0 8px; overflow-x: auto }
   .profile-section-nav-link { flex: 0 0 auto; min-height: 42px; padding: 0 12px; white-space: nowrap }
 
@@ -1812,6 +1917,14 @@ textarea:focus {
   .profile-blood-activity .form-card-heading { align-items: flex-start; flex-direction: column }
   .profile-blood-activity .form-card-heading .btn { width: 100%; margin-top: 4px }
   .profile-blood-activity-grid { grid-template-columns: 1fr }
+  .profile-blood-activity-grid > .profile-activity-card:first-child .profile-activity-list { grid-template-columns: 1fr }
+
+  .crop-modal .profile-response-details-dialog { width: calc(100vw - 24px); max-height: calc(100vh - 24px); padding: 20px; border-radius: 18px }
+  .profile-response-list { padding-right: 2px }
+  .profile-response-details-grid { grid-template-columns: 1fr; gap: 12px }
+  .profile-response-item-actions { flex-wrap: wrap }
+  .profile-response-item-actions button { flex: 1 1 130px }
+  .profile-response-actions .btn { min-width: 100px }
 
   .profile-form-card {
     padding: 20px
