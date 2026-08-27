@@ -504,6 +504,22 @@ img {
 .ambulance-history-notes { grid-column: 1 / -1 }
 .ambulance-provider-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px }
 .ambulance-provider-actions .btn { padding: 7px 10px; font-size: 12px }
+.ambulance-timeline { margin: 18px 0; overflow-x: auto }
+.ambulance-timeline ol { display: flex; min-width: 560px; margin: 0; padding: 0; list-style: none }
+.ambulance-timeline-step { position: relative; display: flex; flex: 1; flex-direction: column; align-items: center; gap: 8px; color: var(--muted); text-align: center }
+.ambulance-timeline-step:not(:last-child)::after { position: absolute; top: 8px; left: calc(50% + 9px); width: calc(100% - 18px); height: 2px; background: var(--border); content: "" }
+.ambulance-timeline-step.is-complete { color: #16803c }
+.ambulance-timeline-step.is-complete:not(:last-child)::after { background: #16803c }
+.ambulance-timeline-step.is-current { color: var(--primary); font-weight: 700 }
+.ambulance-timeline-step.is-current .ambulance-timeline-marker { box-shadow: 0 0 0 4px rgba(24, 119, 117, .16) }
+.ambulance-timeline-marker { z-index: 1; width: 16px; height: 16px; border: 3px solid currentColor; border-radius: 50%; background: var(--surface); }
+.ambulance-timeline-step.is-complete .ambulance-timeline-marker { background: currentColor }
+.ambulance-timeline-label { display: flex; flex-direction: column; gap: 3px; font-size: 12px }
+.ambulance-timeline-label small { font-weight: 400; color: var(--muted) }
+.ambulance-timeline-terminal { display: block; margin-top: 10px; font-size: 12px; font-weight: 700; text-transform: capitalize }
+.ambulance-timeline .is-error { color: var(--danger) }
+.ambulance-request-table .ambulance-timeline { min-width: 290px; margin: 8px 0 }
+.ambulance-request-table .ambulance-timeline ol { min-width: 520px }
 
 @media(max-width:700px) {
   .ambulance-route-summary, .booking-other-destination { grid-template-columns: 1fr }
@@ -2387,7 +2403,41 @@ textarea:focus {
   .blood-request-item-heading h2 { overflow-wrap: anywhere; }
   .ambulance-history-heading { align-items: flex-start; flex-direction: column }
   .ambulance-history-heading > .btn { width: 100% }
-  .ambulance-history-details { grid-template-columns: repeat(2, minmax(0, 1fr)) }
+  .ambulance-history-card,
+  .ambulance-history-item,
+  .ambulance-request-list,
+  .ambulance-history-list { width: 100%; min-width: 0; max-width: 100% }
+  .ambulance-history-item { padding: 16px; overflow: hidden }
+  .ambulance-history-item-heading { gap: 10px }
+  .ambulance-history-item-heading h2 { font-size: 18px; overflow-wrap: anywhere }
+  .ambulance-history-details { grid-template-columns: 1fr; gap: 13px }
+  .ambulance-history-notes { grid-column: auto }
+  .ambulance-timeline { margin: 16px 0; overflow: visible }
+  .ambulance-timeline ol,
+  .ambulance-request-table .ambulance-timeline ol { display: grid; min-width: 0; gap: 0 }
+  .ambulance-timeline-step,
+  .ambulance-request-table .ambulance-timeline-step { min-height: 38px; display: grid; grid-template-columns: 16px minmax(0, 1fr); justify-content: start; align-items: start; gap: 10px; text-align: left }
+  .ambulance-timeline-step:not(:last-child)::after { top: 16px; left: 7px; width: 2px; height: calc(100% - 1px) }
+  .ambulance-timeline-label { min-width: 0; font-size: 12px }
+  .ambulance-request-list { overflow: visible }
+  .ambulance-request-table { display: block; min-width: 0 }
+  .ambulance-request-table thead { display: none }
+  .ambulance-request-table tbody,
+  .ambulance-request-table tr,
+  .ambulance-request-table td { display: block; width: 100% }
+  .ambulance-request-table tr { padding: 14px 0; border-bottom: 1px solid var(--border) }
+  .ambulance-request-table tr:last-child { border-bottom: 0 }
+  .ambulance-request-table td { padding: 5px 0; border: 0 }
+  .ambulance-request-table td::before { display: block; margin-bottom: 2px; color: var(--muted); font-size: 10px; font-weight: 700; text-transform: uppercase }
+  .ambulance-request-table td:nth-child(1)::before { content: "Ambulance" }
+  .ambulance-request-table td:nth-child(2)::before { content: "Patient" }
+  .ambulance-request-table td:nth-child(3)::before { content: "Trip" }
+  .ambulance-request-table td:nth-child(4)::before { content: "Fare" }
+  .ambulance-request-table td:nth-child(5)::before { content: "Status / action" }
+  .ambulance-request-table td:nth-child(6)::before { content: "Requested" }
+  .ambulance-request-table .ambulance-timeline { min-width: 0 }
+  .ambulance-provider-actions { gap: 6px }
+  .ambulance-provider-actions .btn { flex: 1 1 auto }
 }
 
 /* ===================== Doctor Profile Modal ===================== */

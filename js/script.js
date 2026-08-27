@@ -69,6 +69,28 @@ function toast(message, type = "") {
   setTimeout(() => t.classList.remove("show"), 2600);
 }
 
+function renderAmbulanceTimeline(request, escape = value => String(value ?? "")) {
+  const steps = [
+    { status: "requested", label: "Requested", time: request.requested_at },
+    { status: "accepted", label: "Accepted", time: request.accepted_at },
+    { status: "on_the_way", label: "On the way" },
+    { status: "picked_up", label: "Picked up", time: request.pickup_at },
+    { status: "arrived", label: "Arrived" },
+    { status: "completed", label: "Completed", time: request.completed_at }
+  ];
+  const terminal = ["rejected", "cancelled"].includes(request.status);
+  const currentIndex = steps.findIndex(step => step.status === request.status);
+  const activeIndex = currentIndex < 0 ? (terminal ? 0 : 0) : currentIndex;
+  const formatTime = value => value ? new Date(value).toLocaleString() : "";
+  const items = steps.map((step, index) => {
+    const state = terminal ? (index === 0 ? "is-complete" : "is-upcoming") : index < activeIndex ? "is-complete" : index === activeIndex ? "is-current" : "is-upcoming";
+    const time = step.time ? `<small>${escape(formatTime(step.time))}</small>` : "";
+    return `<li class="ambulance-timeline-step ${state}"><span class="ambulance-timeline-marker" aria-hidden="true"></span><span class="ambulance-timeline-label">${escape(step.label)}${time}</span></li>`;
+  }).join("");
+  const terminalLabel = terminal ? `<span class="ambulance-timeline-terminal is-error">${escape(String(request.status).replaceAll("_", " "))}</span>` : "";
+  return `<div class="ambulance-timeline" aria-label="Ambulance request timeline"><ol>${items}</ol>${terminalLabel}</div>`;
+}
+
 function uiText(message) {
   return typeof lifeLinkText === "function" ? lifeLinkText(message) : message;
 }
