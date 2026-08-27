@@ -4,6 +4,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   const donorPageSize = 10;
   let donorCurrentPage = 1;
   const bloodTypeFilter = document.getElementById("blood-type-filter");
+  const donorFilterToggle = document.getElementById("donor-filter-toggle");
+  const donorFiltersPanel = document.getElementById("donor-filters-panel");
   const detailsModal = document.getElementById("donor-details-modal");
   const requestedDonorIds = new Set();
   const applicationModal = document.getElementById("blood-donor-application-modal");
@@ -137,6 +139,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     message.classList.toggle("is-error", isError);
   }
 
+  function setDonorFiltersOpen(isOpen) {
+    if (!donorFiltersPanel || !donorFilterToggle) return;
+    donorFiltersPanel.classList.toggle("is-open", isOpen);
+    donorFilterToggle.setAttribute("aria-expanded", String(isOpen));
+    donorFilterToggle.setAttribute("aria-label", isOpen ? "Close donor filters" : "Open donor filters");
+    donorFilterToggle.title = isOpen ? "Close donor filters" : "Open donor filters";
+  }
+
   function donationAge(value) {
     const donationDate = new Date(`${value}T00:00:00`);
     const days = Math.max(0, Math.floor((Date.now() - donationDate.getTime()) / 86400000));
@@ -179,7 +189,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       const contactDisabled = !requestSent;
       const requestLabel = requestStatus === "pending" ? "Pending" : requestStatus === "accepted" ? "Accepted / Confirmation Pending" : requestStatus === "completed" ? "Not Eligible" : "Request for Donate";
       const eligibilityNote = status === "Eligible" ? "Eligible to donate now" : eligibleDate ? `Eligible again after ${formatEligibilityDate(eligibleDate)}` : "Eligibility date unavailable";
-      return `<article class="card donor-card donor-card--community" data-blood-group="${escapeAttr(donor.blood_group)}" data-gender="${escapeAttr(donor.gender || "")}">
+      return `<article class="card donor-card donor-card--community" data-blood-group="${escapeAttr(donor.blood_group)}" data-gender="${escapeAttr(donor.gender || "")}" data-division="${escapeAttr(donor.division || "")}" data-district="${escapeAttr(donor.district || "")}" data-upazila="${escapeAttr(donor.upazila || "")}">
         <div class="person-card"><div class="avatar">${escapeHtml(donor.blood_group)}</div><div>
           <h3>${escapeHtml(donor.full_name)}</h3><span class="badge">${escapeHtml(donor.blood_group)}</span>
           <p class="muted">${escapeHtml(donor.location)}</p>
@@ -233,6 +243,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   function filterDonors() {
     const query = document.getElementById("donor-search")?.value.trim().toLowerCase() || "";
     const selectedType = document.getElementById("donor-filter-blood")?.value || "all";
+    const selectedGender = document.getElementById("donor-filter-gender")?.value || "all";
+    const selectedDivision = document.getElementById("donor-filter-division")?.value || "all";
+    const selectedDistrict = document.getElementById("donor-filter-district")?.value.trim().toLowerCase() || "";
+    const selectedUpazila = document.getElementById("donor-filter-upazila")?.value.trim().toLowerCase() || "";
     const selectedDate = document.getElementById("donor-filter-date")?.value || "";
     const eligibleOnly = document.getElementById("donor-filter-eligible")?.checked || false;
     const matchingCards = [];
@@ -241,9 +255,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       const searchableText = card.textContent.toLowerCase();
       const matchesSearch = !query || searchableText.includes(query);
       const matchesType = selectedType === "all" || card.dataset.bloodGroup === selectedType;
+      const matchesGender = selectedGender === "all" || card.dataset.gender?.toLowerCase() === selectedGender.toLowerCase();
+      const matchesDivision = selectedDivision === "all" || card.dataset.division?.toLowerCase() === selectedDivision.toLowerCase();
+      const matchesDistrict = !selectedDistrict || card.dataset.district?.toLowerCase().includes(selectedDistrict);
+      const matchesUpazila = !selectedUpazila || card.dataset.upazila?.toLowerCase().includes(selectedUpazila);
       const matchesDate = !selectedDate || (contactButton?.dataset.lastDonation || "") <= selectedDate;
       const matchesEligibility = !eligibleOnly || donorEligibilityStatus(card.dataset.gender, contactButton?.dataset.lastDonation) === "Eligible";
-      const visible = matchesSearch && matchesType && matchesDate && matchesEligibility;
+      const visible = matchesSearch && matchesType && matchesGender && matchesDivision && matchesDistrict && matchesUpazila && matchesDate && matchesEligibility;
       if (visible) matchingCards.push(card);
     });
     const totalPages = Math.max(1, Math.ceil(matchingCards.length / donorPageSize));
@@ -402,7 +420,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     donorCurrentPage = 1;
     filterDonors();
   });
-  document.getElementById("apply-donor-filters")?.addEventListener("click", filterDonors);
+  donorFilterToggle?.addEventListener("click", () => setDonorFiltersOpen(!donorFiltersPanel?.classList.contains("is-open")));
+  document.getElementById("apply-donor-filters")?.addEventListener("click", () => {
+    donorCurrentPage = 1;
+    filterDonors();
+    setDonorFiltersOpen(false);
+  });
   document.getElementById("donor-page-previous")?.addEventListener("click", () => {
     donorCurrentPage -= 1;
     filterDonors();
@@ -422,7 +445,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
     const eligible = document.getElementById("donor-filter-eligible");
     if (eligible) eligible.checked = false;
+    donorCurrentPage = 1;
     filterDonors();
+    setDonorFiltersOpen(false);
   });
   filterDonors();
 });

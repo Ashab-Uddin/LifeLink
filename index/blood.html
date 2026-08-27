@@ -63,7 +63,8 @@
           <h3>Services</h3>
           <div class="blood-page-actions">
             <a class="btn btn-outline blood-service-control" data-service="donor-application.html" href="/index/donor-application.html">Apply to donate</a>
-            <aside id="donor-filters-panel" class="donor-filters is-open" aria-label="Filter donors">
+            <button id="donor-filter-toggle" class="donor-filter-toggle" type="button" aria-expanded="false" aria-controls="donor-filters-panel" aria-label="Open donor filters" title="Open donor filters"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M7 12h10m-7 6h4"/></svg><span>Filters</span></button>
+            <aside id="donor-filters-panel" class="donor-filters" aria-label="Filter donors">
               <h3>Find a donor</h3>
               <label for="donor-filter-blood">Blood group</label>
               <select id="donor-filter-blood"><option value="all">All</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option></select>

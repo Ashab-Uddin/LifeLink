@@ -26,12 +26,13 @@
     <main class="page profile-page">
         <div class="container">
             <div class="profile-page-layout">
-                <aside class="profile-section-nav" aria-label="Profile sections">
-                    <a class="profile-section-nav-link is-active" href="#profile-overview" data-profile-view="overview"><span aria-hidden="true">&#9638;</span>Overview</a>
-                    <a class="profile-section-nav-link" href="#profile-donations" data-profile-view="donations"><span aria-hidden="true">&#10003;</span>Donations</a>
-                    <a class="profile-section-nav-link" href="/index/ambulance-requests.html"><span aria-hidden="true">&#128656;</span>Your Ambulance Requests</a>
-                    <a class="profile-section-nav-link" href="/index/history.html"><span aria-hidden="true">&#8764;</span>Health History</a>
-                    <button id="profile-sidebar-logout" class="profile-section-nav-link profile-sidebar-logout" type="button"><span aria-hidden="true">&#10132;</span>Logout</button>
+                <button id="profile-nav-toggle" class="profile-nav-toggle" type="button" aria-expanded="false" aria-controls="profile-section-nav" aria-label="Open profile menu" title="Open profile menu"><span></span><span></span><span></span></button>
+                <aside id="profile-section-nav" class="profile-section-nav" aria-label="Profile sections">
+                    <a class="profile-section-nav-link is-active" href="/index/profile.html#profile-overview" data-profile-view="overview"><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/></svg></span>Overview</a>
+                    <a class="profile-section-nav-link" href="/index/profile.html#profile-donations" data-profile-view="donations"><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></span>Donations</a>
+                    <a class="profile-section-nav-link" href="/index/profile.html#profile-ambulance" data-profile-view="ambulance"><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16V7a2 2 0 0 1 2-2h9v11H3Zm11 0h3l3 2v2h-3M5 20h1m8 0h1"/><circle cx="7" cy="20" r="2"/><circle cx="17" cy="20" r="2"/><path d="M14 9h3l2 3h-5z"/></svg></span>Ambulance</a>
+                    <a class="profile-section-nav-link" href="/index/profile.html#profile-history" data-profile-view="history"><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h3l2-5 4 10 2-5h5"/></svg></span>Health History</a>
+                    <button id="profile-sidebar-logout" class="profile-section-nav-link profile-sidebar-logout" type="button"><span aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 5H5v14h5M14 8l4 4-4 4m4-4H9"/></svg></span>Logout</button>
                 </aside>
                 <div class="profile-page-content" id="profile-overview">
             <section class="profile-overview" data-profile-content="overview" aria-labelledby="profile-overview-title">
@@ -174,14 +175,17 @@
                     <section class="card profile-activity-card" data-profile-donation-requests><h3>Donation requests I sent</h3><div id="profile-donation-requests" class="profile-activity-list"><p class="muted">Loading donation requests...</p></div></section>
                     <section class="card profile-activity-card" data-profile-incoming-requests><h3>Incoming request for blood</h3><div id="profile-incoming-requests" class="profile-activity-list"><p class="muted">Loading incoming requests...</p></div></section>
                 </div>
-                <section class="card profile-ambulance-activity" data-profile-ambulance-requests>
-                    <div class="form-card-heading"><div><span class="section-kicker">Emergency support</span><h3>Ambulance requests</h3><p class="muted">Track your ambulance bookings, trip status, and fare.</p></div><a class="btn btn-outline" href="/index/ambulance.html">Request Ambulance</a></div>
-                    <div id="profile-ambulance-requests" class="ambulance-request-list"><p class="muted">Loading ambulance requests...</p></div>
-                </section>
-                <section class="card profile-ambulance-provider-activity" data-profile-ambulance-provider-requests>
-                    <div class="form-card-heading"><div><span class="section-kicker">Provider view</span><h3>Incoming Ambulance Requests</h3><p class="muted">Manage requests sent to your registered ambulances.</p></div><a class="btn btn-outline" href="/index/ambulance.html">Manage Ambulance</a></div>
-                    <div id="profile-ambulance-provider-requests" class="ambulance-request-list"><p class="muted">Checking provider requests...</p></div>
-                </section>
+            </section>
+
+            <section id="profile-ambulance" class="profile-blood-activity" data-profile-content="ambulance">
+                <div class="form-card-heading"><div><span class="section-kicker">Emergency support</span><h2>Ambulance requests</h2><p class="muted">Track your bookings and manage requests sent to your ambulance.</p></div></div>
+                <div id="profile-ambulance-requests" class="ambulance-request-list"><p class="muted">Loading ambulance requests...</p></div>
+                <div id="profile-ambulance-provider-requests" class="ambulance-request-list"><p class="muted">Checking provider requests...</p></div>
+            </section>
+
+            <section id="profile-history" class="profile-blood-activity" data-profile-content="history">
+                <div class="form-card-heading"><div><span class="section-kicker">Health records</span><h2>Health History</h2><p class="muted">Review your previous AI health checks.</p></div></div>
+                <div id="history-list" class="grid" style="grid-template-columns:1fr"></div>
             </section>
 
                 </div>

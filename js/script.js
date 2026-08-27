@@ -4,6 +4,10 @@ const API_BASE =
     : "https://lifelink-p8se.onrender.com/api";
 
 document.addEventListener("DOMContentLoaded", () => {
+  initMobileBottomNav();
+  initProfileMobileMenu();
+  initMobileNotificationIcon();
+
   document.querySelectorAll('input[type="tel"]').forEach(input => {
     input.inputMode = "numeric";
     input.pattern = "[0-9]{11}";
@@ -54,6 +58,138 @@ document.addEventListener("DOMContentLoaded", () => {
   initPrediction();
   renderHistory();
 });
+
+async function initMobileNotificationIcon() {
+  const actions = document.querySelector(".navbar-actions");
+  if (!actions || actions.querySelector(".mobile-notification-button")) return;
+  const button = document.createElement("button");
+  button.className = "mobile-notification-button";
+  button.type = "button";
+  button.setAttribute("aria-label", "Notifications");
+  button.title = "Notifications";
+  button.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg><span class="mobile-notification-count" hidden></span>';
+  button.addEventListener("click", async (e) => {
+    e.preventDefault();
+    const countElement = button.querySelector(".mobile-notification-count");
+    if (countElement) countElement.hidden = true;
+    button.setAttribute("aria-label", "Notifications");
+    if (typeof supabaseClient !== "undefined") {
+      const { data: { user } = {} } = await supabaseClient.auth.getUser();
+      if (user) {
+        await supabaseClient.from("blood_request_notifications")
+          .update({ read_at: new Date().toISOString() })
+          .eq("recipient_user_id", user.id).is("read_at", null);
+      }
+    }
+    const isProfilePage = location.pathname.endsWith("profile.html");
+    if (isProfilePage) {
+      if (location.hash !== "#profile-donations") {
+        location.hash = "#profile-donations";
+      }
+      if (typeof window.showProfileView === "function") {
+        window.showProfileView("donations");
+      }
+    } else {
+      window.location.href = "/index/profile.html#profile-donations";
+    }
+  });
+  actions.prepend(button);
+  if (typeof supabaseClient === "undefined") return;
+  const { data: { user } = {} } = await supabaseClient.auth.getUser();
+  if (!user) return;
+  const { count } = await supabaseClient.from("blood_request_notifications")
+    .select("id", { count: "exact", head: true })
+    .eq("recipient_user_id", user.id).is("read_at", null);
+  const countElement = button.querySelector(".mobile-notification-count");
+  if (!countElement) return;
+  const showCount = value => {
+    countElement.textContent = value > 9 ? "9+" : String(value);
+    countElement.hidden = value === 0;
+    button.setAttribute("aria-label", value ? `${value} unread notifications` : "Notifications");
+  };
+  showCount(count || 0);
+  if (!user) return;
+  supabaseClient.channel(`mobile-notifications-${user.id}`)
+    .on("postgres_changes", { event: "INSERT", schema: "public", table: "blood_request_notifications", filter: `recipient_user_id=eq.${user.id}` }, () => {
+      const currentCount = countElement.hidden ? 0 : (countElement.textContent === "9+" ? 9 : Number(countElement.textContent) || 0);
+      showCount(currentCount + 1);
+    })
+    .subscribe();
+}
+
+function initProfileMobileMenu() {
+  const supportedPages = ["profile.html"];
+  const currentPage = location.pathname.split("/").pop() || "index.html";
+  if (!supportedPages.includes(currentPage) || document.querySelector("#profile-nav-toggle")) return;
+  const container = document.querySelector("main .container");
+  if (!container) return;
+  document.body.classList.add("has-global-profile-menu");
+
+  const items = [
+    { label: "Overview", href: "/index/profile.html#profile-overview", icon: "<svg viewBox='0 0 24 24' aria-hidden='true'><rect x='4' y='4' width='6' height='6' rx='1'/><rect x='14' y='4' width='6' height='6' rx='1'/><rect x='4' y='14' width='6' height='6' rx='1'/><rect x='14' y='14' width='6' height='6' rx='1'/></svg>" },
+    { label: "Donations", href: "/index/profile.html#profile-donations", icon: "<svg viewBox='0 0 24 24' aria-hidden='true'><path d='M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z'/></svg>" },
+    { label: "Ambulance", href: "/index/profile.html#profile-ambulance", icon: "<svg viewBox='0 0 24 24' aria-hidden='true'><path d='M3 16V7a2 2 0 0 1 2-2h9v11H3Zm11 0h3l3 2v2h-3M5 20h1m8 0h1'/><circle cx='7' cy='20' r='2'/><circle cx='17' cy='20' r='2'/><path d='M14 9h3l2 3h-5z'/></svg>" },
+    { label: "Health History", href: "/index/profile.html#profile-history", icon: "<svg viewBox='0 0 24 24' aria-hidden='true'><path d='M4 12h3l2-5 4 10 2-5h5'/></svg>" },
+    { label: "Logout", logout: true, icon: "<svg viewBox='0 0 24 24' aria-hidden='true'><path d='M10 5H5v14h5M14 8l4 4-4 4m4-4H9'/></svg>" }
+  ];
+  const toggle = document.createElement("button");
+  toggle.id = "profile-nav-toggle";
+  toggle.className = "profile-nav-toggle mobile-profile-nav-toggle";
+  toggle.type = "button";
+  toggle.setAttribute("aria-expanded", "false");
+  toggle.setAttribute("aria-controls", "mobile-profile-section-nav");
+  toggle.setAttribute("aria-label", "Open profile menu");
+  toggle.title = "Open profile menu";
+  toggle.innerHTML = "<span></span><span></span><span></span>";
+
+  const nav = document.createElement("aside");
+  nav.id = "mobile-profile-section-nav";
+  nav.className = "profile-section-nav mobile-profile-section-nav";
+  nav.setAttribute("aria-label", "Profile sections");
+  const activeItem = currentPage === "ambulance-requests.html" ? "Ambulance" : currentPage === "history.html" ? "Health History" : location.hash === "#profile-donations" ? "Donations" : "Overview";
+  nav.innerHTML = items.map(item => item.logout
+    ? `<button class="profile-section-nav-link profile-sidebar-logout" type="button"><span aria-hidden="true">${item.icon}</span>${item.label}</button>`
+    : `<a class="profile-section-nav-link${item.label === activeItem ? " is-active" : ""}" href="${item.href}"${item.label === activeItem ? ' aria-current="page"' : ""}><span aria-hidden="true">${item.icon}</span>${item.label}</a>`).join("");
+  container.prepend(nav);
+  container.prepend(toggle);
+
+  toggle.addEventListener("click", () => {
+    const isOpen = nav.classList.toggle("is-open");
+    toggle.setAttribute("aria-expanded", String(isOpen));
+    toggle.setAttribute("aria-label", isOpen ? "Close profile menu" : "Open profile menu");
+    toggle.title = isOpen ? "Close profile menu" : "Open profile menu";
+  });
+  nav.querySelectorAll("a").forEach(link => link.addEventListener("click", () => {
+    nav.classList.remove("is-open");
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.setAttribute("aria-label", "Open profile menu");
+  }));
+  nav.querySelector(".profile-sidebar-logout")?.addEventListener("click", async () => {
+    if (typeof supabaseClient !== "undefined") await supabaseClient.auth.signOut();
+    window.location.href = "/index/login.html";
+  });
+}
+
+function initMobileBottomNav() {
+  if (document.querySelector(".mobile-bottom-nav")) return;
+  const items = [
+    { label: "Home", shortLabel: "Home", href: "/index/index.html", icon: '<path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>' },
+    { label: "AI Prediction", shortLabel: "AI", href: "/index/prediction.html", icon: '<path d="M12 3v4m0 10v4M3 12h4m10 0h4M5.6 5.6l2.8 2.8m6.2 6.2 2.8 2.8m0-11.8-2.8 2.8m-6.2 6.2-2.8 2.8"/><circle cx="12" cy="12" r="3"/>' },
+    { label: "Doctors", shortLabel: "Doctors", href: "/index/doctor.html", icon: '<path d="M8 5a4 4 0 0 1 8 0v3a4 4 0 0 1-8 0zM5 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2M12 13v4m-2-2h4"/>' },
+    { label: "Blood Donor", shortLabel: "Donor", href: "/index/blood.html", icon: '<path d="M12 21s7-4.6 7-11a7 7 0 0 0-14 0c0 6.4 7 11 7 11z"/>' },
+    { label: "My Profile", shortLabel: "Profile", href: "/index/profile.html", icon: '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>' },
+    { label: "Ambulance", shortLabel: "Ambulance", href: "/index/ambulance.html", danger: true, icon: '<path d="M3 16V7a2 2 0 0 1 2-2h9v11H3zm11 0h3l3 2v2h-3m-14 0h2m8 0h2"/><circle cx="7" cy="20" r="2"/><circle cx="17" cy="20" r="2"/><path d="M14 9h3l2 3h-5z"/>' }
+  ];
+  const currentPath = location.pathname.split("/").pop() || "index.html";
+  const nav = document.createElement("nav");
+  nav.className = "mobile-bottom-nav";
+  nav.setAttribute("aria-label", "Mobile navigation");
+  nav.innerHTML = items.map(item => {
+    const active = item.href.endsWith(currentPath);
+    return `<a class="mobile-bottom-nav-item${active ? " is-active" : ""}${item.danger ? " is-danger" : ""}" href="${item.href}"${active ? ' aria-current="page"' : ""}><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${item.icon}</svg><span>${item.shortLabel}</span><span class="sr-only">${item.label}</span></a>`;
+  }).join("");
+  document.body.appendChild(nav);
+}
 
 function toast(message, type = "") {
   let t = document.querySelector(".toast");

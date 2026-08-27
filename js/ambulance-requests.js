@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
   if (!requests?.length) {
-    historyList.innerHTML = '<p class="muted">No ambulance requests yet. Use the button above to request an ambulance.</p>';
+    historyList.innerHTML = '<p class="muted">No ambulance requests yet.</p>';
   } else {
     historyList.innerHTML = requests.map(request => {
       const completed = request.final_fare !== null && request.final_fare !== undefined;

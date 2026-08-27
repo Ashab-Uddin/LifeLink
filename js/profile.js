@@ -122,6 +122,29 @@ document.addEventListener("DOMContentLoaded", async () => {
     const profileLayout = document.querySelector(".profile-layout");
     const profilePage = document.querySelector(".profile-page");
     const profileHeroEditButton = document.getElementById("profile-hero-edit");
+    const profileNavToggle = document.getElementById("profile-nav-toggle");
+    const profileSectionNav = document.getElementById("profile-section-nav");
+
+    function closeProfileMenu() {
+        profileSectionNav?.classList.remove("is-open");
+        profileNavToggle?.setAttribute("aria-expanded", "false");
+        profileNavToggle?.setAttribute("aria-label", "Open profile menu");
+        if (profileNavToggle) profileNavToggle.title = "Open profile menu";
+    }
+
+    profileNavToggle?.addEventListener("click", () => {
+        const isOpen = profileSectionNav?.classList.toggle("is-open") ?? false;
+        profileNavToggle.setAttribute("aria-expanded", String(isOpen));
+        profileNavToggle.setAttribute("aria-label", isOpen ? "Close profile menu" : "Open profile menu");
+        profileNavToggle.title = isOpen ? "Close profile menu" : "Open profile menu";
+    });
+
+    profileSectionNav?.querySelectorAll("a:not([data-profile-view])").forEach(link => link.addEventListener("click", event => {
+        event.preventDefault();
+        const destination = link.href;
+        closeProfileMenu();
+        window.setTimeout(() => { window.location.href = destination; }, 260);
+    }));
 
     function showProfileView(view) {
         const selectedView = view || "overview";
@@ -139,28 +162,45 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     }
 
+    window.showProfileView = function(view) {
+        const selectedView = view || "overview";
+        showProfileView(selectedView);
+        closeProfileMenu();
+        if (typeof loadBloodActivity === "function" && ["blood-requests", "donations", "ambulance"].includes(selectedView)) {
+            loadBloodActivity();
+        }
+        if (["overview", "donations", "ambulance", "history"].includes(selectedView)) {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        } else {
+            document.querySelector(`[data-profile-content~="${selectedView}"]`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+    };
+
+    window.addEventListener("hashchange", () => {
+        const hash = location.hash.replace("#profile-", "");
+        if (hash) {
+            const targetView = ["donations", "ambulance", "history", "overview"].includes(hash) ? hash : "overview";
+            window.showProfileView(targetView);
+        }
+    });
+
     profileViewLinks.forEach(link => {
         link.addEventListener("click", event => {
             event.preventDefault();
             const view = link.dataset.profileView || "overview";
-            history.replaceState(null, "", `#${link.getAttribute("href").slice(1)}`);
-            showProfileView(view);
-            if (view === "blood-requests" || view === "donations") loadBloodActivity();
-            if (view === "overview") {
-                window.scrollTo({ top: 0, behavior: "smooth" });
-            } else {
-                document.querySelector(`[data-profile-content~="${view}"]`)?.scrollIntoView({ behavior: "smooth", block: "start" });
-            }
+            history.replaceState(null, "", `#profile-${view}`);
+            window.showProfileView(view);
         });
     });
 
     profileHeroEditButton?.addEventListener("click", () => {
-        showProfileView("achievements");
+        window.showProfileView("achievements");
         document.getElementById("profile-form")?.scrollIntoView({ behavior: "smooth", block: "start" });
         editProfileButton?.click();
     });
 
-    showProfileView("overview");
+    const initialView = location.hash === "#profile-donations" ? "donations" : location.hash === "#profile-ambulance" ? "ambulance" : location.hash === "#profile-history" ? "history" : "overview";
+    window.showProfileView(initialView);
 
     if (!profileForm) {
         return;
