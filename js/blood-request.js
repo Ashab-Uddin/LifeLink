@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const donorName = params.get("donor_name");
   const donorBloodGroup = params.get("blood_group");
   const bloodGroup = document.getElementById("request-blood-group");
+  const requiredDate = document.getElementById("request-date");
   const intro = document.getElementById("request-intro");
   if (!donorId) {
     message.textContent = "Please start a request from an eligible donor card.";
@@ -25,12 +26,24 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
+  const today = new Date();
+  const todayValue = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+  requiredDate.min = todayValue;
+
   const value = id => document.getElementById(id).value.trim() || null;
   form.addEventListener("submit", async event => {
     event.preventDefault();
     submitButton.disabled = true;
     message.classList.remove("is-error");
     message.textContent = "Sending blood request...";
+
+    if (!requiredDate.value || requiredDate.value < todayValue) {
+      message.textContent = "Required date cannot be before today.";
+      message.classList.add("is-error");
+      submitButton.disabled = false;
+      requiredDate.focus();
+      return;
+    }
 
     const requestData = {
       user_id: authData.user.id,

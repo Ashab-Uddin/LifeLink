@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const applicationMessage = document.getElementById("blood-donor-message");
   const donorApplicationKey = userId => `lifelink_donor_application_${userId}`;
   const donorRequestStatuses = new Map();
+  let currentUser = null;
   if (typeof supabaseClient === "undefined" || (!form && !donorList)) return;
 
   const fields = {
@@ -154,21 +155,36 @@ document.addEventListener("DOMContentLoaded", async () => {
     return Date.now() >= eligibleDate.getTime() ? "Eligible" : "Not Eligible";
   }
 
+  function nextEligibleDate(gender, lastDonation) {
+    const requiredDays = ["male", "female"].includes(String(gender).toLowerCase()) ? 120 : null;
+    const donationDate = new Date(`${lastDonation}T00:00:00`);
+    if (!requiredDays || Number.isNaN(donationDate.getTime())) return null;
+    const eligibleDate = new Date(donationDate.getTime() + requiredDays * 86400000);
+    return eligibleDate;
+  }
+
+  function formatEligibilityDate(date) {
+    return date.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+  }
+
   function renderDonors(donors) {
     const cards = donors.map(donor => {
       const initials = donor.full_name.split(/\s+/).map(part => part[0]).slice(0, 2).join("").toUpperCase();
       const status = donorEligibilityStatus(donor.gender, donor.last_donation_date);
+      const eligibleDate = nextEligibleDate(donor.gender, donor.last_donation_date);
       const requestStatus = donorRequestStatuses.get(donor.user_id) || null;
       const requestSent = Boolean(requestStatus);
-      const requestDisabled = requestSent || status === "Not Eligible";
+      const isOwnCard = donor.user_id === currentUser?.id;
+      const requestDisabled = isOwnCard || requestSent || status === "Not Eligible";
       const contactDisabled = !requestSent;
       const requestLabel = requestStatus === "pending" ? "Pending" : requestStatus === "accepted" ? "Accepted / Confirmation Pending" : requestStatus === "completed" ? "Not Eligible" : "Request for Donate";
+      const eligibilityNote = status === "Eligible" ? "Eligible to donate now" : eligibleDate ? `Eligible again after ${formatEligibilityDate(eligibleDate)}` : "Eligibility date unavailable";
       return `<article class="card donor-card donor-card--community" data-blood-group="${escapeAttr(donor.blood_group)}" data-gender="${escapeAttr(donor.gender || "")}">
         <div class="person-card"><div class="avatar">${escapeHtml(donor.blood_group)}</div><div>
           <h3>${escapeHtml(donor.full_name)}</h3><span class="badge">${escapeHtml(donor.blood_group)}</span>
           <p class="muted">${escapeHtml(donor.location)}</p>
         </div></div>
-        <div class="donor-card-footer"><div class="donor-card-meta"><span class="donor-status">${status}</span><span class="muted">${escapeHtml(initials)} · Last donation: ${escapeHtml(donationAge(donor.last_donation_date))}</span></div>
+        <div class="donor-card-footer"><div class="donor-card-meta"><span class="donor-status">${status}</span><span class="muted">${escapeHtml(initials)} · Last donation: ${escapeHtml(donationAge(donor.last_donation_date))}</span><span class="muted">${escapeHtml(eligibilityNote)}</span></div>
           <div class="donor-card-actions"><button class="btn btn-primary donor-contact-button" type="button" data-name="${escapeAttr(donor.full_name)}" data-user-id="${escapeAttr(donor.user_id)}" data-blood-group="${escapeAttr(donor.blood_group)}" data-gender="${escapeAttr(donor.gender || "")}" data-phone="${escapeAttr(donor.phone)}" data-email="${escapeAttr(donor.email || "")}" data-location="${escapeAttr(donor.location)}" data-last-donation="${escapeAttr(donor.last_donation_date)}" data-created-at="${escapeAttr(donor.created_at || "")}" data-date-of-birth="${escapeAttr(donor.date_of_birth || "")}" data-division="${escapeAttr(donor.division || "")}" data-district="${escapeAttr(donor.district || "")}" data-upazila="${escapeAttr(donor.upazila || "")}" data-address="${escapeAttr(donor.address || "")}" data-whatsapp="${escapeAttr(donor.whatsapp || "")}" data-facebook="${escapeAttr(donor.facebook || "")}" data-weight="${escapeAttr(donor.weight_kg || "")}" data-height="${escapeAttr(donor.height || "")}" data-emergency-phone="${escapeAttr(donor.emergency_phone || "")}" data-medical-conditions="${escapeAttr(donor.medical_conditions || "")}" data-medications="${escapeAttr(donor.current_medications || "")}" data-notes="${escapeAttr(donor.notes || "")}"${contactDisabled ? " disabled" : ""}>Contact donor</button><button class="btn btn-outline donor-request-button" type="button" data-donor-user-id="${escapeAttr(donor.user_id)}" data-donor-name="${escapeAttr(donor.full_name)}" data-donor-blood-group="${escapeAttr(donor.blood_group)}"${requestDisabled ? " disabled" : ""}>${escapeHtml(requestLabel)}</button></div>
         </div>
       </article>`;
@@ -295,6 +311,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   const { data: { user } } = await supabaseClient.auth.getUser();
+  currentUser = user;
   if (user && donorList) {
     const { data: sentRequests } = await supabaseClient.from("blood_donation_requests").select("donor_user_id,status,created_at").eq("requester_user_id", user.id).order("created_at", { ascending: false });
     (sentRequests || []).forEach(request => {

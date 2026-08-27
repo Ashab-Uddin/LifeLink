@@ -21,6 +21,23 @@ create table if not exists public.blood_requests (
 
 alter table public.blood_requests enable row level security;
 
+create or replace function public.validate_blood_request_date()
+returns trigger
+language plpgsql
+as $$
+begin
+  if new.donation_date < current_date then
+    raise exception 'Required blood date cannot be before today.';
+  end if;
+  return new;
+end;
+$$;
+
+drop trigger if exists validate_blood_request_date on public.blood_requests;
+create trigger validate_blood_request_date
+before insert or update of donation_date on public.blood_requests
+for each row execute function public.validate_blood_request_date();
+
 drop policy if exists "Users can create their own blood requests" on public.blood_requests;
 create policy "Users can create their own blood requests"
 on public.blood_requests for insert
