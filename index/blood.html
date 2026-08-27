@@ -357,9 +357,9 @@
         <div class="field full"><label for="blood-donor-address">Address</label><input id="blood-donor-address"
             type="text" required placeholder="Your address"></div>
         <div class="field"><label for="blood-donor-phone">Phone number</label><input id="blood-donor-phone" type="tel"
-            required placeholder="01XXXXXXXXX"></div>
+          inputmode="numeric" pattern="[0-9]{11}" maxlength="11" minlength="11" title="Enter an 11-digit phone number" required placeholder="01XXXXXXXXX"></div>
         <div class="field"><label for="blood-donor-whatsapp">WhatsApp number</label><input id="blood-donor-whatsapp"
-            type="tel" placeholder="01XXXXXXXXX"></div>
+          type="tel" inputmode="numeric" pattern="[0-9]{11}" maxlength="11" minlength="11" title="Enter an 11-digit phone number" placeholder="01XXXXXXXXX"></div>
         <div class="field"><label for="blood-donor-facebook">Facebook profile link</label><input
             id="blood-donor-facebook" type="url" placeholder="https://www.facebook.com"></div>
         <div class="field"><label for="blood-donor-weight">Weight (kg)</label><input id="blood-donor-weight"
@@ -367,7 +367,7 @@
         <div class="field"><label for="blood-donor-height">Height (ft/in)</label><input id="blood-donor-height"
             type="text" placeholder="5.4"></div>
         <div class="field full"><label for="blood-donor-emergency-phone">Emergency contact phone</label><input
-            id="blood-donor-emergency-phone" type="tel" placeholder="Emergency contact phone"></div>
+          id="blood-donor-emergency-phone" type="tel" inputmode="numeric" pattern="[0-9]{11}" maxlength="11" minlength="11" title="Enter an 11-digit phone number" placeholder="Emergency contact phone"></div>
         <div class="field full"><label for="blood-donor-medical-conditions">Medical conditions <span class="muted">(if
               any)</span></label><textarea id="blood-donor-medical-conditions" rows="2"
             placeholder="List any medical conditions you have"></textarea></div>

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Ambulance Requests - LifeLink</title>
+  <link rel="stylesheet" href="/styles/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <a class="brand" href="/index/index.html"><span class="brand-mark">L</span>LifeLink</a>
+    <button class="mobile-toggle" data-menu-toggle aria-label="Open navigation">&#9776;</button>
+    <a class="nav-link" href="/index/dashboard.html">Dashboard</a>
+    <a class="nav-link" href="/index/prediction.html">AI Prediction</a>
+    <a class="nav-link" href="/index/doctor.html">Doctors</a>
+    <a class="nav-link" href="/index/nearby.html">Nearby</a>
+    <a class="nav-link" href="/index/blood.html">Blood Donor</a>
+    <a class="nav-link active" href="/index/profile.html">My Profile</a>
+    <a class="nav-link emergency-link" href="/index/ambulance.html">Ambulance</a>
+  </nav>
+
+  <main class="page">
+    <div class="container">
+      <div class="section-head ambulance-history-heading">
+        <div>
+          <span class="badge">Emergency support</span>
+          <h1>Your Ambulance Requests</h1>
+          <p>View every ambulance booking and its complete trip information.</p>
+        </div>
+        <a class="btn btn-danger" href="/index/ambulance.html">Request Ambulance</a>
+      </div>
+      <section class="card ambulance-history-card">
+        <div id="ambulance-history-list" class="ambulance-history-list"><p class="muted">Loading your ambulance requests...</p></div>
+      </section>
+      <section id="ambulance-provider-card" class="card ambulance-history-card" hidden>
+        <div class="form-card-heading"><div><span class="section-kicker">Provider view</span><h2>Incoming Ambulance Requests</h2><p class="muted">Review and manage requests sent to your registered ambulance.</p></div></div>
+        <div id="ambulance-provider-list" class="ambulance-history-list"><p class="muted">Checking provider requests...</p></div>
+      </section>
+    </div>
+  </main>
+
+  <div class="toast"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/js/supabase.js"></script>
+  <script src="/js/i18n.js"></script>
+  <script src="/js/script.js"></script>
+  <script src="/js/ambulance-requests.js"></script>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand"><a class="footer-logo" href="/index/index.html"><span class="brand-mark">L</span>LifeLink</a><p>Connected healthcare tools for clearer decisions, faster support, and better everyday care.</p><span class="footer-status"><span></span>Care tools available 24/7</span></div>
+        <div class="footer-column"><h3>Platform</h3><a href="/index/dashboard.html">Dashboard</a><a href="/index/prediction.html">AI Prediction</a><a href="/index/history.html">Prediction History</a></div>
+        <div class="footer-column"><h3>Find care</h3><a href="/index/doctor.html">Doctor Suggestions</a><a href="/index/nearby.html">Nearby Doctors</a><a href="/index/blood.html">Blood Donors</a></div>
+        <div class="footer-column footer-support"><h3>Need help now?</h3><a class="footer-emergency" href="/index/ambulance.html">Open Ambulance Support <span>&rarr;</span></a><a href="/index/profile.html">My Profile</a><a href="/index/login.html">Sign in to LifeLink</a></div>
+      </div>
+      <div class="footer-bottom"><span>&copy; 2026 LifeLink. Built for more connected care.</span><span>AI guidance is informational and not a substitute for professional medical advice.</span></div>
+    </div>
+  </footer>
+</body>
+</html>

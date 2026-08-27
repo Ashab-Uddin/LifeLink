@@ -876,6 +876,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     const knownNotificationIds = new Set();
     let notificationRealtimeReady = false;
     let notificationChannel = null;
+    let ambulanceRealtimeReady = false;
+    let ambulanceChannel = null;
     let notificationEventsBound = false;
 
     let notificationAudioContext = null;
@@ -909,7 +911,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         const requestList = document.getElementById("profile-blood-requests");
         const donationRequestList = document.getElementById("profile-donation-requests");
         const incomingRequestList = document.getElementById("profile-incoming-requests");
-        if (!currentUser || (!requestList && !donationRequestList && !incomingRequestList)) return;
+        const ambulanceRequestList = document.getElementById("profile-ambulance-requests");
+        const ambulanceProviderRequestList = document.getElementById("profile-ambulance-provider-requests");
+        if (!currentUser || (!requestList && !donationRequestList && !incomingRequestList && !ambulanceRequestList && !ambulanceProviderRequestList)) return;
         const escape = value => String(value || "").replace(/[&<>'"]/g, character => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", "\"": "&quot;" }[character]));
         const formatDate = value => value ? new Date(String(value).includes("T") ? value : `${value}T00:00:00`).toLocaleDateString() : "Not provided";
         const formatTime = value => value ? value.slice(0, 5) : "Not provided";
@@ -921,6 +925,46 @@ document.addEventListener("DOMContentLoaded", async () => {
             const element = document.getElementById(id);
             if (element) element.textContent = value || "Not provided";
         };
+        if (ambulanceRequestList) {
+            const { data: ambulanceRequests, error: ambulanceRequestError } = await supabaseClient.from("ambulance_requests")
+                .select("id,patient_name,emergency_type,pickup_location,destination_hospital,distance_km,estimated_fare,final_distance_km,final_fare,status,requested_at,ambulances(name,type)")
+                .eq("user_id", currentUser.id).order("requested_at", { ascending: false });
+            if (ambulanceRequestError || !ambulanceRequests?.length) {
+                ambulanceRequestList.innerHTML = '<p class="muted">No ambulance requests yet.</p>';
+            } else {
+                ambulanceRequestList.innerHTML = `<table class="ambulance-request-table"><thead><tr><th>Ambulance</th><th>Patient / emergency</th><th>Trip</th><th>Distance / fare</th><th>Status</th><th>Requested</th></tr></thead><tbody>${ambulanceRequests.map(request => {
+                    const hasFinalFare = request.final_fare !== null && request.final_fare !== undefined;
+                    const distance = hasFinalFare ? request.final_distance_km : request.distance_km;
+                    const fare = hasFinalFare ? request.final_fare : request.estimated_fare;
+                    return `<tr><td><strong>${escape(request.ambulances?.name || "Ambulance")}</strong><small>${escape(request.ambulances?.type || "")}</small></td><td><strong>${escape(request.patient_name)}</strong><small>${escape(request.emergency_type)}</small></td><td><small>${escape(request.pickup_location)} → ${escape(request.destination_hospital)}</small></td><td>${Number(distance || 0).toFixed(1)} km · ৳${Number(fare || 0).toFixed(2).replace(/\.00$/, "")}</td><td><span class="ambulance-status ambulance-status-${escape(request.status)}">${escape(String(request.status || "pending").replaceAll("_", " "))}</span></td><td>${escape(formatDateTime(request.requested_at))}</td></tr>`;
+                }).join("")}</tbody></table>`;
+            }
+        }
+        if (ambulanceProviderRequestList) {
+            const { data: ownedAmbulances, error: ownedAmbulanceError } = await supabaseClient.from("ambulances")
+                .select("id,name,type,provider_user_id").eq("provider_user_id", currentUser.id);
+            const ownedAmbulanceIds = (ownedAmbulances || []).map(ambulance => ambulance.id);
+            const { data: providerRequests, error: providerRequestError } = ownedAmbulanceIds.length
+                ? await supabaseClient.from("ambulance_requests")
+                    .select("id,ambulance_id,patient_name,patient_phone,emergency_type,pickup_location,destination_hospital,distance_km,estimated_fare,status,requested_at,provider_location,estimated_arrival_at,ambulances(name,type)")
+                    .in("ambulance_id", ownedAmbulanceIds).order("requested_at", { ascending: false })
+                : { data: [], error: ownedAmbulanceError };
+            if (providerRequestError || !providerRequests?.length) {
+                ambulanceProviderRequestList.innerHTML = '<p class="muted">No incoming ambulance requests.</p>';
+            } else {
+                ambulanceProviderRequestList.innerHTML = `<table class="ambulance-request-table"><thead><tr><th>Ambulance</th><th>Patient</th><th>Trip</th><th>Fare</th><th>Status / Action</th></tr></thead><tbody>${providerRequests.map(request => `<tr><td><strong>${escape(request.ambulances?.name || "Ambulance")}</strong><small>${escape(request.ambulances?.type || "")}</small></td><td><strong>${escape(request.patient_name)}</strong><small>${escape(request.patient_phone)} · ${escape(request.emergency_type)}</small></td><td><small>${escape(request.pickup_location)} → ${escape(request.destination_hospital)}</small><br>${Number(request.distance_km || 0).toFixed(1)} km</td><td>৳${Number(request.estimated_fare || 0).toFixed(2).replace(/\.00$/, "")}<small>${escape(request.provider_location || "")}</small><small>${request.estimated_arrival_at ? escape(formatDateTime(request.estimated_arrival_at)) : ""}</small></td><td><span class="ambulance-status ambulance-status-${escape(request.status)}">${escape(String(request.status || "requested").replaceAll("_", " "))}</span><div class="ambulance-provider-actions">${request.status === "requested" ? `<button class="btn btn-primary provider-ambulance-status" type="button" data-request-id="${escape(request.id)}" data-status="accepted">Accept</button><button class="btn btn-outline provider-ambulance-status" type="button" data-request-id="${escape(request.id)}" data-status="rejected">Reject</button>` : request.status === "accepted" ? `<button class="btn btn-primary provider-ambulance-status" type="button" data-request-id="${escape(request.id)}" data-status="on_the_way">On the way</button>` : request.status === "on_the_way" ? `<button class="btn btn-primary provider-ambulance-status" type="button" data-request-id="${escape(request.id)}" data-status="picked_up">Picked up</button>` : request.status === "picked_up" ? `<button class="btn btn-primary provider-ambulance-status" type="button" data-request-id="${escape(request.id)}" data-status="arrived">Arrived</button>` : request.status === "arrived" ? `<button class="btn btn-primary provider-ambulance-status" type="button" data-request-id="${escape(request.id)}" data-status="completed">Complete</button>` : ""}</div></td></tr>`).join("")}</tbody></table>`;
+                ambulanceProviderRequestList.querySelectorAll(".provider-ambulance-status").forEach(button => button.addEventListener("click", async () => {
+                    button.disabled = true;
+                    const { error } = await supabaseClient.rpc("update_ambulance_request_status", { p_request_id: button.dataset.requestId, p_status: button.dataset.status });
+                    if (error) {
+                        button.disabled = false;
+                        if (typeof toast === "function") toast(error.message || "Unable to update ambulance request.", "error");
+                        return;
+                    }
+                    await loadBloodActivity();
+                }));
+            }
+        }
         const closeRequestDetails = () => {
             if (requestDetailsModal) requestDetailsModal.hidden = true;
             selectedProfileRequest = null;
@@ -1330,6 +1374,12 @@ document.addEventListener("DOMContentLoaded", async () => {
                 })
                 .subscribe();
         }
+            if (!ambulanceRealtimeReady) {
+                ambulanceRealtimeReady = true;
+                ambulanceChannel = supabaseClient.channel(`profile-ambulance-${currentUser.id}`)
+                .on("postgres_changes", { event: "*", schema: "public", table: "ambulance_requests" }, () => loadBloodActivity())
+                .subscribe();
+            }
         if (!profileResponseDetailsEventsBound) {
             const closeResponseDetails = () => { if (responseDetailsModal) responseDetailsModal.hidden = true; };
             document.getElementById("profile-response-details-close")?.addEventListener("click", closeResponseDetails);

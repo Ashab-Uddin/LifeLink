@@ -29,6 +29,7 @@
                 <aside class="profile-section-nav" aria-label="Profile sections">
                     <a class="profile-section-nav-link is-active" href="#profile-overview" data-profile-view="overview"><span aria-hidden="true">&#9638;</span>Overview</a>
                     <a class="profile-section-nav-link" href="#profile-donations" data-profile-view="donations"><span aria-hidden="true">&#10003;</span>Donations</a>
+                    <a class="profile-section-nav-link" href="/index/ambulance-requests.html"><span aria-hidden="true">&#128656;</span>Your Ambulance Requests</a>
                     <a class="profile-section-nav-link" href="/index/history.html"><span aria-hidden="true">&#8764;</span>Health History</a>
                     <button id="profile-sidebar-logout" class="profile-section-nav-link profile-sidebar-logout" type="button"><span aria-hidden="true">&#10132;</span>Logout</button>
                 </aside>
@@ -173,6 +174,14 @@
                     <section class="card profile-activity-card" data-profile-donation-requests><h3>Donation requests I sent</h3><div id="profile-donation-requests" class="profile-activity-list"><p class="muted">Loading donation requests...</p></div></section>
                     <section class="card profile-activity-card" data-profile-incoming-requests><h3>Incoming request for blood</h3><div id="profile-incoming-requests" class="profile-activity-list"><p class="muted">Loading incoming requests...</p></div></section>
                 </div>
+                <section class="card profile-ambulance-activity" data-profile-ambulance-requests>
+                    <div class="form-card-heading"><div><span class="section-kicker">Emergency support</span><h3>Ambulance requests</h3><p class="muted">Track your ambulance bookings, trip status, and fare.</p></div><a class="btn btn-outline" href="/index/ambulance.html">Request Ambulance</a></div>
+                    <div id="profile-ambulance-requests" class="ambulance-request-list"><p class="muted">Loading ambulance requests...</p></div>
+                </section>
+                <section class="card profile-ambulance-provider-activity" data-profile-ambulance-provider-requests>
+                    <div class="form-card-heading"><div><span class="section-kicker">Provider view</span><h3>Incoming Ambulance Requests</h3><p class="muted">Manage requests sent to your registered ambulances.</p></div><a class="btn btn-outline" href="/index/ambulance.html">Manage Ambulance</a></div>
+                    <div id="profile-ambulance-provider-requests" class="ambulance-request-list"><p class="muted">Checking provider requests...</p></div>
+                </section>
             </section>
 
                 </div>
@@ -231,7 +240,7 @@
                 <div class="field full"><label for="donor-name">Full name</label><input id="donor-name" type="text" autocomplete="name" required placeholder="Your name"></div>
                 <div class="field"><label for="donor-blood-group">Blood group</label><select id="donor-blood-group" required><option value="">Select blood group</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option></select></div>
                 <div class="field"><label for="donor-gender">Gender</label><select id="donor-gender" required><option value="">Select gender</option><option>Male</option><option>Female</option></select></div>
-                <div class="field"><label for="donor-phone">Phone number</label><input id="donor-phone" type="tel" autocomplete="tel" required placeholder="01XXXXXXXXX"></div>
+                <div class="field"><label for="donor-phone">Phone number</label><input id="donor-phone" type="tel" inputmode="numeric" pattern="[0-9]{11}" maxlength="11" minlength="11" title="Enter an 11-digit phone number" autocomplete="tel" required placeholder="01XXXXXXXXX"></div>
                 <div class="field"><label for="donor-location">City or area</label><input id="donor-location" type="text" autocomplete="address-level2" required placeholder="e.g. Mirpur, Dhaka"></div>
                 <div class="field"><label for="donor-last-donation">Last blood donation</label><input id="donor-last-donation" type="date" required><span class="field-hint">At least 3 months ago.</span></div>
                 <div class="field full"><label for="donor-notes">Availability or notes <span class="muted">(optional)</span></label><textarea id="donor-notes" rows="3" placeholder="Best time to contact you"></textarea></div>

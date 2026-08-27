@@ -4,6 +4,17 @@ const API_BASE =
     : "https://lifelink-p8se.onrender.com/api";
 
 document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll('input[type="tel"]').forEach(input => {
+    input.inputMode = "numeric";
+    input.pattern = "[0-9]{11}";
+    input.maxLength = 11;
+    input.minLength = 11;
+    input.title = "Enter an 11-digit phone number";
+    input.addEventListener("input", () => {
+      input.value = input.value.replace(/\D/g, "").slice(0, 11);
+    });
+  });
+
   document.querySelectorAll("[data-menu-toggle]").forEach((btn) => {
     btn.addEventListener("click", () => {
       const navbar = document.querySelector(".navbar");

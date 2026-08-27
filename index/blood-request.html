@@ -35,8 +35,8 @@
           <div class="field"><label for="request-time">Preferred time</label><input id="request-time" type="time" required></div>
           <div class="field full"><label for="request-address">Address</label><input id="request-address" type="text" placeholder="Hospital or complete address"></div>
           <div class="field"><label for="request-center">Donation center / hospital</label><input id="request-center" type="text" required placeholder="Hospital or donation center"></div>
-          <div class="field"><label for="request-phone">Phone number</label><input id="request-phone" type="tel" required placeholder="01XXXXXXXXX"></div>
-          <div class="field"><label for="request-whatsapp">WhatsApp number</label><input id="request-whatsapp" type="tel" placeholder="01XXXXXXXXX"></div>
+          <div class="field"><label for="request-phone">Phone number</label><input id="request-phone" type="tel" inputmode="numeric" pattern="[0-9]{11}" maxlength="11" minlength="11" title="Enter an 11-digit phone number" required placeholder="01XXXXXXXXX"></div>
+          <div class="field"><label for="request-whatsapp">WhatsApp number</label><input id="request-whatsapp" type="tel" inputmode="numeric" pattern="[0-9]{11}" maxlength="11" minlength="11" title="Enter an 11-digit phone number" placeholder="01XXXXXXXXX"></div>
           <div class="field"><label for="request-date">Required date</label><input id="request-date" type="date" required></div>
           <div class="field full"><label for="request-problem">Reason / emergency details</label><textarea id="request-problem" rows="3" placeholder="Describe the patient's condition or urgency"></textarea></div>
           <div class="donor-form-footer full"><p id="blood-request-message" class="profile-message" role="status"></p><button id="blood-request-submit" class="btn btn-primary" type="submit">Submit blood request</button></div>
