@@ -45,9 +45,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     const date = new Date(field === "createdAt" ? donor[field] : `${donor[field]}T00:00:00`);
     return Number.isNaN(date.getTime()) ? "Not provided" : date.toLocaleDateString();
   };
-  const requiredMonths = ["male", "female"].includes(String(donor.gender).toLowerCase()) ? 4 : null;
+  const requiredDays = ["male", "female"].includes(String(donor.gender).toLowerCase()) ? 120 : null;
   const donationDate = new Date(`${donor.lastDonation}T00:00:00`);
-  const eligibleDate = requiredMonths && !Number.isNaN(donationDate.getTime()) ? new Date(donationDate.setMonth(donationDate.getMonth() + requiredMonths)) : null;
+  const eligibleDate = requiredDays && !Number.isNaN(donationDate.getTime()) ? new Date(donationDate.getTime() + requiredDays * 86400000) : null;
   const eligibility = eligibleDate && Date.now() >= eligibleDate.getTime() ? "Eligible" : "Not Eligible";
 
   document.title = `${value("name")} - Donor Details | LifeLink`;
@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   donationStatus.classList.toggle("is-eligible", eligibility === "Eligible");
   donationStatus.classList.toggle("is-not-eligible", eligibility === "Not Eligible");
   document.getElementById("donor-details-donation-date").textContent = dateValue("lastDonation");
-  document.getElementById("donor-details-interval").textContent = requiredMonths ? `Every ${requiredMonths} months` : "Not provided";
+  document.getElementById("donor-details-interval").textContent = requiredDays ? `Every ${requiredDays} days` : "Not provided";
 
   const phone = document.getElementById("donor-details-phone");
   phone.textContent = value("phone");

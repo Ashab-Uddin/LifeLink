@@ -63,12 +63,24 @@
           <h3>Services</h3>
           <div class="blood-page-actions">
             <a class="btn btn-outline blood-service-control" data-service="donor-application.html" href="/index/donor-application.html">Apply to donate</a>
-            <a class="btn btn-outline blood-service-control" data-service="blood-request.html" href="/index/blood-request.html">Blood Request</a>
-            <a class="btn btn-outline blood-service-control" data-service="blood-requests.html" href="/index/blood-requests.html">All requests</a>
-            <button id="donor-filters-toggle" class="donor-filters-toggle blood-service-control" type="button" aria-expanded="false" aria-controls="donor-filters-panel">
-              <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><path d="M4 5h16l-6.5 7.2v5.3l-3 1.5v-6.8L4 5Z"></path></svg>
-              <span>Filters</span>
-            </button>
+            <aside id="donor-filters-panel" class="donor-filters is-open" aria-label="Filter donors">
+              <h3>Find a donor</h3>
+              <label for="donor-filter-blood">Blood group</label>
+              <select id="donor-filter-blood"><option value="all">All</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option></select>
+              <label for="donor-filter-gender">Gender</label>
+              <select id="donor-filter-gender"><option value="all">All</option><option>Male</option><option>Female</option><option>Other</option></select>
+              <label for="donor-filter-division">Division</label>
+              <select id="donor-filter-division"><option value="all">Select division</option><option>Barisal</option><option>Chattogram</option><option>Dhaka</option><option>Khulna</option><option>Mymensingh</option><option>Rajshahi</option><option>Rangpur</option><option>Sylhet</option></select>
+              <label for="donor-filter-district">District</label>
+              <input id="donor-filter-district" type="text" placeholder="Select district">
+              <label for="donor-filter-upazila">Upazila</label>
+              <input id="donor-filter-upazila" type="text" placeholder="Select upazila">
+              <label for="donor-filter-date">Last donation before</label>
+              <input id="donor-filter-date" type="date">
+              <label class="filter-check"><input id="donor-filter-eligible" type="checkbox"> Eligible donors only</label>
+              <button id="apply-donor-filters" class="btn btn-primary" type="button">Apply filters</button>
+              <button id="reset-donor-filters" class="btn btn-outline" type="button">Reset filters</button>
+            </aside>
           </div>
         </aside>
         <div class="blood-donor-main">
@@ -108,25 +120,6 @@
       </div>
 
       <div class="donor-browser">
-        <aside id="donor-filters-panel" class="donor-filters" aria-label="Filter donors">
-          <h3>Find a donor</h3>
-          <label for="donor-filter-blood">Blood group</label>
-          <select id="donor-filter-blood"><option value="all">All</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option></select>
-          <label for="donor-filter-gender">Gender</label>
-          <select id="donor-filter-gender"><option value="all">All</option><option>Male</option><option>Female</option><option>Other</option></select>
-          <label for="donor-filter-division">Division</label>
-          <select id="donor-filter-division"><option value="all">Select division</option><option>Barisal</option><option>Chattogram</option><option>Dhaka</option><option>Khulna</option><option>Mymensingh</option><option>Rajshahi</option><option>Rangpur</option><option>Sylhet</option></select>
-          <label for="donor-filter-district">District</label>
-          <input id="donor-filter-district" type="text" placeholder="Select district">
-          <label for="donor-filter-upazila">Upazila</label>
-          <input id="donor-filter-upazila" type="text" placeholder="Select upazila">
-          <label for="donor-filter-date">Last donation before</label>
-          <input id="donor-filter-date" type="date">
-          <label class="filter-check"><input id="donor-filter-eligible" type="checkbox"> Eligible donors only</label>
-          <button id="apply-donor-filters" class="btn btn-primary" type="button">Apply filters</button>
-          <button id="reset-donor-filters" class="btn btn-outline" type="button">Reset filters</button>
-        </aside>
-
         <section class="donor-results">
           <div class="donor-list-heading">
             <div><span class="section-kicker">Community donors</span><h2>Available blood donors</h2></div>
@@ -158,7 +151,7 @@
           </div>
 
           <div class="donor-card-footer"><div class="donor-card-meta"><span class="donor-status">Eligible</span><span class="donor-last-donation">Last donation: 7 months ago</span></div>
-          <button class="btn btn-primary donor-contact-button" type="button" data-name="Rahim Uddin"
+          <button class="btn btn-primary donor-contact-button" type="button" disabled data-name="Rahim Uddin"
             data-blood-group="O+" data-gender="Male" data-phone="01700000001" data-email="rahim@example.com" data-location="Mirpur 10"
             data-last-donation="2026-01-15" data-notes="Available for urgent blood donation." style="margin-top: 16px">
             Contact Donor
@@ -191,7 +184,7 @@
           </div>
 
           <div class="donor-card-footer"><div class="donor-card-meta"><span class="donor-status">Eligible</span><span class="donor-last-donation">Last donation: 8 months ago</span></div>
-          <button class="btn btn-primary donor-contact-button" type="button" data-name="Sadia Akter"
+          <button class="btn btn-primary donor-contact-button" type="button" disabled data-name="Sadia Akter"
             data-blood-group="A-" data-gender="Female" data-phone="01700000002" data-email="sadia@example.com" data-location="Dhanmondi"
             data-last-donation="2025-12-20" data-notes="Please contact before arranging a donation."
             style="margin-top: 16px">
@@ -225,7 +218,7 @@
           </div>
 
           <div class="donor-card-footer"><div class="donor-card-meta"><span class="donor-status">Eligible</span><span class="donor-last-donation">Last donation: 6 months ago</span></div>
-          <button class="btn btn-primary donor-contact-button" type="button" data-name="Hasan Rahman"
+          <button class="btn btn-primary donor-contact-button" type="button" disabled data-name="Hasan Rahman"
             data-blood-group="B+" data-gender="Male" data-phone="01700000003" data-email="hasan@example.com" data-location="Mohammadpur"
             data-last-donation="2026-02-01" data-notes="Available on weekends." style="margin-top: 16px">
             Contact Donor
@@ -309,17 +302,6 @@
           </div>
         </div>
       </section>
-    </div>
-  </div>
-
-  <div id="donor-request-modal" class="crop-modal" hidden>
-    <div class="crop-dialog donor-request-dialog" role="dialog" aria-modal="true" aria-labelledby="donor-request-title">
-      <div class="crop-dialog-heading"><div><span class="section-kicker">Ask a donor</span><h2 id="donor-request-title">Request for donate</h2></div><button id="donor-request-close" class="crop-close" type="button" aria-label="Close donor request">&times;</button></div>
-      <p id="donor-request-recipient" class="muted">Choose one of your open blood requests.</p>
-      <label for="donor-request-select">Your open blood request</label>
-      <select id="donor-request-select"></select>
-      <p id="donor-request-message" class="profile-message" role="status"></p>
-      <button id="donor-request-submit" class="btn btn-primary" type="button">Send request</button>
     </div>
   </div>
 

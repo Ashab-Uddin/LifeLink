@@ -28,8 +28,7 @@
             <div class="profile-page-layout">
                 <aside class="profile-section-nav" aria-label="Profile sections">
                     <a class="profile-section-nav-link is-active" href="#profile-overview" data-profile-view="overview"><span aria-hidden="true">&#9638;</span>Overview</a>
-                    <a class="profile-section-nav-link" href="#profile-blood-activity" data-profile-view="blood-requests"><span aria-hidden="true">&#9829;</span>Your Blood Requests</a>
-                    <a class="profile-section-nav-link" href="#profile-blood-activity" data-profile-view="donations"><span aria-hidden="true">&#10003;</span>Donations</a>
+                    <a class="profile-section-nav-link" href="#profile-donations" data-profile-view="donations"><span aria-hidden="true">&#10003;</span>Donations</a>
                     <a class="profile-section-nav-link" href="/index/history.html"><span aria-hidden="true">&#8764;</span>Health History</a>
                     <button id="profile-sidebar-logout" class="profile-section-nav-link profile-sidebar-logout" type="button"><span aria-hidden="true">&#10132;</span>Logout</button>
                 </aside>
@@ -43,8 +42,8 @@
                     </div>
                     <div class="profile-overview-actions">
                         <a class="btn btn-primary" href="/index/donor-application.html">Donate Now</a>
-                        <a class="btn btn-outline" href="/index/blood-request.html">Request Blood</a>
                     </div>
+
                 </div>
 
                 <div class="profile-overview-stats">
@@ -168,14 +167,14 @@
                 </aside>
             </div>
 
-            <section id="profile-blood-activity" class="profile-blood-activity" data-profile-content="blood-requests donations">
-                <div class="form-card-heading"><div><span class="section-kicker">Blood support</span><h2>My blood activity</h2><p class="muted">Track your requests and donor responses in one place.</p></div></div>
+            <section id="profile-donations" class="profile-blood-activity profile-donations-activity" data-profile-content="donations">
+                <div class="form-card-heading"><div><span class="section-kicker">Blood support</span><h2>Donations</h2><p class="muted">Track donation requests and incoming donor requests.</p></div></div>
                 <div class="profile-blood-activity-grid">
-                    <section class="card profile-activity-card" data-profile-content="blood-requests"><h3>Your blood requests</h3><div id="profile-blood-requests" class="profile-activity-list"><p class="muted">Loading requests...</p></div></section>
-                    <section class="card profile-activity-card" data-profile-content="donations" data-profile-donation-requests><h3>Donation requests I sent</h3><div id="profile-donation-requests" class="profile-activity-list"><p class="muted">Loading donation requests...</p></div></section>
-                    <section class="card profile-activity-card" data-profile-content="donations" data-profile-incoming-requests><h3>Incoming request for blood</h3><div id="profile-incoming-requests" class="profile-activity-list"><p class="muted">Loading incoming requests...</p></div></section>
+                    <section class="card profile-activity-card" data-profile-donation-requests><h3>Donation requests I sent</h3><div id="profile-donation-requests" class="profile-activity-list"><p class="muted">Loading donation requests...</p></div></section>
+                    <section class="card profile-activity-card" data-profile-incoming-requests><h3>Incoming request for blood</h3><div id="profile-incoming-requests" class="profile-activity-list"><p class="muted">Loading incoming requests...</p></div></section>
                 </div>
             </section>
+
                 </div>
             </div>
         </div>

@@ -68,18 +68,39 @@ using (
 create table if not exists public.blood_request_notifications (
   id uuid primary key default gen_random_uuid(),
   request_id uuid not null references public.blood_requests(id) on delete cascade,
+  sender_user_id uuid references auth.users(id) on delete set null,
   recipient_user_id uuid not null references auth.users(id) on delete cascade,
   donor_user_id uuid references auth.users(id) on delete set null,
+  notification_type text not null default 'general',
+  status text not null default 'unread' check (status in ('unread', 'read', 'pending', 'accepted', 'declined', 'completed')),
   message text not null,
   read_at timestamptz,
   accepted_at timestamptz,
   rejected_at timestamptz,
+  cleared_at timestamptz,
   created_at timestamptz not null default now()
 );
 
 alter table public.blood_request_notifications add column if not exists donor_user_id uuid references auth.users(id) on delete set null;
+alter table public.blood_request_notifications add column if not exists sender_user_id uuid references auth.users(id) on delete set null;
+alter table public.blood_request_notifications add column if not exists notification_type text not null default 'general';
+alter table public.blood_request_notifications add column if not exists status text not null default 'unread';
+
+do $$
+begin
+  if not exists (
+    select 1 from pg_publication_tables
+    where pubname = 'supabase_realtime'
+      and schemaname = 'public'
+      and tablename = 'blood_request_notifications'
+  ) then
+    alter publication supabase_realtime add table public.blood_request_notifications;
+  end if;
+end;
+$$;
 alter table public.blood_request_notifications add column if not exists accepted_at timestamptz;
 alter table public.blood_request_notifications add column if not exists rejected_at timestamptz;
+alter table public.blood_request_notifications add column if not exists cleared_at timestamptz;
 
 create table if not exists public.blood_donations (
   id uuid primary key default gen_random_uuid(),
@@ -144,8 +165,8 @@ begin
   donor_blood_group := coalesce(nullif(trim(profile_blood_group), ''), nullif(trim(donor_row.blood_group), ''));
   if lower(donor_blood_group) <> lower(trim(request_row.blood_group)) then raise exception 'Your blood group does not match this request.'; end if;
 
-  insert into public.blood_request_notifications (request_id, recipient_user_id, donor_user_id, message)
-  values (request_row.id, request_row.user_id, auth.uid(), format('A matching %s donor wants to donate for %s.', donor_blood_group, request_row.patient_name))
+  insert into public.blood_request_notifications (request_id, sender_user_id, recipient_user_id, donor_user_id, notification_type, status, message)
+  values (request_row.id, auth.uid(), request_row.user_id, auth.uid(), 'donation_response', 'unread', format('A matching %s donor wants to donate for %s.', donor_blood_group, request_row.patient_name))
   returning id into notification_id;
 
   insert into public.blood_donation_requests (blood_request_id, donor_user_id, requester_user_id, response_id)
@@ -177,6 +198,9 @@ begin
   set last_donation_date = coalesce(request_row.donation_date, current_date), total_donations = coalesce(total_donations, 0) + 1, status = 'available'
   where user_id = auth.uid();
   update public.blood_donation_requests set status = 'completed', completed_at = now() where id = donation_request.id;
+  insert into public.blood_request_notifications (request_id, sender_user_id, recipient_user_id, donor_user_id, notification_type, status, message)
+  values (request_row.id, donation_request.requester_user_id, auth.uid(), auth.uid(), 'donation_completed', 'unread', 'Thank you very much for donating blood.')
+  on conflict do nothing;
 end;
 $$;
 
@@ -201,12 +225,15 @@ begin
   select * into donor_row from public.blood_donor_applications
   where user_id = p_donor_user_id;
   if not found then raise exception 'This donor is no longer registered.'; end if;
-  if not (lower(coalesce(donor_row.gender, '')) in ('male', 'female') and donor_row.last_donation_date + interval '4 months' <= current_date) then
+  if not (lower(coalesce(donor_row.gender, '')) in ('male', 'female') and donor_row.last_donation_date + interval '120 days' <= current_date) then
     raise exception 'This donor is not currently eligible.';
   end if;
 
-  insert into public.blood_request_notifications (request_id, recipient_user_id, donor_user_id, message)
-  values (request_row.id, p_donor_user_id, p_donor_user_id,
+  delete from public.blood_request_notifications
+  where request_id = request_row.id and recipient_user_id = p_donor_user_id and donor_user_id is null;
+
+  insert into public.blood_request_notifications (request_id, sender_user_id, recipient_user_id, donor_user_id, notification_type, status, message)
+  values (request_row.id, auth.uid(), p_donor_user_id, p_donor_user_id, 'donation_request', 'pending',
     format('%s needs %s blood. Please review their request.', request_row.patient_name, request_row.blood_group))
   returning id into notification_id;
 
@@ -243,6 +270,8 @@ begin
   set last_donation_date = current_date, total_donations = coalesce(total_donations, 0) + 1, status = 'available'
   where user_id = donation_request.donor_user_id;
   update public.blood_donation_requests set status = 'completed', completed_at = now() where id = donation_request.id;
+  insert into public.blood_request_notifications (request_id, sender_user_id, recipient_user_id, donor_user_id, notification_type, status, message)
+  values (request_row.id, auth.uid(), donation_request.donor_user_id, donation_request.donor_user_id, 'donation_completed', 'unread', 'Thank you very much for donating blood.');
 end;
 $$;
 
@@ -265,10 +294,11 @@ begin
   if not found then raise exception 'This donor request is no longer available.'; end if;
   select * into request_row from public.blood_requests where id = notification_row.request_id;
   select * into donor_row from public.blood_donor_applications where user_id = auth.uid();
-  update public.blood_request_notifications set accepted_at = now(), read_at = now() where id = notification_row.id;
-  update public.blood_donation_requests set status = 'accepted' where response_id = notification_row.id and donor_user_id = auth.uid();
-  insert into public.blood_request_notifications (request_id, recipient_user_id, donor_user_id, message)
-  values (request_row.id, request_row.user_id, auth.uid(), format('Your blood request was accepted by %s. Contact: %s, Location: %s, Blood group: %s.', donor_row.full_name, donor_row.phone, donor_row.location, donor_row.blood_group));
+  update public.blood_request_notifications set accepted_at = now(), read_at = now(), status = 'accepted' where id = notification_row.id;
+  update public.blood_donation_requests set status = 'accepted'
+  where response_id = notification_row.id and donor_user_id = auth.uid() and status in ('pending', 'accepted');
+  insert into public.blood_request_notifications (request_id, sender_user_id, recipient_user_id, donor_user_id, notification_type, status, message, accepted_at)
+  values (request_row.id, auth.uid(), request_row.user_id, auth.uid(), 'donation_confirmation_required', 'unread', format('Your blood request was accepted by %s. Contact: %s, Location: %s, Blood group: %s.', donor_row.full_name, donor_row.phone, donor_row.location, donor_row.blood_group), now());
 end;
 $$;
 
@@ -282,13 +312,21 @@ set search_path = public
 as $$
 declare
   notification_row public.blood_request_notifications;
+  request_row public.blood_requests;
 begin
   select * into notification_row from public.blood_request_notifications
   where id = p_response_id and recipient_user_id = auth.uid()
     and donor_user_id = auth.uid() and accepted_at is null and rejected_at is null;
   if not found then raise exception 'This donor request is no longer available.'; end if;
-  delete from public.blood_donation_requests where response_id = notification_row.id and donor_user_id = auth.uid();
-  delete from public.blood_request_notifications where id = notification_row.id;
+  select * into request_row from public.blood_requests where id = notification_row.request_id;
+  insert into public.blood_request_notifications (request_id, sender_user_id, recipient_user_id, donor_user_id, notification_type, status, message, rejected_at)
+  values (request_row.id, auth.uid(), request_row.user_id, auth.uid(), 'donation_declined', 'unread', 'Your blood request was declined by the donor. You can send it to another donor.', now());
+  update public.blood_request_notifications
+  set rejected_at = now(), read_at = now(), status = 'declined'
+  where id = notification_row.id;
+  update public.blood_donation_requests
+  set status = 'declined'
+  where response_id = notification_row.id and donor_user_id = auth.uid();
 end;
 $$;
 
@@ -364,10 +402,10 @@ begin
     and (lower(coalesce(donor.district, '')) = lower(new.district)
       or lower(coalesce(donor.division, '')) = lower(new.division))
     and lower(coalesce(donor.gender, '')) in ('male', 'female')
-    and donor.last_donation_date + interval '4 months' <= current_date;
+    and donor.last_donation_date + interval '120 days' <= current_date;
 
-  insert into public.blood_request_notifications (request_id, recipient_user_id, message)
-  select new.id, donor.user_id,
+  insert into public.blood_request_notifications (request_id, sender_user_id, recipient_user_id, notification_type, status, message)
+  select new.id, new.user_id, donor.user_id, 'new_blood_request', 'unread',
     format('New %s blood request near %s. Please check LifeLink.', new.blood_group, new.district)
   from public.blood_donor_applications donor
   where donor.status = 'available'
@@ -375,10 +413,10 @@ begin
     and (lower(coalesce(donor.district, '')) = lower(new.district)
       or lower(coalesce(donor.division, '')) = lower(new.division))
     and lower(coalesce(donor.gender, '')) in ('male', 'female')
-    and donor.last_donation_date + interval '4 months' <= current_date;
+    and donor.last_donation_date + interval '120 days' <= current_date;
 
-  insert into public.blood_request_notifications (request_id, recipient_user_id, message)
-  values (new.id, new.user_id, format('%s eligible donor%s matched your blood request.', matched_count, case when matched_count = 1 then '' else 's' end));
+  insert into public.blood_request_notifications (request_id, sender_user_id, recipient_user_id, notification_type, status, message)
+  values (new.id, new.user_id, new.user_id, 'match_summary', 'unread', format('%s eligible donor%s matched your blood request.', matched_count, case when matched_count = 1 then '' else 's' end));
 
   return new;
 end;
@@ -408,11 +446,11 @@ begin
   select blood_group into profile_blood_group from public.profiles where id = auth.uid();
   donor_blood_group := coalesce(nullif(trim(profile_blood_group), ''), nullif(trim(donor_row.blood_group), ''));
   if lower(donor_blood_group) <> lower(trim(request_row.blood_group)) then raise exception 'Your blood group does not match this request.'; end if;
-  if not (lower(coalesce(donor_row.gender, '')) in ('male', 'female') and donor_row.last_donation_date + interval '4 months' <= current_date) then
+  if not (lower(coalesce(donor_row.gender, '')) in ('male', 'female') and donor_row.last_donation_date + interval '120 days' <= current_date) then
     raise exception 'You are not currently eligible to donate.';
   end if;
-  insert into public.blood_request_notifications (request_id, recipient_user_id, donor_user_id, message)
-  values (request_row.id, request_row.user_id, donor_row.user_id, format('A matching %s donor wants to donate for %s. Contact: %s', donor_blood_group, request_row.patient_name, donor_row.phone));
+  insert into public.blood_request_notifications (request_id, sender_user_id, recipient_user_id, donor_user_id, notification_type, status, message)
+  values (request_row.id, auth.uid(), request_row.user_id, donor_row.user_id, 'donation_response', 'unread', format('A matching %s donor wants to donate for %s. Contact: %s', donor_blood_group, request_row.patient_name, donor_row.phone));
 end;
 $$;
 

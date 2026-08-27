@@ -1,67 +1,75 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const form = document.getElementById("blood-request-form");
   const message = document.getElementById("blood-request-message");
+  const submitButton = document.getElementById("blood-request-submit");
   const success = document.getElementById("blood-request-success");
   if (!form || typeof supabaseClient === "undefined") return;
 
-  const fields = {
-    patient_name: "request-patient-name",
-    blood_group: "request-blood-group",
-    division: "request-division",
-    district: "request-district",
-    upazila: "request-upazila",
-    address: "request-address",
-    donation_center: "request-center",
-    contact_number: "request-contact",
-    whatsapp_number: "request-whatsapp",
-    blood_amount_bags: "request-amount",
-    donation_date: "request-date",
-    donation_time: "request-time",
-    hemoglobin: "request-hemoglobin",
-    patient_problem: "request-problem"
-  };
+  const params = new URLSearchParams(window.location.search);
+  const donorId = params.get("donor_id");
+  const donorName = params.get("donor_name");
+  const donorBloodGroup = params.get("blood_group");
+  const bloodGroup = document.getElementById("request-blood-group");
+  const intro = document.getElementById("request-intro");
+  if (!donorId) {
+    message.textContent = "Please start a request from an eligible donor card.";
+    submitButton.disabled = true;
+    return;
+  }
+  if (donorName) intro.textContent = `Complete the request details for ${donorName}. The donor will be notified after submission.`;
+  if (donorBloodGroup && [...bloodGroup.options].some(option => option.value === donorBloodGroup)) bloodGroup.value = donorBloodGroup;
 
-  const readValue = field => document.getElementById(fields[field]).value.trim() || null;
-  const currentDate = new Date();
-  const todayValue = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, "0")}-${String(currentDate.getDate()).padStart(2, "0")}`;
-  const donationDateInput = document.getElementById(fields.donation_date);
-  if (donationDateInput) donationDateInput.min = todayValue;
   const { data: authData } = await supabaseClient.auth.getUser();
   if (!authData.user) {
     window.location.replace("/index/login.html");
     return;
   }
 
+  const value = id => document.getElementById(id).value.trim() || null;
   form.addEventListener("submit", async event => {
     event.preventDefault();
-    message.textContent = "Submitting your blood request...";
+    submitButton.disabled = true;
     message.classList.remove("is-error");
+    message.textContent = "Sending blood request...";
 
-    const donationDate = new Date(`${readValue("donation_date")}T${readValue("donation_time")}`);
-    if (Number.isNaN(donationDate.getTime())) {
-      message.textContent = "Please provide a valid donation date and time.";
+    const requestData = {
+      user_id: authData.user.id,
+      patient_name: value("request-patient-name"),
+      blood_group: value("request-blood-group"),
+      division: value("request-division"),
+      district: value("request-district"),
+      upazila: value("request-upazila"),
+      address: value("request-address"),
+      donation_center: value("request-center"),
+      contact_number: value("request-phone"),
+      whatsapp_number: value("request-whatsapp"),
+      blood_amount_bags: Number(value("request-amount")),
+      donation_date: value("request-date"),
+      donation_time: value("request-time"),
+      patient_problem: value("request-problem")
+    };
+    const { data: request, error: requestError } = await supabaseClient.from("blood_requests").insert(requestData).select("id").single();
+    if (requestError) {
+      message.textContent = requestError.message || "Unable to create blood request.";
       message.classList.add("is-error");
+      submitButton.disabled = false;
       return;
     }
-    if (donationDate.getTime() <= Date.now()) {
-      message.textContent = "Donation date and time must be in the future.";
-      message.classList.add("is-error");
-      return;
-    }
 
-    const request = Object.fromEntries(Object.keys(fields).map(field => [field, readValue(field)]));
-    request.user_id = authData.user.id;
-    request.blood_amount_bags = Number(request.blood_amount_bags);
-    if (request.hemoglobin) request.hemoglobin = Number(request.hemoglobin);
-
-    const { error } = await supabaseClient.from("blood_requests").insert(request);
-    if (error) {
-      message.textContent = error.message || "Unable to submit your blood request.";
+    const { error: donorError } = await supabaseClient.rpc("request_blood_donation_from_donor", {
+      p_donor_user_id: donorId,
+      p_blood_request_id: request.id
+    });
+    if (donorError) {
+      await supabaseClient.from("blood_requests").delete().eq("id", request.id).eq("user_id", authData.user.id);
+      message.textContent = donorError.message || "Unable to notify this donor.";
       message.classList.add("is-error");
+      submitButton.disabled = false;
       return;
     }
 
     form.hidden = true;
     success.hidden = false;
+    window.setTimeout(() => window.location.replace("/index/blood.html"), 800);
   });
 });

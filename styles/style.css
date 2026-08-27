@@ -1055,19 +1055,16 @@ textarea:focus {
 .profile-page-content > .profile-heading { order: 1 }
 .profile-page-content > .profile-hero { order: 1 }
 .profile-page-content > .profile-layout { order: 3 }
-.profile-page-content > .profile-blood-activity { order: 4 }
 .profile-page[data-active-profile-view="blood-requests"] .profile-page-content > [data-profile-content="overview"],
 .profile-page[data-active-profile-view="blood-requests"] .profile-page-content > .profile-layout,
 .profile-page[data-active-profile-view="blood-requests"] .profile-page-content > .profile-overview,
 .profile-page[data-active-profile-view="blood-requests"] .profile-page-content > .profile-heading,
 .profile-page[data-active-profile-view="blood-requests"] .profile-page-content > .profile-hero { display: none !important }
-.profile-page[data-active-profile-view="blood-requests"] .profile-page-content > .profile-blood-activity { display: block !important; margin-top: 0 }
 .profile-page[data-active-profile-view="donations"] .profile-page-content > [data-profile-content="overview"],
 .profile-page[data-active-profile-view="donations"] .profile-page-content > .profile-layout,
 .profile-page[data-active-profile-view="donations"] .profile-page-content > .profile-overview,
 .profile-page[data-active-profile-view="donations"] .profile-page-content > .profile-heading,
 .profile-page[data-active-profile-view="donations"] .profile-page-content > .profile-hero { display: none !important }
-.profile-page[data-active-profile-view="donations"] .profile-page-content > .profile-blood-activity { display: block !important; margin-top: 0 }
 .profile-page[data-active-profile-view="achievements"] .profile-layout { grid-template-columns: 1fr; }
 .profile-page [hidden] { display: none !important }
 .profile-section-nav { position: sticky; top: 92px; display: grid; gap: 6px; padding: 8px 0 }
@@ -1194,17 +1191,51 @@ textarea:focus {
 .profile-blood-activity { margin-top: 20px; padding: 28px; border: 1px solid var(--border); border-radius: 20px; background: var(--surface); box-shadow: var(--shadow); scroll-margin-top: 100px }
 .profile-blood-activity .form-card-heading { margin-bottom: 18px }
 .profile-blood-activity-grid { display: grid; grid-template-columns: 1fr; gap: 16px }
+.profile-notification-card { padding: 18px; box-shadow: none }
+.profile-notification-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 14px }
+.profile-notification-heading h3 { margin: 0 0 4px; font: 700 18px "Plus Jakarta Sans" }
+.profile-notification-heading p { margin: 0; font-size: 12px }
+.notification-count { display: inline-grid; place-items: center; min-width: 20px; height: 20px; margin-left: 5px; padding: 0 5px; border-radius: 999px; background: var(--danger); color: #fff; font-size: 11px; vertical-align: middle }
+.profile-notification-list { display: grid; gap: 8px }
+.profile-notification-item { display: grid; gap: 5px; padding: 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface) }
+.profile-notification-item.is-unread { border-left: 3px solid var(--primary); background: #f5fffe }
+.profile-notification-item strong { color: var(--text); font-size: 13px }
+.profile-notification-item p { margin: 0; color: var(--muted); font-size: 12px }
+.profile-notification-item time { color: var(--muted); font-size: 11px }
+.profile-notification-actions { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 4px }
+.profile-notification-actions button { padding: 6px 10px; border: 1px solid var(--primary); border-radius: 7px; background: #fff; color: var(--primary); font-size: 11px; font-weight: 700 }
 .profile-activity-card { padding: 18px; box-shadow: none }
 .profile-activity-card h3 { margin: 0 0 12px; font: 700 18px "Plus Jakarta Sans" }
 .profile-activity-list { display: grid; gap: 8px }
-.profile-blood-activity-grid > .profile-activity-card:first-child .profile-activity-list { grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: start }
 .profile-activity-item { display: grid; gap: 3px; padding: 11px 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); font-size: 12px }
 .profile-activity-item.is-new { border-left: 3px solid var(--primary); background: #f5fffe }
 .profile-activity-item strong { color: var(--text); font-size: 13px }
 .profile-activity-item span { color: var(--muted); overflow-wrap: anywhere }
 .profile-activity-item small { color: var(--muted); font-size: 11px }
 .profile-activity-item b { width: fit-content; color: var(--primary); font-size: 11px; text-transform: capitalize }
-.donation-request-item { gap: 5px }
+.sent-donation-table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 10px }
+.sent-donation-table { width: 100%; min-width: 760px; border-collapse: collapse; table-layout: fixed; font-size: 12px }
+.sent-donation-table th, .sent-donation-table td { padding: 12px 14px; text-align: left; vertical-align: middle; border-bottom: 1px solid var(--border) }
+.sent-donation-table th { color: var(--muted); font-size: 11px; font-weight: 700; white-space: nowrap }
+.sent-donation-table td { color: var(--text) }
+.sent-donation-table tbody tr:last-child td { border-bottom: 0 }
+.sent-donation-table td:first-child { display: grid; gap: 3px }
+.sent-donation-table td:first-child strong { font-size: 13px }
+.sent-donation-table td:first-child small { color: var(--muted); font-size: 11px }
+.sent-donation-table th:nth-child(1), .sent-donation-table td:nth-child(1) { width: 18% }
+.sent-donation-table th:nth-child(2), .sent-donation-table td:nth-child(2) { width: 12% }
+.sent-donation-table th:nth-child(3), .sent-donation-table td:nth-child(3) { width: 14% }
+.sent-donation-table th:nth-child(4), .sent-donation-table td:nth-child(4) { width: 12% }
+.sent-donation-table th:nth-child(5), .sent-donation-table td:nth-child(5) { width: 28%; overflow-wrap: anywhere }
+.sent-donation-table th:nth-child(6), .sent-donation-table td:nth-child(6) { width: 16% }
+.sent-request-status { font-size: 11px; text-transform: capitalize }
+.sent-request-status-pending { color: #a16b00 }
+.sent-request-status-accepted { color: var(--primary) }
+.sent-request-status-declined { color: var(--danger) }
+.sent-request-status-completed { color: var(--primary) }
+.donation-request-notification { margin: 4px 0; padding: 8px 10px; border-left: 3px solid var(--border); background: var(--surface); color: var(--muted); font-size: 11px }
+.donation-request-notification.is-new { border-left-color: var(--primary); background: #f5fffe; color: var(--text) }
+.donation-request-notification time { margin-left: 4px; color: var(--muted); font-size: 10px }
 .donation-request-contact { display: flex; flex-wrap: wrap; gap: 8px 12px; margin-top: 4px }
 .donation-request-contact a { color: var(--primary); font-size: 11px; font-weight: 700; overflow-wrap: anywhere }
 .donation-request-item > b { color: var(--primary); font-size: 11px }
@@ -1215,9 +1246,11 @@ textarea:focus {
 .gave-blood-button:hover { background: var(--primary-2) }
 .gave-blood-button:disabled { cursor: wait; opacity: .65 }
 .donation-request-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; margin-top: 5px }
-.delete-donation-request-button { width: fit-content; padding: 6px 10px; border: 1px solid #f0b7b7; border-radius: 7px; background: var(--surface); color: #c24141; font-size: 11px; font-weight: 700 }
-.delete-donation-request-button:hover { background: #fff5f5; }
-.delete-donation-request-button:disabled { cursor: wait; opacity: .65 }
+.details-donation-request-button { width: fit-content; padding: 6px 10px; border: 1px solid var(--primary); border-radius: 7px; background: var(--surface); color: var(--primary); font-size: 11px; font-weight: 700 }
+.details-donation-request-button:hover { background: var(--accent); }
+.clear-donation-request-button { width: fit-content; padding: 6px 10px; border: 1px solid #f0b7b7; border-radius: 7px; background: var(--surface); color: #c24141; font-size: 11px; font-weight: 700 }
+.clear-donation-request-button:hover { background: #fff5f5; }
+.clear-donation-request-button:disabled { cursor: wait; opacity: .65 }
 .incoming-request-table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; }
 .incoming-request-table { width: 100%; min-width: 0; table-layout: fixed; border-collapse: collapse; font-size: 13px; }
 .incoming-request-table th, .incoming-request-table td { padding: 14px 16px; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
@@ -1235,15 +1268,14 @@ textarea:focus {
 .incoming-request-actions { display: flex; gap: 6px; }
 .incoming-request-actions button { padding: 6px 10px; border: 1px solid var(--primary); border-radius: 7px; background: var(--surface); color: var(--primary); font-size: 11px; font-weight: 700; cursor: pointer; }
 .incoming-request-actions button:hover { background: var(--accent); }
+.incoming-request-actions .incoming-request-details { border-color: var(--border); color: var(--text); }
 .incoming-request-actions .incoming-request-decline { border-color: #f0b7b7; color: var(--danger); }
 .incoming-request-actions .incoming-request-decline:hover { background: #fff0f0; }
 .incoming-request-actions button:disabled { cursor: default; opacity: .55; }
-.donor-card-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px }
+.donor-card-actions { display: flex; flex-wrap: nowrap; align-items: center; justify-content: space-between; grid-column: 1 / -1; width: 100%; gap: 8px; margin-left: 0 }
 .donor-card-actions .btn { margin-top: 0; }
+.donor-contact-button:disabled { cursor: not-allowed; opacity: .55; transform: none; box-shadow: none; }
 .donor-request-button:disabled { cursor: not-allowed; opacity: .55; transform: none; box-shadow: none; }
-.donor-request-dialog { width: min(460px, calc(100vw - 40px)); }
-.donor-request-dialog > label { display: block; margin: 18px 0 7px; color: var(--muted); font-size: 12px; font-weight: 700 }
-.donor-request-dialog > select { width: 100%; }
 .profile-request-item { cursor: pointer; transition: border-color .2s ease, background .2s ease, transform .2s ease, box-shadow .2s ease }
 .profile-request-item:hover, .profile-request-item:focus-visible { border-color: #9bd9d4; background: #f5fffe; outline: none; transform: translateY(-1px); box-shadow: 0 8px 18px rgba(16, 42, 67, .08) }
 .profile-request-item em { color: var(--primary); font-size: 11px; font-style: normal; font-weight: 700 }
@@ -1377,17 +1409,15 @@ textarea:focus {
 .quick-blood-filter > span { margin-right: 5px }
 .quick-blood-filter .blood-type-button { min-width: 42px; min-height: 38px; padding: 7px 10px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); color: var(--muted); font-size: 12px; font-weight: 800; transition: .25s }
 .quick-blood-filter .blood-type-button:hover, .quick-blood-filter .blood-type-button.active { border-color: var(--primary); background: var(--primary); color: #fff; box-shadow: 0 7px 16px rgba(11, 143, 135, .18) }
-.donor-filters-toggle { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 40px; padding: 8px 14px; border: 1px solid var(--border); border-radius: 10px; background: #fff; color: var(--text); font-size: 13px; font-weight: 700; box-shadow: 0 8px 20px rgba(16, 42, 67, .05) }
-.donor-filters-toggle svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8 }
-.donor-filters-toggle:hover, .donor-filters-toggle[aria-expanded="true"] { border-color: #9bd9d4; background: var(--accent); color: var(--primary) }
 .donor-browser { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; align-items: start }
 .donor-browser.filters-open { grid-template-columns: 280px minmax(0, 1fr) }
 .donor-filters { display: grid; gap: 9px; padding: 18px; border: 1px solid var(--border); border-radius: 14px; background: var(--surface); box-shadow: var(--shadow); position: sticky; top: 88px }
-.donor-filters:not(.is-open) { display: none }
-.donor-filters h3 { margin: 0 0 4px; font: 700 18px "Plus Jakarta Sans" }
+.blood-services-panel .donor-filters { position: static; width: min(280px, calc(100vw - 40px)); margin-top: 12px; box-sizing: border-box }
+.blood-services-panel .donor-filters .btn { width: 100% !important; min-width: 0 !important; max-width: none !important; inline-size: 100% !important; flex: 0 1 auto !important }
+.donor-filters h3 { margin: 0 0 2px; font: 700 16px "Plus Jakarta Sans" }
 .donor-filters label { font-size: 12px }
-.donor-filters input, .donor-filters select { min-height: 38px; padding: 8px 10px; font-size: 12px }
-.donor-filters .btn { width: 100%; min-height: 40px; padding: 9px 14px; margin-top: 3px }
+.donor-filters input, .donor-filters select { min-height: 34px; padding: 6px 8px; font-size: 12px }
+.donor-filters .btn { width: 100%; min-height: 36px; padding: 7px 12px; margin-top: 2px }
 .filter-check { display: flex; align-items: center; gap: 8px; margin: 4px 0 }
 .filter-check input { width: auto; min-height: auto; accent-color: var(--primary) }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0 }
@@ -1399,7 +1429,7 @@ textarea:focus {
 .eligible-filter-button { color: var(--primary); border-color: #b9dfdc }
 .donor-card[hidden] { display: none }
 .donor-card { display: flex; flex-direction: column; justify-content: space-between; gap: 20px }
-.donor-card-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 12px }
+.donor-card-footer { display: grid; grid-template-columns: minmax(0, 1fr); align-items: center; gap: 12px; font-size: 12px }
 .donor-card-meta { display: grid; gap: 4px }
 .donor-status { font-weight: 700 }
 .donor-status.is-eligible { color: var(--primary) }
@@ -1783,7 +1813,6 @@ textarea:focus {
     position: static
   }
 
-  .donor-filters-toggle { display: inline-flex; margin: 0 0 16px }
   .donor-filters:not(.is-open) { display: none }
 
   .grid,
@@ -2004,9 +2033,8 @@ textarea:focus {
 
   .profile-blood-activity { padding: 20px }
   .profile-blood-activity .form-card-heading { align-items: flex-start; flex-direction: column }
-  .profile-blood-activity .form-card-heading .btn { width: 100%; margin-top: 4px }
   .profile-blood-activity-grid { grid-template-columns: 1fr }
-  .profile-blood-activity-grid > .profile-activity-card:first-child .profile-activity-list { grid-template-columns: 1fr }
+
 
   .crop-modal .profile-response-details-dialog { width: calc(100vw - 24px); max-height: calc(100vh - 24px); padding: 20px; border-radius: 18px }
   .profile-response-list { padding-right: 2px }
@@ -2113,26 +2141,28 @@ textarea:focus {
 .blood-page-actions .is-current { border-color: var(--primary); background: var(--primary); color: #fff }
 .blood-page-actions .is-current:hover { border-color: var(--primary); background: var(--primary); color: #fff }
 .blood-donor-page .section-head { display: block }
-.blood-donor-content-layout { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 28px; align-items: start }
+.blood-donor-content-layout { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 24px; align-items: start }
 .blood-donor-page > .container { width: calc(100% - 40px); max-width: none; margin-left: 20px; margin-right: 20px }
 .blood-services-panel { position: sticky; top: 92px; padding: 20px 0 24px 16px }
 .blood-services-panel::before { position: absolute; top: 18px; bottom: 22px; left: 0; width: 3px; border-radius: 3px; background: var(--primary); content: ""; opacity: .8 }
 .blood-services-panel h3 { margin: 0 0 14px; color: var(--primary); font: 700 20px "Plus Jakarta Sans"; letter-spacing: .01em }
 .blood-services-panel .blood-page-actions { display: grid; justify-items: start; gap: 10px; width: 100%; margin: 0 }
 .blood-services-panel .blood-page-actions { width: 100% }
-.blood-services-panel .blood-page-actions .btn,
-.blood-services-panel .donor-filters-toggle { display: flex; align-items: center; justify-content: center; width: 140px; max-width: 140px; height: 40px !important; min-height: 40px !important; flex: 0 0 140px; box-sizing: border-box; padding: 9px 10px; border-radius: 10px; text-align: center; line-height: 20px }
+.blood-services-panel .blood-page-actions .btn { display: flex; align-items: center; justify-content: center; width: 140px; max-width: 140px; height: 40px !important; min-height: 40px !important; flex: 0 0 140px; box-sizing: border-box; padding: 9px 10px; border-radius: 10px; text-align: center; line-height: 20px }
 .blood-services-panel .blood-service-control { width: 140px !important; max-width: 140px !important; min-width: 140px !important; flex: 0 0 140px !important; flex-basis: 140px !important; inline-size: 140px !important }
 .blood-services-panel .blood-page-actions .btn { border: 1px solid var(--border); background: #fff; color: var(--text); box-shadow: 0 8px 20px rgba(16, 42, 67, .05) }
 .blood-services-panel .blood-page-actions .btn:hover { border-color: #9bd9d4; background: var(--accent); color: var(--primary) }
 .blood-services-panel .blood-service-control.is-current { border-color: var(--primary); background: var(--primary); color: #fff }
 .donor-application-page .blood-services-panel .blood-service-control.is-current { border-color: var(--border); background: #fff; color: var(--text) }
 .donor-application-page .blood-services-panel .blood-service-control.is-current:hover { border-color: #9bd9d4; background: var(--accent); color: var(--primary) }
-.blood-services-panel .donor-filters-toggle { margin-top: 10px }
 .blood-service-control { display: flex !important; align-items: center; justify-content: center; align-self: start; width: 140px !important; min-width: 140px !important; max-width: 140px !important; inline-size: 140px !important; height: 40px !important; min-height: 40px !important; max-height: 40px !important; flex: 0 0 140px !important; box-sizing: border-box; padding: 9px 10px !important; font-size: 14px; font-weight: 600; line-height: 20px }
 .blood-donor-main { min-width: 0 }
 .blood-donor-main .section-head { margin-top: 48px }
 .blood-request-page { background: linear-gradient(180deg, #f0fbfa 0, var(--bg) 430px) }
+.blood-request-page > .container { width: min(1120px, calc(100% - 40px)); margin: 0 auto }
+.blood-request-heading { display: block; text-align: left; margin-bottom: 24px }
+.blood-request-heading h1 { margin-top: 10px }
+.blood-request-heading p { max-width: 760px }
 .blood-request-content-layout { display: grid; grid-template-columns: 220px minmax(0, 900px); gap: 28px; align-items: start }
 .blood-request-page > .container { width: calc(100% - 40px); max-width: none; margin-left: 20px; margin-right: 20px }
 .blood-request-main { min-width: 0 }
@@ -2140,12 +2170,6 @@ textarea:focus {
 .blood-request-page .profile-heading { width: min(900px, 100%); margin-left: auto; margin-right: auto }
 .blood-request-card { max-width: 900px; padding: 28px }
 .blood-request-notice { margin: 0 0 20px; padding: 12px 14px; border: 1px solid #b9dfdc; border-radius: 10px; background: var(--accent); color: var(--text); font-size: 13px }
-.blood-requests-page { background: linear-gradient(180deg, #f0fbfa 0, var(--bg) 430px) }
-.blood-requests-content-layout { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 28px; align-items: start }
-.blood-requests-page > .container { width: calc(100% - 40px); max-width: none; margin-left: 20px; margin-right: 20px }
-.blood-requests-main { min-width: 0 }
-.blood-requests-services-panel { margin-top: 28px }
-.blood-requests-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; max-width: 1120px; margin: 0 auto }
 .blood-request-notifications { max-width: 900px; margin: 0 auto 22px; padding: 16px 18px; border: 1px solid #b9dfdc; border-radius: 14px; background: var(--accent) }
 .blood-request-notification-list { display: grid; gap: 8px; margin-top: 8px }
 .blood-request-notification { padding: 10px 12px; border-radius: 9px; background: #fff; color: var(--text); font-size: 12px }
@@ -2240,19 +2264,15 @@ textarea:focus {
 @media(max-width:700px) {
   .blood-donor-content-layout { grid-template-columns: 1fr; gap: 0 }
   .blood-request-content-layout { grid-template-columns: 1fr; gap: 0 }
-  .blood-requests-content-layout { grid-template-columns: 1fr; gap: 0 }
   .donor-application-content-layout { grid-template-columns: 1fr; gap: 0 }
   .blood-services-panel { position: static; padding: 0; margin: 0 0 24px }
   .blood-request-services-panel { margin-top: 0 }
-  .blood-requests-services-panel { margin-top: 0 }
   .donor-application-services-panel { margin-top: 0 }
   .donor-application-main .donor-application-page-heading { width: 100% }
   .blood-request-page .profile-heading { width: 100%; margin-left: 0; margin-right: 0 }
-  .blood-requests-main .section-head { margin-top: 0 }
   .blood-services-panel h3 { margin-bottom: 12px }
   .blood-services-panel .blood-page-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; max-width: 320px }
   .blood-services-panel .blood-page-actions .blood-service-control { width: 140px !important; min-width: 140px !important; max-width: 140px !important; inline-size: 140px !important; flex-basis: 140px !important; height: 40px !important; min-height: 40px !important; max-height: 40px !important }
-  .blood-services-panel .donor-filters-toggle { grid-column: 2; width: 140px !important; max-width: 140px !important; min-width: 140px !important; inline-size: 140px !important; flex-basis: 140px !important; height: 40px !important; min-height: 40px !important; max-height: 40px !important; margin-top: 0 }
   .blood-donor-main .section-head { margin-top: 0 }
   .blood-page-actions { justify-content: flex-start; margin-top: 18px }
   .blood-page-actions .btn { flex: 1 1 180px; text-align: center }
@@ -2272,8 +2292,7 @@ textarea:focus {
 
 @media(max-width:420px) {
   .blood-services-panel .blood-page-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; gap: 10px }
-  .blood-services-panel .blood-page-actions .blood-service-control,
-  .blood-services-panel .donor-filters-toggle { width: 140px !important; min-width: 140px !important; max-width: 140px !important; inline-size: 140px !important; flex-basis: 140px !important; height: 40px !important; grid-column: auto }
+  .blood-services-panel .blood-page-actions .blood-service-control { width: 140px !important; min-width: 140px !important; max-width: 140px !important; inline-size: 140px !important; flex-basis: 140px !important; height: 40px !important; grid-column: auto }
 }
 
 @media(min-width:480px) and (max-width:700px) {
@@ -2283,21 +2302,17 @@ textarea:focus {
 }
 
 @media(max-width:1000px) and (min-width:701px) {
-  .blood-requests-list { grid-template-columns: repeat(2, minmax(0, 1fr)) }
 }
 
 @media(max-width:1000px) {
   .request-browser { grid-template-columns: 1fr; }
   .request-browser.filters-open { grid-template-columns: 1fr; }
   .request-browser-toolbar { position: static; width: 100%; }
-  .blood-requests-list { grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; min-width: 0; }
   .request-filters-toggle { display: inline-flex; }
   .request-browser-toolbar:not(.is-open) { display: none; }
 }
 
 @media(max-width:700px) {
-  .blood-requests-page { overflow-x: hidden; }
-  .blood-requests-list { grid-template-columns: minmax(0, 1fr); gap: 14px; }
   .blood-request-item { width: 100%; min-width: 0; padding: 18px; }
   .request-card-identity { min-width: 0; }
   .request-card-identity > div { min-width: 0; }

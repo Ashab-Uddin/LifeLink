@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Request a Donor - LifeLink</title>
+  <title>New Blood Request - LifeLink</title>
   <link rel="stylesheet" href="/styles/style.css">
 </head>
 <body>
@@ -12,8 +12,6 @@
     <button class="mobile-toggle" data-menu-toggle aria-label="Open navigation">&#9776;</button>
     <a class="nav-link" href="/index/dashboard.html">Dashboard</a>
     <a class="nav-link" href="/index/prediction.html">AI Prediction</a>
-    <a class="nav-link" href="/index/doctor.html">Doctors</a>
-    <a class="nav-link" href="/index/nearby.html">Nearby</a>
     <a class="nav-link active" href="/index/blood.html">Blood Donor</a>
     <a class="nav-link" href="/index/profile.html">My Profile</a>
     <a class="nav-link emergency-link" href="/index/ambulance.html">Emergency</a>
@@ -21,62 +19,33 @@
 
   <main class="page blood-request-page">
     <div class="container">
-      <div class="blood-request-content-layout">
-        <aside class="blood-services-panel blood-request-services-panel" aria-label="Services">
-          <h3>Services</h3>
-          <div class="blood-page-actions">
-            <a class="btn btn-outline blood-service-control" href="/index/donor-application.html">Apply to donate</a>
-            <a class="btn btn-outline blood-service-control" href="/index/blood.html">Blood Donor</a>
-            <a class="btn btn-outline blood-service-control" href="/index/blood-requests.html">All requests</a>
-          </div>
-        </aside>
-        <div class="blood-request-main">
-      <div class="profile-heading">
-        <div>
-          <span class="badge">Blood support</span>
-          <h1>Blood Request Form</h1>
-          <p class="muted">Please fill out the required information to submit a blood request.</p>
-        </div>
+      <div class="profile-heading blood-request-heading">
+        <span class="badge">Blood support</span>
+        <h1>New Blood Request</h1>
+        <p class="muted" id="request-intro">Share the patient details so the donor can review your request.</p>
       </div>
-
       <section class="form-card blood-request-card">
-        <p class="blood-request-notice">Before submitting, please check the donor’s eligibility and provide accurate patient information.</p>
         <form id="blood-request-form" class="form-grid">
-          <div class="field"><label for="request-patient-name">Patient name</label><input id="request-patient-name" type="text" required placeholder="Patient name"></div>
-          <div class="field"><label for="request-blood-group">Blood group</label><select id="request-blood-group" required><option value="">Select blood group</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option></select></div>
+          <div class="field full"><label for="request-patient-name">Patient / requester name</label><input id="request-patient-name" type="text" required placeholder="Patient name"></div>
+          <div class="field"><label for="request-blood-group">Blood group</label><select id="request-blood-group" required disabled><option value="">Select blood group</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option></select></div>
+          <div class="field"><label for="request-amount">Required blood amount</label><input id="request-amount" type="number" min="1" max="20" value="1" required></div>
           <div class="field"><label for="request-division">Division</label><select id="request-division" required><option value="">Select division</option><option>Barisal</option><option>Chattogram</option><option>Dhaka</option><option>Khulna</option><option>Mymensingh</option><option>Rajshahi</option><option>Rangpur</option><option>Sylhet</option></select></div>
-          <div class="field"><label for="request-district">District</label><input id="request-district" type="text" required placeholder="Select district"></div>
-          <div class="field"><label for="request-upazila">Upazila</label><input id="request-upazila" type="text" placeholder="Select upazila"></div>
-          <div class="field"><label for="request-address">Address <span class="muted">(optional)</span></label><input id="request-address" type="text" placeholder="Enter address"></div>
-          <div class="field"><label for="request-center">Donation center / hospital</label><input id="request-center" type="text" required placeholder="Donation center or hospital"></div>
-          <div class="field"><label for="request-contact">Contact number</label><input id="request-contact" type="tel" required placeholder="+880XXXXXXXXXX"></div>
-          <div class="field"><label for="request-whatsapp">WhatsApp number</label><input id="request-whatsapp" type="tel" placeholder="+880XXXXXXXXXX"></div>
-          <div class="field"><label for="request-amount">Amount of blood (bag)</label><input id="request-amount" type="number" min="1" step="1" value="1" required></div>
-          <div class="field"><label for="request-date">Date of donation</label><input id="request-date" type="date" required></div>
-          <div class="field"><label for="request-time">Time of donation</label><input id="request-time" type="time" required></div>
-          <div class="field"><label for="request-hemoglobin">Hemoglobin (g/dL)</label><input id="request-hemoglobin" type="number" min="0" step="0.1" placeholder="Optional"></div>
-          <div class="field full"><label for="request-problem">Patient problem <span class="muted">(optional)</span></label><textarea id="request-problem" rows="3" placeholder="Describe the patient's condition"></textarea></div>
-          <label class="donor-awareness full"><input id="request-awareness" type="checkbox" required><span class="donor-awareness-copy"><span><strong>Awareness</strong> Read and accept the terms and conditions.</span><small>By checking this box, you agree to our Terms of Service and Privacy Policy.</small></span></label>
-          <div class="donor-form-footer full"><p id="blood-request-message" class="profile-message" role="status"></p><button class="btn btn-primary" type="submit">Submit blood request</button></div>
+          <div class="field"><label for="request-district">District</label><input id="request-district" type="text" required placeholder="District"></div>
+          <div class="field"><label for="request-upazila">Upazila</label><input id="request-upazila" type="text" placeholder="Upazila"></div>
+          <div class="field"><label for="request-time">Preferred time</label><input id="request-time" type="time" required></div>
+          <div class="field full"><label for="request-address">Address</label><input id="request-address" type="text" placeholder="Hospital or complete address"></div>
+          <div class="field"><label for="request-center">Donation center / hospital</label><input id="request-center" type="text" required placeholder="Hospital or donation center"></div>
+          <div class="field"><label for="request-phone">Phone number</label><input id="request-phone" type="tel" required placeholder="01XXXXXXXXX"></div>
+          <div class="field"><label for="request-whatsapp">WhatsApp number</label><input id="request-whatsapp" type="tel" placeholder="01XXXXXXXXX"></div>
+          <div class="field"><label for="request-date">Required date</label><input id="request-date" type="date" required></div>
+          <div class="field full"><label for="request-problem">Reason / emergency details</label><textarea id="request-problem" rows="3" placeholder="Describe the patient's condition or urgency"></textarea></div>
+          <div class="donor-form-footer full"><p id="blood-request-message" class="profile-message" role="status"></p><button id="blood-request-submit" class="btn btn-primary" type="submit">Submit blood request</button></div>
         </form>
-        <div id="blood-request-success" class="donor-success" hidden role="status"><div class="donor-success-mark" aria-hidden="true">&#10003;</div><h2>Blood request submitted</h2><p>Your request has been securely saved. Donor matching support can now use these details.</p><a class="btn btn-primary" href="/index/blood.html">Find eligible donors</a></div>
+        <div id="blood-request-success" class="donor-success" hidden role="status"><div class="donor-success-mark" aria-hidden="true">&#10003;</div><h2>Blood request sent</h2><p>The donor has been notified. You can now contact them from the donor page.</p><a class="btn btn-primary" href="/index/blood.html">Back to blood donors</a></div>
       </section>
-        </div>
-      </div>
     </div>
   </main>
 
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand"><a class="footer-logo" href="/index/index.html"><span class="brand-mark">L</span>LifeLink</a><p>Connected healthcare tools for clearer decisions, faster support, and better everyday care.</p><span class="footer-status"><span></span>Care tools available 24/7</span></div>
-        <div class="footer-column"><h3>Platform</h3><a href="/index/dashboard.html">Dashboard</a><a href="/index/prediction.html">AI Prediction</a><a href="/index/history.html">Prediction History</a></div>
-        <div class="footer-column"><h3>Find care</h3><a href="/index/doctor.html">Doctor Suggestions</a><a href="/index/nearby.html">Nearby Doctors</a><a href="/index/blood.html">Blood Donors</a></div>
-        <div class="footer-column footer-support"><h3>Need help now?</h3><a class="footer-emergency" href="/index/ambulance.html">Open Emergency Support <span>&rarr;</span></a><a href="/index/profile.html">My Profile</a><a href="/index/login.html">Sign in to LifeLink</a></div>
-      </div>
-      <div class="footer-bottom"><span>&copy; 2026 LifeLink. Built for more connected care.</span><span>AI guidance is informational and not a substitute for professional medical advice.</span></div>
-    </div>
-  </footer>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="/js/supabase.js"></script>
   <script src="/js/i18n.js"></script>
