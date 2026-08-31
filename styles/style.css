@@ -475,6 +475,9 @@ img {
 .location-suggestions button, .location-suggestions span { width: 100%; padding: 10px 12px; border: 0; background: transparent; color: var(--text); text-align: left; font: inherit; font-size: 13px }
 .location-suggestions button { cursor: pointer }
 .location-suggestions button:hover { background: rgba(11, 143, 135, .08) }
+.pickup-location-wrapper { display: grid; gap: 4px }
+.pickup-coordinates-display { color: var(--muted); font-size: 12px; font-weight: 400 }
+.pickup-location-buttons { display: flex; gap: 8px; margin-top: 12px }
 .ambulance-request-section { margin-top: 24px; padding: 24px }
 .compact-section-head { margin: 0 0 16px }
 .ambulance-request-list { overflow-x: auto }

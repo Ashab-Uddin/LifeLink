@@ -14,12 +14,21 @@ document.addEventListener("DOMContentLoaded", async () => {
   const bookingDestination = document.getElementById("booking-destination");
   const bookingOtherField = document.getElementById("booking-other-destination-field");
   const bookingMessage = document.getElementById("booking-destination-message");
+  const bookingPickupSearch = document.getElementById("booking-pickup-search");
+  const bookingUseDefaultLocationBtn = document.getElementById("booking-use-default-location");
+  const bookingChangePickupBtn = document.getElementById("booking-change-pickup");
+  const bookingLocationMessage = document.getElementById("booking-location-message");
+  const ambulanceUseDefaultLocationBtn = document.getElementById("ambulance-use-default-location");
+  const ambulanceDefaultLocationMessage = document.getElementById("ambulance-default-location-message");
+  const ambulancePickupLocation = document.getElementById("ambulance-pickup-location");
+  const ambulancePickupCoordinates = document.getElementById("ambulance-pickup-coordinates");
   if (!list || typeof supabaseClient === "undefined") return;
 
   let currentUser = null;
   let selectedAmbulance = null;
   let ambulances = [];
   let currentLocation = null;
+  let defaultLocation = null;
   let selectedDestination = null;
   let selectedPickup = null;
   let locationSearchSequence = 0;
@@ -230,17 +239,33 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
       navigator.geolocation.getCurrentPosition(position => {
         currentLocation = { latitude: position.coords.latitude, longitude: position.coords.longitude };
-        document.getElementById("ambulance-pickup-location").value = "Current location";
+        defaultLocation = { 
+          name: "My Current Location", 
+          latitude: position.coords.latitude, 
+          longitude: position.coords.longitude 
+        };
+        
+        // Set default in booking section
+        bookingPickupSearch.value = "My Current Location";
+        bookingPickupSearch.dataset.isEditable = "false";
+        ambulancePickupCoordinates.textContent = `${position.coords.latitude.toFixed(6)}, ${position.coords.longitude.toFixed(6)}`;
+        bookingUseDefaultLocationBtn.hidden = false;
+        bookingChangePickupBtn.hidden = true;
+        bookingLocationMessage.textContent = "Default location detected: " + position.coords.latitude.toFixed(4) + ", " + position.coords.longitude.toFixed(4);
+        
+        // Set default in request modal
+        ambulancePickupLocation.value = "My Current Location";
+        ambulancePickupLocation.dataset.defaultLocation = JSON.stringify(defaultLocation);
         document.getElementById("ambulance-pickup-lat").value = position.coords.latitude.toFixed(6);
         document.getElementById("ambulance-pickup-lng").value = position.coords.longitude.toFixed(6);
+        
         locationStatus.textContent = `Current location detected: ${position.coords.latitude.toFixed(4)}, ${position.coords.longitude.toFixed(4)}`;
-        document.getElementById("ambulance-pickup-coordinates").textContent = `${position.coords.latitude.toFixed(6)}, ${position.coords.longitude.toFixed(6)}`;
-        document.getElementById("booking-pickup-search").value = "My Current Location";
-        selectedPickup = { name: "My Current Location", latitude: position.coords.latitude, longitude: position.coords.longitude };
+        
+        selectedPickup = defaultLocation;
         resolve(currentLocation);
       }, () => {
         locationStatus.textContent = "Unable to get your current location. Please enable location access or enter pickup coordinates manually.";
-        document.getElementById("ambulance-pickup-summary").textContent = "Location permission denied; enter pickup manually in the request form.";
+        bookingLocationMessage.textContent = "Location permission denied; enter pickup manually.";
         resolve(null);
       }, { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 });
     });
@@ -272,27 +297,56 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (!bookingDestination.value.trim()) searchLocations("", bookingDestinationSuggestions, result => updateBookingDestination(result.display_name, Number(result.lat), Number(result.lon)));
   });
   document.getElementById("booking-pickup-search")?.addEventListener("input", () => {
+    if (bookingPickupSearch.dataset.isEditable === "false") {
+      bookingPickupSearch.dataset.isEditable = "true";
+      bookingUseDefaultLocationBtn.hidden = true;
+      bookingChangePickupBtn.hidden = false;
+    }
     selectedPickup = null;
     currentLocation = null;
-    document.getElementById("booking-pickup-coordinates").textContent = "Select a pickup suggestion to set coordinates.";
+    ambulancePickupCoordinates.textContent = "Select a pickup suggestion to set coordinates.";
     clearTimeout(pickupSearchTimer);
     pickupSearchTimer = setTimeout(() => searchLocations(value("booking-pickup-search"), bookingPickupSuggestions, result => {
       selectedPickup = { name: result.display_name, latitude: Number(result.lat), longitude: Number(result.lon) };
       currentLocation = selectedPickup;
-      document.getElementById("ambulance-pickup-coordinates").textContent = `${selectedPickup.latitude.toFixed(6)}, ${selectedPickup.longitude.toFixed(6)}`;
-      document.getElementById("booking-location-message").textContent = "Pickup location updated.";
+      ambulancePickupCoordinates.textContent = `${selectedPickup.latitude.toFixed(6)}, ${selectedPickup.longitude.toFixed(6)}`;
+      bookingLocationMessage.textContent = "Pickup location updated.";
+      bookingPickupSearch.dataset.isEditable = "true";
+      bookingUseDefaultLocationBtn.hidden = true;
+      bookingChangePickupBtn.hidden = false;
       ambulances.sort((first, second) => (distanceFromCurrentLocation(first) ?? Number.MAX_VALUE) - (distanceFromCurrentLocation(second) ?? Number.MAX_VALUE));
       renderAmbulances();
     }), 350);
   });
-  document.getElementById("booking-use-current-location")?.addEventListener("click", async () => {
-    document.getElementById("booking-location-message").textContent = "Detecting your current location...";
-    const location = await getCurrentLocation();
-    if (location) {
-      document.getElementById("booking-location-message").textContent = "Pickup location set to your current location.";
+  bookingUseDefaultLocationBtn?.addEventListener("click", async () => {
+    bookingLocationMessage.textContent = "Setting default location...";
+    if (defaultLocation) {
+      bookingPickupSearch.value = defaultLocation.name;
+      bookingPickupSearch.dataset.isEditable = "false";
+      ambulancePickupCoordinates.textContent = `${defaultLocation.latitude.toFixed(6)}, ${defaultLocation.longitude.toFixed(6)}`;
+      bookingLocationMessage.textContent = "Default location restored.";
+      bookingUseDefaultLocationBtn.hidden = false;
+      bookingChangePickupBtn.hidden = true;
+      selectedPickup = defaultLocation;
+      currentLocation = defaultLocation;
       ambulances.sort((first, second) => (distanceFromCurrentLocation(first) ?? Number.MAX_VALUE) - (distanceFromCurrentLocation(second) ?? Number.MAX_VALUE));
       renderAmbulances();
+    } else {
+      const location = await getCurrentLocation();
+      if (location) {
+        bookingLocationMessage.textContent = "Default location detected and set.";
+        bookingUseDefaultLocationBtn.hidden = false;
+        bookingChangePickupBtn.hidden = true;
+        ambulances.sort((first, second) => (distanceFromCurrentLocation(first) ?? Number.MAX_VALUE) - (distanceFromCurrentLocation(second) ?? Number.MAX_VALUE));
+        renderAmbulances();
+      }
     }
+  });
+
+  bookingChangePickupBtn?.addEventListener("click", () => {
+    bookingPickupSearch.value = "";
+    bookingPickupSearch.focus();
+    bookingLocationMessage.textContent = "Enter a new pickup location.";
   });
   closeButton?.addEventListener("click", () => { modal.hidden = true; });
   modal?.addEventListener("click", event => { if (event.target === modal) modal.hidden = true; });
@@ -306,12 +360,29 @@ document.addEventListener("DOMContentLoaded", async () => {
       currentLocation = { latitude: position.coords.latitude, longitude: position.coords.longitude };
       document.getElementById("ambulance-pickup-lat").value = position.coords.latitude.toFixed(6);
       document.getElementById("ambulance-pickup-lng").value = position.coords.longitude.toFixed(6);
+      ambulancePickupLocation.value = "My Current Location";
       locationMessage.textContent = "Pickup coordinates added.";
       locationStatus.textContent = `Current location detected: ${position.coords.latitude.toFixed(4)}, ${position.coords.longitude.toFixed(4)}`;
       ambulances.sort((first, second) => (distanceFromCurrentLocation(first) ?? Number.MAX_VALUE) - (distanceFromCurrentLocation(second) ?? Number.MAX_VALUE));
       renderAmbulances();
       updateFarePreview();
     }, () => { locationMessage.textContent = "Location permission was unavailable. Enter pickup coordinates manually."; });
+  });
+
+  ambulanceUseDefaultLocationBtn?.addEventListener("click", () => {
+    if (defaultLocation) {
+      ambulancePickupLocation.value = defaultLocation.name;
+      document.getElementById("ambulance-pickup-lat").value = defaultLocation.latitude.toFixed(6);
+      document.getElementById("ambulance-pickup-lng").value = defaultLocation.longitude.toFixed(6);
+      ambulanceDefaultLocationMessage.textContent = "Default location restored.";
+      updateFarePreview();
+    } else {
+      ambulanceDefaultLocationMessage.textContent = "Default location not available. Use 'Use my location' button instead.";
+    }
+  });
+
+  ambulancePickupLocation?.addEventListener("input", () => {
+    ambulanceDefaultLocationMessage.textContent = "Click 'Use Default Location' to restore your current location.";
   });
   document.getElementById("open-ambulance-registration")?.addEventListener("click", () => {
     if (!currentUser) {

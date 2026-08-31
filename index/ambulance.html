@@ -74,12 +74,16 @@
         <span class="badge">Ambulance booking</span>
         <h2 id="ambulance-booking-title">Choose your trip</h2>
         <div class="ambulance-route-summary">
-          <label><span>Pickup location</span><input id="booking-pickup-search" placeholder="My Current Location" autocomplete="off"><small id="ambulance-pickup-coordinates"></small><div id="booking-pickup-suggestions" class="location-suggestions" hidden></div></label>
+          <label><span>Pickup location</span><div class="pickup-location-wrapper"><input id="booking-pickup-search" placeholder="Enter pickup location" autocomplete="off" data-is-editable="false"><small id="ambulance-pickup-coordinates" class="pickup-coordinates-display"></small></div><div id="booking-pickup-suggestions" class="location-suggestions" hidden></div></label>
           <div class="ambulance-route-arrow" aria-hidden="true">↓</div>
           <label><span>Destination</span><input id="booking-destination" required placeholder="Type a hospital or destination" autocomplete="off"><div id="booking-destination-suggestions" class="location-suggestions" hidden></div></label>
         </div>
         <div id="booking-other-destination-field" class="booking-other-destination" hidden><label>Destination latitude<input id="booking-destination-lat" type="number" step="any"></label><label>Destination longitude<input id="booking-destination-lng" type="number" step="any"></label></div>
-        <div class="booking-location-actions"><button id="booking-use-current-location" class="btn btn-outline" type="button">Use Current Location</button><span id="booking-location-message" class="muted"></span></div>
+        <div class="booking-location-actions">
+          <button id="booking-use-default-location" class="btn btn-outline" type="button" title="Use your current location as default">Use Default Location</button>
+          <button id="booking-change-pickup" class="btn btn-outline" type="button" hidden title="Edit pickup location">Change Pickup</button>
+          <span id="booking-location-message" class="muted"></span>
+        </div>
         <p id="booking-destination-message" class="muted">Select a destination to find available ambulances.</p>
       </section>
 
@@ -110,9 +114,13 @@
           <label>Destination hospital<input id="ambulance-destination" required placeholder="Selected destination"></label>
           <label>Destination latitude<input id="ambulance-destination-lat" type="number" step="any" required></label>
           <label>Destination longitude<input id="ambulance-destination-lng" type="number" step="any" required></label>
-          <label class="ambulance-field-wide">Pickup location<input id="ambulance-pickup-location" required placeholder="Current location or pickup address"></label>
+          <label class="ambulance-field-wide">Pickup location<input id="ambulance-pickup-location" required placeholder="Current location or pickup address" data-default-location=""></label>
           <label>Pickup latitude<input id="ambulance-pickup-lat" type="number" step="any" required></label>
           <label>Pickup longitude<input id="ambulance-pickup-lng" type="number" step="any" required></label>
+          <div class="pickup-location-buttons">
+            <button id="ambulance-use-default-location" class="btn btn-outline" type="button" title="Restore default current location">Use Default Location</button>
+            <span id="ambulance-default-location-message" class="muted"></span>
+          </div>
           <label class="ambulance-field-wide">Additional information<textarea id="ambulance-notes" rows="3" placeholder="Optional details"></textarea></label>
         </div>
         <div class="ambulance-location-actions"><button id="ambulance-use-location" class="btn btn-outline" type="button">Use my location</button><span id="ambulance-location-message" class="muted"></span></div>
